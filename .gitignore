@@ -1,0 +1,29 @@
+# Secrets and credentials
+.env
+.env.*
+secrets/
+*.pem
+*.key
+credentials.json
+*api_key*
+*apikey*
+*secret*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Raw data, datasets, jobs, and model weights
+data/raw/
+datasets/
+jobs/
+results/raw/
+*.pt
+
+# Large trajectories and Docker volumes
+trajectories/
+**/*trajectory*
+docker-volumes/
+volumes/

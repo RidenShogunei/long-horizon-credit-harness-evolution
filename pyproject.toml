@@ -1,0 +1,12 @@
+# Scaffold only. No third-party packages are pinned here.
+# Expected later: Python 3.11+. Harbor, ModularRSI, and the model
+# endpoint stay outside this repo until a real run needs them.
+# Add a dependency only after this repo imports it.
+
+[project]
+name = "long-horizon-credit-harness-evolution"
+version = "0.0.0"
+description = "Stable Harness Evolution via Long-Horizon Credit Assignment"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
