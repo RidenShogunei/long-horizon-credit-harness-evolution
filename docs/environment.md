@@ -13,8 +13,9 @@
 
 ## 密钥
 
-- `/home/jinxu/.hermes/.env` → `DEEPSEEK_API_KEY`
+- `/home/jinxu/.hermes/.env` → `DEEPSEEK_API_KEY`；同济网关另有 `TONGJI_AGI_API_KEY`（可选周限额 `TONGJI_AGI_WEEKLY_TOKEN_LIMIT`）
 - `scripts/load_keys.py`；冒烟脚本自行注入，不回显
+- 同济/官方切换与周账本：`docs/provider_switching.md`
 
 ## 对照基线（只读）
 

@@ -37,7 +37,7 @@
 
 ## 现在还没有的东西
 
-本仓库还没有生成的训练数据，也不纳入 ModularRSI 源码。运行时在仓库外：`/home/jinxu/arms_cache/modularrsi/ModularRSI`。目录约定见 `docs/repo_layout.md`，本机环境见 `docs/environment.md`。
+本仓库还没有生成的训练数据，也不纳入 ModularRSI 源码。运行时在仓库外：`/home/jinxu/arms_cache/modularrsi/ModularRSI`。目录约定见 `docs/repo_layout.md`，本机环境见 `docs/environment.md`。同济/官方 API 周限额切换见 `docs/provider_switching.md`。
 
 ## 上游许可
 

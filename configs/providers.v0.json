@@ -1,0 +1,58 @@
+{
+  "providers_id": "providers-v0",
+  "protocol_id": "research1-v0",
+  "frozen_at": "2026-10-29",
+  "note": "No secrets here. Keys live in /home/jinxu/.hermes/.env. Weekly Tongji quota is tracked locally because the gateway has no public usage API.",
+  "state_file": "/home/jinxu/.hermes/llm_provider_state.json",
+  "secrets_file": "/home/jinxu/.hermes/.env",
+  "default_mode": "auto",
+  "modes": {
+    "auto": "Prefer primary while under weekly budget; on quota/auth/rate-limit errors mark exhausted and fall back.",
+    "deepseek_official": "Force official DeepSeek API.",
+    "tongji_agi": "Force Tongji AGI gateway (subject to weekly school quota)."
+  },
+  "selection_order_auto": ["tongji_agi", "deepseek_official"],
+  "providers": {
+    "deepseek_official": {
+      "label": "DeepSeek official",
+      "api_base": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "harbor_model": "openai/deepseek-flash",
+      "api_model_id": "deepseek-flash",
+      "api_model_name": "DeepSeek-V4.1-Flash",
+      "weekly_token_limit": null,
+      "notes": "No school weekly cap known; treat as unlimited fallback."
+    },
+    "tongji_agi": {
+      "label": "Tongji AGI gateway",
+      "api_base": "https://agi.tongji.edu.cn/v1",
+      "api_key_env": "TONGJI_AGI_API_KEY",
+      "harbor_model": "openai/DeepSeek-V4.1-Flash",
+      "api_model_id": "DeepSeek-V4.1-Flash",
+      "api_model_name": "DeepSeek-V4.1-Flash",
+      "weekly_token_limit_env": "TONGJI_AGI_WEEKLY_TOKEN_LIMIT",
+      "weekly_token_limit_default": null,
+      "exhaust_error_substrings": [
+        "quota",
+        "rate limit",
+        "rate_limit",
+        "429",
+        "余额不足",
+        "超额",
+        "限额",
+        "quota exceeded",
+        "insufficient"
+      ],
+      "notes": "Set TONGJI_AGI_WEEKLY_TOKEN_LIMIT (prompt+completion tokens) once you know the school cap. Until set, auto mode still prefers Tongji until an exhaust error or manual pin."
+    }
+  },
+  "harbor_env_exports": [
+    "LLM_PROVIDER_ID",
+    "LLM_PROVIDER_MODE",
+    "API_BASE",
+    "HARBOR_EVO_API_KEY",
+    "OPENAI_API_KEY",
+    "MODEL",
+    "HARBOR_MODEL"
+  ]
+}
