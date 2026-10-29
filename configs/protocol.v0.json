@@ -1,0 +1,166 @@
+{
+  "protocol_id": "research1-v0",
+  "frozen_at": "2026-10-28",
+  "title_zh": "基于长程信用分配的 Harness 稳定进化方法",
+  "title_en": "Stable Harness Evolution via Long-Horizon Credit Assignment",
+  "scope": {
+    "study": 1,
+    "study_focus": "long-horizon value of harness modifications; multi-round effect first",
+    "deferred": "component-dependency prediction (study 2)",
+    "evolution_target": "ModularRSI basic modular Terminus2 five modules, denoted H0",
+    "not_evolved": [
+      "base solver model",
+      "Harbor runtime",
+      "editor",
+      "KIRA/Meta-Harness baseline"
+    ]
+  },
+  "roles": {
+    "solver": {
+      "config": "configs/roles.v0.json#solver",
+      "frozen": true,
+      "note": "Reuse the already-working DeepSeek Flash solver from meta-harness-repro."
+    },
+    "evolver": {
+      "config": "configs/roles.v0.json#evolver",
+      "frozen_until_training": true,
+      "output": "modification plan only; may touch multiple modules",
+      "note": "Before a trainable evolver exists, use the same model family with a frozen prompt/budget. Training updates only the evolver."
+    },
+    "editor": {
+      "config": "configs/roles.v0.json#editor",
+      "frozen": true,
+      "mode": "deterministic_patch_apply",
+      "note": "Plans are applied by a fixed editor. Replay re-applies the saved patch; replay does not re-ask a model to edit."
+    }
+  },
+  "harness": {
+    "h0_name": "modularrsi_basic_terminus2",
+    "upstream_repo": "https://github.com/IQuestLab/ModularRSI",
+    "upstream_checkout": "/home/jinxu/arms_cache/modularrsi/ModularRSI",
+    "upstream_commit": "ed1e545bc60f050b404474e51ee18021777a0e23",
+    "modules": [
+      "agent_loop",
+      "observation",
+      "tools",
+      "context_mgmt",
+      "verification"
+    ],
+    "editable_paths_glob": [
+      "generations/merged_active/**",
+      "modules/**"
+    ],
+    "forbidden_edits": [
+      "Harbor internals",
+      "task tests and scorers",
+      "solver weights",
+      "editor code",
+      "/home/jinxu/meta-harness-repro/**"
+    ],
+    "one_modification_budget": {
+      "max_files": 5,
+      "max_touched_modules": 5,
+      "max_changed_lines_soft": 200,
+      "must_emit": "plan text before patch",
+      "apply_failure_class": "apply-failure"
+    },
+    "license_note": "ModularRSI original contributions are CC BY-NC 4.0. Do not vendor upstream source into this private repo.",
+    "modules_root": "/home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules",
+    "h0_snapshot": "configs/h0.snapshot.v0.json",
+    "composer_for_h0": "static"
+  },
+  "baseline_control": {
+    "path": "/home/jinxu/meta-harness-repro",
+    "role": "read-only control; not modified in this project",
+    "parent_harness": "agents/baseline_kira.py"
+  },
+  "task_sets": {
+    "source": "IQuestLab/ModularRSI_2000_Instances terminal tasks",
+    "pool_is_not_heldout_test": true,
+    "debug": {
+      "target_n": 8,
+      "use": "environment, edit, and branch plumbing"
+    },
+    "proposal": {
+      "target_n": 24,
+      "use": "execution evidence for the evolver; evolver may see these"
+    },
+    "reward": {
+      "target_n": 24,
+      "use": "immediate and long-horizon rewards; evolver must not see these at decision time"
+    },
+    "dev": {
+      "target_n": 24,
+      "use": "generalization check; no training labels"
+    },
+    "isolation_rule": "proposal evidence and reward scores are never mixed into one unlabeled pool"
+  },
+  "evaluation": {
+    "unit": "external task tests via Harbor; agent-internal verification is not the final score",
+    "same_config_before_after": true,
+    "cross_batch_check": "required by this protocol even if upstream ModularRSI still lists it as future work",
+    "trials_per_task_default": 1,
+    "noise_probe": {
+      "tasks": 8,
+      "repeats": 3,
+      "purpose": "estimate score flip rate under H0"
+    },
+    "timeouts": {
+      "job_timeout_sec": 14400,
+      "propose_timeout_sec": 2400,
+      "task_agent_timeout_sec": null
+    },
+    "retry": {
+      "max_extra_attempts": 2,
+      "retry_when": "official reward missing AND failure looks infrastructural: missing result.json, HTTP 429/502/503/504, connection, docker, auth",
+      "do_not_retry": "reward present including 0; agent timeout; limits exceeded; apply-failure"
+    },
+    "failure_layers": [
+      "model",
+      "harness",
+      "container",
+      "scorer",
+      "infrastructure"
+    ]
+  },
+  "outcome_classes": [
+    "success",
+    "no-effect",
+    "regression",
+    "apply-failure"
+  ],
+  "metrics": {
+    "immediate_gain": "mean(reward_set | child) - mean(reward_set | parent)",
+    "terminal_gain": "mean(reward_set | leaf) - mean(reward_set | root)",
+    "process_regression": "sum over path steps of max(0, best_ancestor_mean - current_mean) on the reward set",
+    "long_horizon_reward": "mean over Monte Carlo branches of terminal_gain, minus process_regression aggregated per protocol note in docs/experiment_protocol.md",
+    "recovery": "after a process_regression event, fraction of branches that later reach or exceed the pre-drop ancestor mean",
+    "noise_rule": "a single-task flip that already flipped under H0 noise probe is not credited as modification effect"
+  },
+  "monte_carlo_debug": {
+    "candidates_per_state": 2,
+    "branches_per_candidate": 2,
+    "evolution_length_including_current": 3,
+    "proposal_tasks_per_decision": 2,
+    "reward_tasks_per_version": 4,
+    "branch_isolation": [
+      "source tree",
+      "memory",
+      "evolver history"
+    ],
+    "downstream_evolver_fixed": true
+  },
+  "budgets_and_stops": {
+    "disk_stop_gb_free": 15,
+    "week1_scope": "protocol + H0 smoke + noise/cost on few light tasks; one replayable modification only after H0 is stable",
+    "do_not_train_until": "long-horizon reward analysis report shows usable signal above score noise",
+    "policy_versioning": "every execution and modification record stores protocol_id and evolver_policy_id; do not merge pools across policies"
+  },
+  "secrets": {
+    "source": "/home/jinxu/.hermes/.env",
+    "keys": [
+      "DEEPSEEK_API_KEY"
+    ],
+    "never_commit": true
+  }
+}

@@ -27,3 +27,8 @@ trajectories/
 **/*trajectory*
 docker-volumes/
 volumes/
+
+# Experiment run artifacts (keep short markdown reports)
+experiments/**/attempt_*/
+experiments/**/*_console.log
+experiments/**/runtime.env.json

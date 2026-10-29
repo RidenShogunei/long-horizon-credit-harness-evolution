@@ -1,0 +1,51 @@
+{
+  "roles_id": "roles-v0",
+  "protocol_id": "research1-v0",
+  "frozen_at": "2026-10-28",
+  "provider": "deepseek",
+  "api_base": "https://api.deepseek.com",
+  "api_key_env": "DEEPSEEK_API_KEY",
+  "api_key_file": "/home/jinxu/.hermes/.env",
+  "solver": {
+    "role": "task execution inside modular Terminus2 / H0",
+    "litellm_model": "deepseek/deepseek-flash",
+    "api_model_id": "deepseek-flash",
+    "api_model_name": "DeepSeek-V4.1-Flash",
+    "temperature": 0.7,
+    "thinking": {"type": "disabled"},
+    "effort": null,
+    "reasoning_effort": null,
+    "drop_params": true,
+    "seed": null,
+    "max_tokens": null,
+    "frozen": true,
+    "source_note": "Copied from /home/jinxu/meta-harness-repro/frozen/model.json solver block; no secrets copied."
+  },
+  "evolver": {
+    "role": "read current module source + execution evidence; emit a modification plan",
+    "litellm_model": "deepseek/deepseek-flash",
+    "api_model_id": "deepseek-flash",
+    "temperature": null,
+    "thinking": {"type": "disabled"},
+    "effort": "max",
+    "max_tokens": 32000,
+    "propose_timeout_seconds": 2400,
+    "seed": null,
+    "output_contract": "plan text that names touched modules and intended edits; not raw free-form code edits as the sole artifact",
+    "frozen_until_training": true,
+    "trainable_later": true
+  },
+  "editor": {
+    "role": "apply a saved plan/patch deterministically",
+    "kind": "fixed_patch_applier",
+    "model": null,
+    "replay_rule": "re-apply the stored patch bytes/path hunks; do not call an LLM to regenerate the edit",
+    "on_apply_failure": "outcome_class=apply-failure; do not score as task reward 0",
+    "frozen": true
+  },
+  "control_baseline": {
+    "name": "kira_meta_harness",
+    "path": "/home/jinxu/meta-harness-repro",
+    "read_only": true
+  }
+}

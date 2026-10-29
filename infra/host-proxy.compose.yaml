@@ -1,0 +1,15 @@
+# Optional Docker Compose overlay for environments that support
+# --extra-docker-compose (Harbor 0.24+). ModularRSI's embedded Harbor
+# currently uses verifier/agent env vars with the docker bridge gateway
+# instead; see scripts/run_h0_smoke.sh.
+services:
+  main:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      HTTP_PROXY: http://host.docker.internal:7890
+      HTTPS_PROXY: http://host.docker.internal:7890
+      http_proxy: http://host.docker.internal:7890
+      https_proxy: http://host.docker.internal:7890
+      NO_PROXY: localhost,127.0.0.1,::1,api.deepseek.com
+      no_proxy: localhost,127.0.0.1,::1,api.deepseek.com

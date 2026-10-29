@@ -33,9 +33,11 @@
 
 在 10 到 20 道终端任务上走完一轮单组件修改：基础 harness，一次编辑，前后验证，然后落下完整记录。在此之前不做进化搜索。
 
+协议已冻结为 `research1-v0`。H0（ModularRSI `static` 五个 baseline）已在 `fix-git` 上冒烟通过；有代理时外部 reward=1.0。详见 `docs/experiment_protocol.md` 与 `experiments/h0_smoke_20261028_report.md`。
+
 ## 现在还没有的东西
 
-本仓库还没有生成的训练数据，没有放进 ModularRSI 的源代码，也没有在仓库内安装 Harbor、ModularRSI 或模型端点。目录约定见 `docs/repo_layout.md`，本机解释器见 `docs/environment.md`。
+本仓库还没有生成的训练数据，也不纳入 ModularRSI 源码。运行时在仓库外：`/home/jinxu/arms_cache/modularrsi/ModularRSI`。目录约定见 `docs/repo_layout.md`，本机环境见 `docs/environment.md`。
 
 ## 上游许可
 
