@@ -1,0 +1,18 @@
+{
+  "task_seed": 0,
+  "max_tasks": 2,
+  "epochs": 1,
+  "selector": "upstream_slice_then_shuffle",
+  "note": "phase0 slices tasks[:max_tasks] before Random(task_seed).shuffle. Every seed keeps the same smoke pair.",
+  "train_prefix": [
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy"
+  ],
+  "queued_tasks": [
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy"
+  ],
+  "heavy_image_tasks_in_queue": [
+    "build-ffmpeg-legacy"
+  ]
+}

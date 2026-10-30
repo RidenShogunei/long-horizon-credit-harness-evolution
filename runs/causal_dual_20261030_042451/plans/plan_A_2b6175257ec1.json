@@ -1,0 +1,12 @@
+{
+  "plan_id": "plan_A_2b6175257ec1",
+  "parent_version_id": "H0",
+  "locked_module": "tools",
+  "plan_text": "The parser emits a newline-concatenation warning for an empty-keystrokes wait command even though there is no command text to concatenate. The edit detects empty-keystrokes commands that are followed by another command, removes only the matching false warning clause from the parser warning, and appends the required distinctive trigger when that suppression actually occurs. Keystrokes and execution behavior are unchanged.",
+  "intended_files": [
+    "tools/baseline.py"
+  ],
+  "candidate_label": "A",
+  "protocol_id": "research1-v1",
+  "schema_version": "1.0.0"
+}

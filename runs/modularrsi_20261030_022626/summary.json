@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "run_id": "modularrsi_20261030_022626",
+  "LOCKED_MODULE": "tools",
+  "profile": "smoke",
+  "solver_temperature_policy": "upstream_phase0_0.0",
+  "provider_id": "tongji_agi",
+  "model": "openai/DeepSeek-V4.1-Flash",
+  "api_base": "https://agi.tongji.edu.cn/v1",
+  "task_seed": 0,
+  "queued_tasks": [
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy"
+  ],
+  "no_proxy": "localhost,127.0.0.1,::1,api.deepseek.com,agi.tongji.edu.cn",
+  "exit_code": 0,
+  "dry_run": false,
+  "archive": "/home/jinxu/long-horizon-credit-harness-evolution/runs/modularrsi_20261030_022626/archive",
+  "A13": "/home/jinxu/long-horizon-credit-harness-evolution/runs/modularrsi_20261030_022626/A13_local_adaptations.md"
+}

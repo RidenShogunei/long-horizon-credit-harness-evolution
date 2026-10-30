@@ -1,0 +1,18 @@
+{
+  "attempt_id": "attempt_causal_H1",
+  "plan_id": "plan_causal_1b66cd07f3b0",
+  "parent_version_id": "H0",
+  "child_version_id": "H1",
+  "patch_text": "--- a/tools/baseline.py\n+++ b/tools/baseline.py\n@@ -20,6 +20,7 @@\n from __future__ import annotations\n \n import inspect\n+import re\n import shlex\n from pathlib import Path\n from xml.etree.ElementTree import Element, SubElement, tostring\n@@ -118,6 +119,11 @@\n         \"helper_tools\": \"list[SolverHelper]: injected by the Kernel (see below)\",\n     }\n \n+    _FALSE_CONCAT_SUPPRESSED = (\n+        \"BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command \"\n+        \"does not need a trailing newline.\"\n+    )\n+\n     def __init__(\n         self,\n         parser_name: str = \"json\",\n@@ -340,8 +346,47 @@\n \n     # ---------- LLM response parsing ----------\n \n+    def _filter_false_empty_keystroke_warning(self, commands, warning):\n+        if isinstance(warning, (list, tuple)):\n+            warning = \"\\n\".join(str(item) for item in warning)\n+        if not isinstance(warning, str) or not warning:\n+            return warning\n+\n+        empty_numbers = {\n+            index + 1\n+            for index, command in enumerate((commands or [])[:-1])\n+            if not (getattr(command, \"keystrokes\", \"\") or \"\")\n+        }\n+        if not empty_numbers:\n+            return warning\n+\n+        suppressed = False\n+        for number in sorted(empty_numbers):\n+            pattern = re.compile(\n+                rf\"Command\\s+{number}\\s+should end with newline when followed by another command\\.\\s*\"\n+                r\"Otherwise,?\\s+the two commands will be concatenated together on the same line\\.?\",\n+                re.IGNORECASE,\n+            )\n+            warning, count = pattern.subn(\"\", warning)\n+            if count:\n+                suppressed = True\n+\n+        if not suppressed:\n+            return warning\n+\n+        warning = re.sub(r\"(?m)^\\s*-\\s*$\", \"\", warning)\n+        warning = re.sub(r\"(?m)^\\s*WARNINGS:\\s*-\\s*$\", \"\", warning)\n+        warning = re.sub(r\"(?m)^\\s*WARNINGS:\\s*$\", \"\", warning)\n+        warning = re.sub(r\"\\n{3,}\", \"\\n\\n\", warning).strip()\n+        if warning:\n+            return f\"{warning}\\n{self._FALSE_CONCAT_SUPPRESSED}\"\n+        return self._FALSE_CONCAT_SUPPRESSED\n+\n     def parse_llm_response(self, response: str) -> LLMResponseParseResult:\n         result = self._parser.parse_response(response)\n+        warning = self._filter_false_empty_keystroke_warning(\n+            result.commands, result.warning\n+        )\n         # Cap duration at 60s to match Terminus2._handle_llm_interaction\n         # (terminus_2.py:1207): some LLMs occasionally request 120s+ which\n         # ties up the tmux loop.\n@@ -355,7 +400,7 @@\n             analysis=result.analysis,\n             plan=result.plan,\n             error=result.error,\n-            warning=result.warning,\n+            warning=warning,\n         )\n \n     # ---------- Execution ----------\n",
+  "applied": true,
+  "outcome_class": "success",
+  "reject_reason": "",
+  "protocol_id": "research1-v1",
+  "schema_version": "1.0.0",
+  "apply_status": "applied",
+  "score_direction": "no_score_change_measured",
+  "score_direction_label": "no score change measured",
+  "behavioral_effect": true,
+  "observed_delta": 0.0,
+  "outcome_note": "score_direction is only the measured mean. no score change measured does not mean there was no behavioral effect."
+}

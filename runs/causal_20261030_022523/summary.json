@@ -1,0 +1,27 @@
+{
+  "status": "INCOMPLETE",
+  "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_20261030_022523",
+  "run_id": "causal_20261030_022523",
+  "existing_scan_summary": "Scanned 34 trajectory files under runs/, skipping the 132345 proxy-403 stubs. Parser-replay errors: 0. Newline-wait warnings kept as insufficient: 5. Sufficient tools defects: 0.",
+  "loop_ran": false,
+  "provider_mode": "tongji_agi",
+  "coverage_summary": "Selection rule: manifest order; probe ranks the fixed first-8 window by manifest bytes; skip tasks that already have an agent trace, source-build images (build-essential, same class as the ffmpeg abort), and private bases that are not present locally. Chosen: ['complex-python-memory-leak-concurrency-bug', 'wasm-crackme-reverse', 'crypto-transaction-batching-optimizer']. Skipped heavy: ['build-ffmpeg-legacy', 'build-imagemagick-legacy', 'draft_dp_027e1b7a_aopeng', 'draft_dp_047cec79_aopeng', 'draft_dp_0fbf3883_aopeng', 'draft_dp_18a4bb7a_haitian', 'draft_dp_28243489_outa', 'draft_dp_37467d31_outa', 'draft_dp_421262feu4b_outa', 'draft_dp_49202731_outa', 'draft_dp_52e23884vdf_outa', 'draft_dp_58883d1a_outa', 'draft_dp_621e8e51_haitian', 'draft_dp_9e846e36_outa', 'draft_dp_research_institute_scholar_query_outb', 'integrate-c-library-python', 'manylinux-wheels-pyo3', 'segfault_reproducer', 'segfault_reproducer-v2']. Skipped private bases not on disk: ['draft_dp_0004e5bb_aopeng', 'draft_dp_00241ea7_aopeng', 'draft_dp_027c6d5b_qingshu', 'draft_dp_027e1b7a_aopeng', 'draft_dp_029f82e0_haitian', 'draft_dp_0365b530_aopeng', 'draft_dp_047cec79_aopeng', 'draft_dp_051e178c_aopeng', 'draft_dp_05c360a7_aopeng', 'draft_dp_0a4b8876_haitian', 'draft_dp_0bcad9db_haitian', 'draft_dp_0be98359_outa', 'draft_dp_0c5cabc8_haitian', 'draft_dp_0c94553a_haitian', 'draft_dp_0d503075_aopeng', 'draft_dp_0f5eabe2_aopeng', 'draft_dp_0fbf3883_aopeng', 'draft_dp_0fc5ba38_aopeng', 'draft_dp_1090855b_aopeng', 'draft_dp_109b3f5c_aopeng', 'draft_dp_11b1a39a_outa', 'draft_dp_132e0ed6-a542-48f0-bade-a445ca745ab6_outa', 'draft_dp_13989c5a-d97d-49ea-b82b-3d41464a8ad7_outa', 'draft_dp_14b09723_aopeng', 'draft_dp_1543057007y_outa', 'draft_dp_15dc5f5f_outa', 'draft_dp_16091623_haitian', 'draft_dp_18a4bb7a_haitian', 'draft_dp_1e43823f_outa', 'draft_dp_1e821a8e_aopeng', 'draft_dp_22a5bafa_aopeng', 'draft_dp_24264fed_aopeng', 'draft_dp_26d326e6_aopeng', 'draft_dp_28243489_outa', 'draft_dp_29825e59lxw_outa', 'draft_dp_29f5c2c3_haitian', 'draft_dp_2a8dbc50_haitian', 'draft_dp_2f7b1d3e_aopeng', 'draft_dp_2fda0f83478_outa', 'draft_dp_2fda0f83_outa', 'draft_dp_30893ae8eap_outa', 'draft_dp_30b6c93e_aopeng', 'draft_dp_3493beee_outa', 'draft_dp_37467d31_outa', 'draft_dp_3bc4f214_outa', 'draft_dp_421262feu4b_outa', 'draft_dp_49202731_outa', 'draft_dp_50724535_outa', 'draft_dp_5281e52cdis_outa', 'draft_dp_52e23884vdf_outa', 'draft_dp_534e52c84wy_outa', 'draft_dp_53c532db_outa', 'draft_dp_5719fdd4_outa', 'draft_dp_57d4c339_haitian', 'draft_dp_58745bc61ce_outa', 'draft_dp_58883d1a_outa', 'draft_dp_58afbfb3_outa', 'draft_dp_621e8e51_haitian', 'draft_dp_7b459a82_haitian', 'draft_dp_7b771a65ygl_outa', 'draft_dp_7d3f46c0_haitian', 'draft_dp_83a8b6ca_outa', 'draft_dp_8da98b12_outa', 'draft_dp_9793b5ad_outb', 'draft_dp_97b13c9e_outb', 'draft_dp_9e846e36_outa', 'draft_dp_a1797499_outa', 'draft_dp_a1ce6692_outb', 'draft_dp_a73abe98_outb', 'draft_dp_a86da8a3_outb', 'draft_dp_a9176125_haitian', 'draft_dp_aad16747_outb', 'draft_dp_abdd5ed0_outb', 'draft_dp_adcb2ffb_haitian', 'draft_dp_af4bee51_outb', 'draft_dp_b038d77c_outb', 'draft_dp_b838291a_outb', 'draft_dp_baf1822c_outb', 'draft_dp_bbe2c1cf_aopeng', 'draft_dp_bc4eec6d_outb', 'draft_dp_c006fd92_haitian', 'draft_dp_c9fc74cb_aopeng', 'draft_dp_caa7cf97_haitian', 'draft_dp_cbc6d2a5_outb', 'draft_dp_cd8b3586_outa', 'draft_dp_ce7efefe_outb', 'draft_dp_ceb40cbc_aopeng', 'draft_dp_d018a26b_aopeng', 'draft_dp_d150f869_outb', 'draft_dp_d59787d6_haitian', 'draft_dp_d790b9ab_outa', 'draft_dp_d84934e9_outb', 'draft_dp_eae0d1ff_outb', 'draft_dp_f48fa1cd_outa', 'draft_dp_fb359113_outa', 'draft_dp_fc82f5ea_outb', 'draft_dp_research_institute_scholar_query_outb']. Already had agent traces: ['browser-playable-leaderboard', 'cron-env-debug']. H0 coverage eval: complex-python-memory-leak-concurrency-bug x 1 H0 coverage eval: wasm-crackme-reverse x 1 H0 coverage eval: crypto-transaction-batching-optimizer x 1",
+  "loop_skip_reason": "Coverage expansion finished without a sufficient tools-module defect (parse failure, hidden execute error, or silent duration cap). No patch was invented.",
+  "h0_rewards": [
+    {
+      "task": "complex-python-memory-leak-concurrency-bug",
+      "rep": 1,
+      "reward": 1.0
+    },
+    {
+      "task": "wasm-crackme-reverse",
+      "rep": 1,
+      "reward": 0.0
+    },
+    {
+      "task": "crypto-transaction-batching-optimizer",
+      "rep": 1,
+      "reward": 1.0
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402",
+  "run_id": "causal_edit_20261030_025402",
+  "loop_ran": true,
+  "provider_mode": "tongji_agi",
+  "existing_scan_summary": "Archived parser replay: 0 parse errors. Five newline warnings all sit on empty-keystroke waits and were promoted only after coverage (causal_20261030_022523: complex-python reward 1, wasm reward 0 on a task assertion, crypto reward 1) also found no parse error, hidden execute failure, or silent duration cap.",
+  "coverage_summary": "Prior coverage run causal_20261030_022523 evaluated complex-python-memory-leak-concurrency-bug (1.0), wasm-crackme-reverse (0.0), and crypto-transaction-batching-optimizer (1.0) from the fixed train window. None produced a parse failure. The edit below targets the false concatenation warning on empty keystrokes in cron-env-debug, which is where that warning occurred.",
+  "trigger": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline.",
+  "defect": {
+    "kind": "false_concat_warning_on_empty_keystrokes",
+    "detail": "step 9: tools forwarded a warning that command 2 would be concatenated because it does not end with a newline, but that command's keystrokes are empty (duration=55.0, a wait). The observation still shows terminal output after the batch, so this is false feedback.",
+    "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412/evals/H0/cron-env-debug/rep_1/2026-10-29__21-44-13/cron-env-debug__fAR8BqA/agent/trajectory.json",
+    "step_id": 9
+  },
+  "defect_task": "cron-env-debug",
+  "apply_status": "applied",
+  "plan_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/plans/plan_causal_1b66cd07f3b0.txt",
+  "diff_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/patches/attempt_causal_H1.diff",
+  "h0_modules_root": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/versions/H0/modules",
+  "h1_modules_root": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/versions/H1/modules",
+  "version_tree_functional_change": true,
+  "version_tree_note": "",
+  "h1_baseline_sha256": "db7ff9a61eebd42abc47940fd539ead381a6cf508ea0b4fc9485f3c2f4d0d1cf",
+  "triggered": true,
+  "trigger_hits": [
+    "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/evals/H1/cron-env-debug/rep_1/2026-10-30__11-03-33/cron-env-debug__8d3ZwVR/agent/trajectory.json",
+    "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/evals/H1/cron-env-debug/rep_1/2026-10-30__11-03-33/cron-env-debug__8d3ZwVR/agent/episode-3/prompt.txt",
+    "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/evals/H1/cron-env-debug/rep_1/2026-10-30__11-03-33/cron-env-debug__8d3ZwVR/agent/episode-8/prompt.txt"
+  ],
+  "loaded_modules_root_ok": true,
+  "loaded_modules_roots": [
+    "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/versions/H1/modules"
+  ],
+  "n_h0": 1,
+  "n_h1": 1,
+  "raw_h0_rewards": [
+    1.0
+  ],
+  "raw_h1_rewards": [
+    1.0
+  ],
+  "observed_delta": 0.0,
+  "score_direction": "no_score_change_measured",
+  "outcome_class": "success",
+  "status": "PASS"
+}

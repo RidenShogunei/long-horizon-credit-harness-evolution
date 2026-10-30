@@ -1,0 +1,7 @@
+{
+  "LOCKED_MODULE": "verification",
+  "tasks_lock": "configs/research1/verification.lock.json",
+  "pilot_overlay": "configs/research1/pilot_verification.yaml",
+  "updated_from": "modularrsi_20261030_022626_attribution",
+  "note": "Advisory stamp for humans/docs. run-modularrsi resolves LOCKED_MODULE from pilot_verification.yaml first; does not rewrite calibrate.stamp.json."
+}

@@ -1,0 +1,87 @@
+--- a/tools/baseline.py
++++ b/tools/baseline.py
+@@ -20,6 +20,7 @@
+ from __future__ import annotations
+ 
+ import inspect
++import re
+ import shlex
+ from pathlib import Path
+ from xml.etree.ElementTree import Element, SubElement, tostring
+@@ -59,6 +60,11 @@
+ 
+ 
+ _TEMPLATES_DIR = _resolve_templates_dir()
++
++_EMPTY_WAIT_NORMALIZED_TRIGGER = (
++    "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to "
++    "newline so following commands are not falsely marked as concatenated."
++)
+ 
+ 
+ def _read_template(parser_name: str) -> str:
+@@ -340,6 +346,30 @@
+ 
+     # ---------- LLM response parsing ----------
+ 
++    @staticmethod
++    def _clear_false_concat_warnings(
++        warning: str | None, command_numbers: set[int]
++    ) -> str | None:
++        if not warning:
++            return warning
++        cleaned = warning
++        for command_number in command_numbers:
++            pattern = re.compile(
++                rf"(?:-\s*)?Command\s+{command_number}\s+should end with newline "
++                r"when followed by another command\.?\s*Otherwise the two commands "
++                r"will be concatenated together on the same line\.?",
++                re.IGNORECASE,
++            )
++            cleaned = pattern.sub("", cleaned)
++        cleaned = re.sub(
++            r"WARNINGS:\s*(?:-\s*)?$", "", cleaned, flags=re.IGNORECASE
++        )
++        cleaned = re.sub(r"[ \t]+\n", "\n", cleaned)
++        cleaned = cleaned.strip()
++        if cleaned in ("", "WARNINGS:", "WARNINGS"):
++            return None
++        return cleaned
++
+     def parse_llm_response(self, response: str) -> LLMResponseParseResult:
+         result = self._parser.parse_response(response)
+         # Cap duration at 60s to match Terminus2._handle_llm_interaction
+@@ -349,13 +379,32 @@
+             ToolCall(keystrokes=c.keystrokes, duration_sec=min(c.duration, 60))
+             for c in result.commands
+         ]
++        normalized_command_numbers: set[int] = set()
++        for i in range(len(commands) - 1):
++            if commands[i].keystrokes == "":
++                commands[i] = ToolCall(
++                    keystrokes="\n",
++                    duration_sec=commands[i].duration_sec,
++                )
++                normalized_command_numbers.add(i + 1)
++
++        warning = result.warning
++        if normalized_command_numbers:
++            warning = self._clear_false_concat_warnings(
++                warning, normalized_command_numbers
++            )
++            if warning:
++                warning = f"{warning.rstrip()}\n{_EMPTY_WAIT_NORMALIZED_TRIGGER}"
++            else:
++                warning = _EMPTY_WAIT_NORMALIZED_TRIGGER
++
+         return LLMResponseParseResult(
+             commands=commands,
+             is_task_complete=result.is_task_complete,
+             analysis=result.analysis,
+             plan=result.plan,
+             error=result.error,
+-            warning=result.warning,
++            warning=warning,
+         )
+ 
+     # ---------- Execution ----------

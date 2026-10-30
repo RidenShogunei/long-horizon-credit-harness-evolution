@@ -1,0 +1,79 @@
+--- a/tools/baseline.py
++++ b/tools/baseline.py
+@@ -20,6 +20,7 @@
+ from __future__ import annotations
+ 
+ import inspect
++import re
+ import shlex
+ from pathlib import Path
+ from xml.etree.ElementTree import Element, SubElement, tostring
+@@ -118,6 +119,11 @@
+         "helper_tools": "list[SolverHelper]: injected by the Kernel (see below)",
+     }
+ 
++    _FALSE_CONCAT_SUPPRESSED = (
++        "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command "
++        "does not need a trailing newline."
++    )
++
+     def __init__(
+         self,
+         parser_name: str = "json",
+@@ -340,8 +346,47 @@
+ 
+     # ---------- LLM response parsing ----------
+ 
++    def _filter_false_empty_keystroke_warning(self, commands, warning):
++        if isinstance(warning, (list, tuple)):
++            warning = "\n".join(str(item) for item in warning)
++        if not isinstance(warning, str) or not warning:
++            return warning
++
++        empty_numbers = {
++            index + 1
++            for index, command in enumerate((commands or [])[:-1])
++            if not (getattr(command, "keystrokes", "") or "")
++        }
++        if not empty_numbers:
++            return warning
++
++        suppressed = False
++        for number in sorted(empty_numbers):
++            pattern = re.compile(
++                rf"Command\s+{number}\s+should end with newline when followed by another command\.\s*"
++                r"Otherwise,?\s+the two commands will be concatenated together on the same line\.?",
++                re.IGNORECASE,
++            )
++            warning, count = pattern.subn("", warning)
++            if count:
++                suppressed = True
++
++        if not suppressed:
++            return warning
++
++        warning = re.sub(r"(?m)^\s*-\s*$", "", warning)
++        warning = re.sub(r"(?m)^\s*WARNINGS:\s*-\s*$", "", warning)
++        warning = re.sub(r"(?m)^\s*WARNINGS:\s*$", "", warning)
++        warning = re.sub(r"\n{3,}", "\n\n", warning).strip()
++        if warning:
++            return f"{warning}\n{self._FALSE_CONCAT_SUPPRESSED}"
++        return self._FALSE_CONCAT_SUPPRESSED
++
+     def parse_llm_response(self, response: str) -> LLMResponseParseResult:
+         result = self._parser.parse_response(response)
++        warning = self._filter_false_empty_keystroke_warning(
++            result.commands, result.warning
++        )
+         # Cap duration at 60s to match Terminus2._handle_llm_interaction
+         # (terminus_2.py:1207): some LLMs occasionally request 120s+ which
+         # ties up the tmux loop.
+@@ -355,7 +400,7 @@
+             analysis=result.analysis,
+             plan=result.plan,
+             error=result.error,
+-            warning=result.warning,
++            warning=warning,
+         )
+ 
+     # ---------- Execution ----------

@@ -1,0 +1,94 @@
+--- a/tools/baseline.py
++++ b/tools/baseline.py
+@@ -20,6 +20,7 @@
+ from __future__ import annotations
+ 
+ import inspect
++import re
+ import shlex
+ from pathlib import Path
+ from xml.etree.ElementTree import Element, SubElement, tostring
+@@ -59,6 +60,8 @@
+ 
+ 
+ _TEMPLATES_DIR = _resolve_templates_dir()
++
++_FALSE_CONCAT_TRIGGER = "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline."
+ 
+ 
+ def _read_template(parser_name: str) -> str:
+@@ -340,14 +343,64 @@
+ 
+     # ---------- LLM response parsing ----------
+ 
++    @staticmethod
++    def _suppress_false_concat_warnings(
++        warning: str | None, commands: list
++    ) -> tuple[str | None, bool]:
++        if not warning or not isinstance(warning, str):
++            return warning, False
++
++        empty_followed = [
++            i
++            for i, command in enumerate(commands[:-1])
++            if not (getattr(command, "keystrokes", "") or "").strip()
++        ]
++        if not empty_followed:
++            return warning, False
++
++        updated = warning
++        removed = False
++        for i in empty_followed:
++            command_number = i + 1
++            pattern = re.compile(
++                rf"(?:[-*]\s*)?Command\s+{command_number}\s+"
++                r"should end with newline when followed by another command\.\s*"
++                r"Otherwise,?\s+the two commands will be concatenated together "
++                r"on the same line\.?",
++                re.IGNORECASE,
++            )
++            updated, count = pattern.subn("", updated)
++            if count:
++                removed = True
++
++        if not removed:
++            return warning, False
++
++        updated = re.sub(r"(?im)^\s*WARNINGS:\s*$", "", updated)
++        updated = re.sub(r"(?im)^\s*[-*]\s*$", "", updated)
++        updated = re.sub(r"\n{3,}", "\n\n", updated).strip()
++        if updated.lower() in {"warnings:", "warnings: -", "warnings: *"}:
++            updated = ""
++        return updated, True
++
+     def parse_llm_response(self, response: str) -> LLMResponseParseResult:
+         result = self._parser.parse_response(response)
++        raw_commands = list(result.commands or [])
++        warning, suppressed = self._suppress_false_concat_warnings(
++            result.warning, raw_commands
++        )
++        if suppressed:
++            if warning:
++                warning = warning.rstrip() + "\n" + _FALSE_CONCAT_TRIGGER
++            else:
++                warning = _FALSE_CONCAT_TRIGGER
++
+         # Cap duration at 60s to match Terminus2._handle_llm_interaction
+         # (terminus_2.py:1207): some LLMs occasionally request 120s+ which
+         # ties up the tmux loop.
+         commands = [
+             ToolCall(keystrokes=c.keystrokes, duration_sec=min(c.duration, 60))
+-            for c in result.commands
++            for c in raw_commands
+         ]
+         return LLMResponseParseResult(
+             commands=commands,
+@@ -355,7 +408,7 @@
+             analysis=result.analysis,
+             plan=result.plan,
+             error=result.error,
+-            warning=result.warning,
++            warning=warning,
+         )
+ 
+     # ---------- Execution ----------

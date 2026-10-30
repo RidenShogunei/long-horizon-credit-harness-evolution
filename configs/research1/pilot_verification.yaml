@@ -1,0 +1,44 @@
+# Track A next: verification-locked ModularRSI PROFILE=smoke (Tongji).
+# Does NOT replace configs/research1/pilot.yaml or the tools calibrate lock.
+# Historical tools smoke stays at runs/modularrsi_20261030_022626.
+protocol_id: research1-v1
+
+# Paths (absolute preferred)
+modularrsi_root: /home/jinxu/arms_cache/modularrsi/ModularRSI
+modules_root: /home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules
+dataset_root: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances
+dataset_tb: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances/tb
+h0_snapshot: configs/h0.snapshot.v0.json
+h0_lock: configs/research1/h0.lock.json
+tasks_lock: configs/research1/verification.lock.json
+runs_root: runs
+reports_root: reports
+
+# Runtime gates
+proxy_url: http://172.17.0.1:7890
+disk_stop_gb_free: 15
+provider_mode: tongji_agi  # Track A forces Tongji via p2a.SMOKE_PROVIDER_MODE
+
+# H0
+composer: static
+upstream_commit: ed1e545bc60f050b404474e51ee18021777a0e23
+
+# Frozen from tools-smoke attribution (not calibrate re-pick)
+LOCKED_MODULE: verification
+
+# Temperatures
+p2a_solver_temperature: 0.0
+p2b_solver_temperature: 0.7
+
+# Returns
+lambda: 0.5
+regression_primary: parent-step
+
+p2b_reps: 2
+p2b_tasks:
+  - cron-env-debug
+  - browser-playable-leaderboard
+
+rails:
+  modularrsi_run_prefix: modularrsi_
+  branches_run_prefix: branches_

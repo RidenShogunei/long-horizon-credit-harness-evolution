@@ -1,0 +1,30 @@
+{
+  "protocol_id": "research1-v1",
+  "profile": "smoke",
+  "LOCKED_MODULE": "verification",
+  "LOCKED_MODULE_rationale": "Track A next after tools-locked smoke runs/modularrsi_20261030_022626: contrast finding gen_1_candidate_1793332383 set is_culprit=false for tools and pointed other_module at verification (premature completion / consecutive_complete_signals without inspecting recent build-error terminal output). Keep configs/research1/tasks.lock.json LOCKED_MODULE=tools as the historical calibrate freeze; this overlay is verification-only.",
+  "source_attribution": {
+    "tools_smoke_run_id": "modularrsi_20261030_022626",
+    "tools_smoke_report": "reports/modularrsi_smoke_repro.md",
+    "finding": "runs/modularrsi_20261030_022626/archive/findings/gen_1_candidate_1793332383.json",
+    "is_culprit_tools": false,
+    "n_promotions": 0,
+    "discard_reason": "two-lane: nothing selected",
+    "final_gen": "gen_0"
+  },
+  "selected_tasks_note": "PROFILE=smoke still uses upstream slice tasks[:max_tasks]=2 then TASK_SEED shuffle; seed 0 queues browser-playable-leaderboard then build-ffmpeg-legacy.",
+  "task_seed": 0,
+  "max_tasks": 2,
+  "provider_id": "tongji_agi",
+  "solver_temperature_policy": "upstream_phase0_0.0",
+  "pilot_overlay": "configs/research1/pilot_verification.yaml",
+  "do_not_modify": [
+    "runs/modularrsi_20261030_022626",
+    "reports/modularrsi_smoke_repro.md",
+    "configs/research1/tasks.lock.json",
+    "configs/research1/calibrate.stamp.json",
+    "configs/research1/pilot.yaml"
+  ],
+  "status": "FROZEN",
+  "updated": "2026-10-30"
+}

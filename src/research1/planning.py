@@ -59,8 +59,14 @@ def apply_plan_patch(
     plan: EditPlan,
     patch_text: str,
     child_version_id: str,
+    outcome_class: str | None = None,
 ) -> EditAttempt:
-    """Deterministic editor: apply saved patch bytes only."""
+    """Deterministic editor: apply saved patch bytes only.
+
+    outcome_class is recorded only when the caller measured it. The historical
+    default ``no-effect`` remains for comment-marker controls that do not claim
+    a behavioral result. Callers that have a real measurement must pass it.
+    """
     attempt_id = f"attempt_{plan.candidate_label}_{child_version_id}"
     store_plan(run_dir, plan)
     store_patch(run_dir, attempt_id, patch_text)
@@ -80,7 +86,11 @@ def apply_plan_patch(
         child_version_id=None if state is None else state.version_id,
         patch_text=patch_text,
         applied=state is not None,
-        outcome_class="apply-failure" if state is None else "no-effect",
+        outcome_class=(
+            "apply-failure"
+            if state is None
+            else (outcome_class or "no-effect")
+        ),
         reject_reason=reason,
     )
     write_json(run_dir / "attempts" / f"{attempt_id}.json", attempt)

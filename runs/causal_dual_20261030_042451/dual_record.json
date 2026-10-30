@@ -1,0 +1,154 @@
+{
+  "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451",
+  "run_id": "causal_dual_20261030_042451",
+  "provider_mode": "tongji_agi",
+  "h0_source": "runs/causal_edit_20261030_025402/versions/H0/modules",
+  "early_stop_reason": "two trajectory-grounded functional round-1 branches applied+loaded; continuations early-stopped (no residual sufficient tools defect / no marker padding). Harbor agent trials at temp 0.7 did not re-emit the evidenced empty-mid-batch pattern (so harbor trajectory triggers were false); deterministic module probes on that exact pattern confirmed both distinctive triggers. Prior single-step causal_edit_20261030_025402 already showed Harbor can hit the suppress path when the agent emits the pattern.",
+  "branches": [
+    {
+      "label": "A",
+      "strategy_id": "A",
+      "strategy_text": "Strategy A (suppress-only): After parse, detect empty-keystrokes commands that are followed by another command, remove only the matching false newline-concatenation warning text, and append this exact trigger when suppression occurs: BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline. Do not rewrite keystrokes. Do not invent unrelated features.",
+      "v1_id": "H0_A1",
+      "plan_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/plans/plan_A_2b6175257ec1.txt",
+      "diff_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/patches/attempt_A_H0_A1.diff",
+      "trigger": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline.",
+      "applied": true,
+      "functional_change": true,
+      "functional_note": "",
+      "task": "cron-env-debug",
+      "raw_rewards": [
+        1.0,
+        null,
+        null,
+        null,
+        null
+      ],
+      "observed_delta": 0.0,
+      "score_direction": "no_score_change_measured",
+      "outcome_class": "success",
+      "triggered": false,
+      "trigger_hits": [],
+      "loaded_modules_root_ok": true,
+      "loaded_modules_roots": [
+        "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/versions/H0_A1/modules",
+        null,
+        null,
+        null,
+        null
+      ],
+      "continuation_status": "skipped",
+      "continuation_reason": "no residual sufficient tools defect in harbor trajectories; refusing marker-only A2/B2 padding. Harbor trials did not re-emit empty-keystroke waits followed by another command (rep1 alone-waits; later reps mostly infrastructure/incomplete packaging). Module probe on the evidenced mid-batch pattern triggered=True.",
+      "module_probe_triggered": true,
+      "module_probe_warning": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline.",
+      "harbor_triggered": false,
+      "behavioral_evidence": {
+        "harbor_trajectory_trigger": false,
+        "module_probe_trigger": true,
+        "modules_loaded_in_harbor": true,
+        "functional_ast_change": true
+      }
+    },
+    {
+      "label": "B",
+      "strategy_id": "B",
+      "strategy_text": "Strategy B (normalize empty waits): After parse, when a command has empty keystrokes and is followed by another command, rewrite that command's keystrokes to a single newline so the wait still elapses but the false concatenation condition cannot arise at the source, clear the matching false warning, and append this exact trigger when normalization occurs: BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated. Do not use the Strategy A suppress-only trigger string. Do not invent unrelated features.",
+      "v1_id": "H0_B1",
+      "plan_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/plans/plan_B_2914a8363799.txt",
+      "diff_path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/patches/attempt_B_H0_B1.diff",
+      "trigger": "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated.",
+      "applied": true,
+      "functional_change": true,
+      "functional_note": "",
+      "task": "cron-env-debug",
+      "raw_rewards": [
+        1.0,
+        null,
+        null,
+        null,
+        null
+      ],
+      "observed_delta": 0.0,
+      "score_direction": "no_score_change_measured",
+      "outcome_class": "success",
+      "triggered": false,
+      "trigger_hits": [],
+      "loaded_modules_root_ok": true,
+      "loaded_modules_roots": [
+        "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_dual_20261030_042451/versions/H0_B1/modules",
+        null,
+        null,
+        null,
+        null
+      ],
+      "continuation_status": "skipped",
+      "continuation_reason": "no residual sufficient tools defect in harbor trajectories; refusing marker-only A2/B2 padding. Harbor trials did not re-emit empty-keystroke waits followed by another command (rep1 alone-waits; later reps mostly infrastructure/incomplete packaging). Module probe on the evidenced mid-batch pattern triggered=True.",
+      "module_probe_triggered": true,
+      "module_probe_warning": "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated.",
+      "harbor_triggered": false,
+      "behavioral_evidence": {
+        "harbor_trajectory_trigger": false,
+        "module_probe_trigger": true,
+        "modules_loaded_in_harbor": true,
+        "functional_ast_change": true
+      }
+    }
+  ],
+  "status": "PASS",
+  "defect": {
+    "kind": "false_concat_warning_on_empty_keystrokes",
+    "detail": "step 9: tools forwarded a warning that command 1 would be concatenated because it does not end with a newline, but that command's keystrokes are empty (duration=5.0, a wait). The observation still shows terminal output after the batch, so this is false feedback.",
+    "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/causal_edit_20261030_025402/evals/H0/cron-env-debug/rep_1/2026-10-30__10-55-54/cron-env-debug__28ztMqm/agent/trajectory.json",
+    "step_id": 9
+  },
+  "defect_task": "cron-env-debug",
+  "raw_h0_rewards": [
+    1.0
+  ],
+  "resume_triggers": true,
+  "module_probes": {
+    "A": {
+      "modules_root": "runs/causal_dual_20261030_042451/versions/H0_A1/modules",
+      "expected_substr": "FALSE_CONCAT_SUPPRESSED",
+      "warning": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline.",
+      "commands": [
+        [
+          "echo hi\n",
+          0.5
+        ],
+        [
+          "",
+          5.0
+        ],
+        [
+          "echo bye\n",
+          0.5
+        ]
+      ],
+      "triggered": true
+    },
+    "B": {
+      "modules_root": "runs/causal_dual_20261030_042451/versions/H0_B1/modules",
+      "expected_substr": "EMPTY_WAIT_NORMALIZED",
+      "warning": "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated.",
+      "commands": [
+        [
+          "echo hi\n",
+          0.5
+        ],
+        [
+          "\n",
+          5.0
+        ],
+        [
+          "echo bye\n",
+          0.5
+        ]
+      ],
+      "triggered": true
+    }
+  },
+  "resumed_triggers": true,
+  "round1_real_branches": 2,
+  "continuations_applied": 0
+}

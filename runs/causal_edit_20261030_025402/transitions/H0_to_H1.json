@@ -1,0 +1,15 @@
+{
+  "transition_id": "H0_to_H1",
+  "parent_version_id": "H0",
+  "child_version_id": "H1",
+  "plan_id": "plan_causal_1b66cd07f3b0",
+  "attempt_id": "attempt_causal_H1",
+  "parent_step_scores": {
+    "cron-env-debug": 1.0
+  },
+  "child_step_scores": {
+    "cron-env-debug": 1.0
+  },
+  "protocol_id": "research1-v1",
+  "schema_version": "1.0.0"
+}

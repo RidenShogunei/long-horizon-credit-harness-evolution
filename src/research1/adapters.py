@@ -232,6 +232,21 @@ def run_harbor_task(
     )
 
 
+def harbor_proxy_python() -> Path:
+    """Python whose directory's `harbor` shim injects container download proxy.
+
+    evolve.sh prepends dirname(PYTHON_BIN) to PATH. The shim is not upstream.
+    """
+    bindir = REPO_ROOT / "scripts" / "harbor_proxy_path"
+    py = bindir / "python"
+    harbor = bindir / "harbor"
+    if not harbor.is_file() or not py.exists():
+        raise FileNotFoundError(
+            f"harbor proxy PATH missing under {bindir} (need python symlink and harbor)"
+        )
+    return py
+
+
 def run_official_evolve_smoke(
     *,
     modularrsi_root: Path,
@@ -242,6 +257,7 @@ def run_official_evolve_smoke(
     api_base: str,
     profile: str = "smoke",
     max_tasks: int | None = None,
+    task_seed: int = 0,
     dry_run: bool = False,
     extra_env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
@@ -260,6 +276,10 @@ def run_official_evolve_smoke(
             "ENVIRONMENT": "docker",
             "DRY_RUN": "true" if dry_run else "false",
             "PYTHONDONTWRITEBYTECODE": "1",
+            "TASK_SEED": str(task_seed),
+            # evolve.sh puts dirname(PYTHON_BIN) first on PATH so phase0's
+            # `harbor` is the container-proxy shim, not a second algorithm.
+            "PYTHON_BIN": str(harbor_proxy_python()),
         }
     )
     if max_tasks is not None:
@@ -286,6 +306,9 @@ def run_official_evolve_smoke(
                 "ARCHIVE_ROOT": str(archive_root),
                 "MODEL": model,
                 "API_BASE": api_base,
+                "TASK_SEED": task_seed,
+                "NO_PROXY": env.get("NO_PROXY"),
+                "PYTHON_BIN": env.get("PYTHON_BIN"),
                 "dry_run": dry_run,
                 "started_unix": time.time(),
             },
@@ -315,7 +338,9 @@ def write_local_adaptations_note(path: Path) -> None:
 
 ## Local adaptations (do not claim as upstream)
 - Provider selection via this repo's `scripts/with_llm_provider.sh` / `llm_provider.py`
-- Mandatory host+container proxy `http://172.17.0.1:7890` (Harbor in this ModularRSI pin lacks `--extra-docker-compose`)
+- Mandatory host proxy `http://172.17.0.1:7890`, with `NO_PROXY` including `agi.tongji.edu.cn` so Tongji is not sent through clash
+- Container download proxy injected by `scripts/harbor_proxy_path/harbor` (`--ae`/`--ve`) because this Harbor pin's phase0 runner does not pass those flags. `PYTHON_BIN` points at that directory so `evolve.sh` puts the shim first on `PATH`
+- `TASK_SEED` is forwarded. Upstream slices the train manifest to `max_tasks` and only then shuffles, so `PROFILE=smoke` always uses the first two train tasks (`browser-playable-leaderboard`, `build-ffmpeg-legacy`). No seed removes the heavy image task
 - `SUPPORT_DATASET_DIR` → `/home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances/tb`
 - Archive root redirected under this research repo `runs/modularrsi_*` (not upstream `self_evo_runs/`)
 - `LOCKED_MODULE` comes from research1 calibrate lock, not hardcoded `tools`

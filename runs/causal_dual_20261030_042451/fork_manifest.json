@@ -1,0 +1,20 @@
+[
+  {
+    "label": "A",
+    "plan_id": "plan_A_2b6175257ec1",
+    "attempt_id": "attempt_A_H0_A1",
+    "child_version_id": "H0_A1",
+    "applied": true,
+    "reject_reason": "",
+    "trigger": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline."
+  },
+  {
+    "label": "B",
+    "plan_id": "plan_B_2914a8363799",
+    "attempt_id": "attempt_B_H0_B1",
+    "child_version_id": "H0_B1",
+    "applied": true,
+    "reject_reason": "",
+    "trigger": "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated."
+  }
+]

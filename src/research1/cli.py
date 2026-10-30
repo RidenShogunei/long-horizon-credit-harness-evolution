@@ -11,6 +11,7 @@ from research1 import EXIT_FAIL, EXIT_INCOMPLETE, EXIT_PASS, __version__
 from research1.audit import audit_run, find_run_dir, report_run
 from research1.calibrate import run_calibrate
 from research1.config import REPO_ROOT, load_pilot, resolve_path
+from research1.causal import run_causal
 from research1.p2a import run_modularrsi
 from research1.p2b import run_branches
 from research1.preflight import run_preflight, write_h0_lock
@@ -55,6 +56,46 @@ def cmd_run_modularrsi(args: argparse.Namespace) -> int:
         dry_run=args.dry_run,
         max_tasks=args.max_tasks,
     )
+    _print(doc)
+    return code
+
+
+def cmd_run_causal(args: argparse.Namespace) -> int:
+    if args.resume_dual:
+        from research1.causal import resume_dual_branch_triggers
+
+        code, doc = resume_dual_branch_triggers(
+            Path(args.resume_dual),
+            Path(args.config) if args.config else None,
+            provider_mode=args.provider_mode,
+            max_trigger_reps=args.max_trigger_reps,
+        )
+    elif args.dual_branch:
+        from research1.causal import run_dual_branch
+
+        code, doc = run_dual_branch(
+            Path(args.config) if args.config else None,
+            reps=args.reps,
+            provider_mode=args.provider_mode,
+            prior_h0=Path(args.prior_h0) if args.prior_h0 else None,
+            max_trigger_reps=args.max_trigger_reps,
+        )
+    elif args.promote_false_concat:
+        from research1.causal import run_false_concat_loop
+
+        code, doc = run_false_concat_loop(
+            Path(args.config) if args.config else None,
+            reps=args.reps,
+            provider_mode=args.provider_mode,
+            max_h1_reps=args.max_h1_reps,
+        )
+    else:
+        code, doc = run_causal(
+            Path(args.config) if args.config else None,
+            max_tasks=args.max_tasks,
+            reps=args.reps,
+            provider_mode=args.provider_mode,
+        )
     _print(doc)
     return code
 
@@ -124,6 +165,40 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--dry-run", action="store_true")
     sp.add_argument("--max-tasks", type=int, default=2)
     sp.set_defaults(func=cmd_run_modularrsi)
+
+    sp = sub.add_parser("run-causal", help="Track B: tools evidence, frozen plan, fixed editor, H1")
+    sp.add_argument("--config", default=str(REPO_ROOT / "configs/research1/pilot.yaml"))
+    sp.add_argument("--max-tasks", type=int, default=3)
+    sp.add_argument("--reps", type=int, default=1)
+    sp.add_argument("--provider-mode", default="tongji_agi")
+    sp.add_argument(
+        "--promote-false-concat",
+        action="store_true",
+        help="After coverage found no parse error, patch the evidenced empty-keystroke warning",
+    )
+    sp.add_argument(
+        "--dual-branch",
+        action="store_true",
+        help="Track B: same H0 → two functional candidates → evidence-gated continuation each",
+    )
+    sp.add_argument(
+        "--resume-dual",
+        default="",
+        help="Resume an existing causal_dual_* run: re-eval until triggers, then re-gate continuations",
+    )
+    sp.add_argument(
+        "--prior-h0",
+        default="",
+        help="Optional path to prior causal H0 modules (defaults to causal_edit_…/versions/H0/modules)",
+    )
+    sp.add_argument(
+        "--max-trigger-reps",
+        type=int,
+        default=5,
+        help="Dual-branch: keep evaluating a child until the trigger appears (cap)",
+    )
+    sp.add_argument("--max-h1-reps", type=int, default=3)
+    sp.set_defaults(func=cmd_run_causal)
 
     sp = sub.add_parser("run-branches", help="P2B mini branch loop")
     sp.add_argument("--config", default=str(REPO_ROOT / "configs/research1/pilot.yaml"))

@@ -1,0 +1,20 @@
+{
+  "modules_root": "runs/causal_dual_20261030_042451/versions/H0_A1/modules",
+  "expected_substr": "FALSE_CONCAT_SUPPRESSED",
+  "warning": "BASELINE_TOOLS_FALSE_CONCAT_SUPPRESSED: empty-keystrokes wait command does not need a trailing newline.",
+  "commands": [
+    [
+      "echo hi\n",
+      0.5
+    ],
+    [
+      "",
+      5.0
+    ],
+    [
+      "echo bye\n",
+      0.5
+    ]
+  ],
+  "triggered": true
+}

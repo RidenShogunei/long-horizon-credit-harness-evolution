@@ -1,0 +1,12 @@
+{
+  "plan_id": "plan_B_2914a8363799",
+  "parent_version_id": "H0",
+  "locked_module": "tools",
+  "plan_text": "The parser can warn that an empty-keystrokes wait command must end with a newline when followed by another command, even though the wait has no text to concatenate. In `parse_llm_response`, after parsing, any empty-keystrokes command that is followed by another command is rewritten to a single newline while preserving its duration. The matching false concatenation warning is removed, and the distinctive normalization trigger is appended to the warning feedback only when this rewrite occurs.",
+  "intended_files": [
+    "tools/baseline.py"
+  ],
+  "candidate_label": "B",
+  "protocol_id": "research1-v1",
+  "schema_version": "1.0.0"
+}

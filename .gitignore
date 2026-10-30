@@ -35,15 +35,23 @@ experiments/**/*_console.log
 experiments/**/runtime.env.json
 
 # research1 run trees (keep summaries / score tables / short reports)
+runs/_logs/
 runs/**/evals/
 runs/**/archive/
 runs/**/versions/
 runs/**/agent/
 runs/**/*.stdout.log
 runs/**/*.stderr.log
+runs/**/*.exitcode
 runs/**/trial.log
 runs/**/job.log
 runs/**/*.cast
 runs/**/console.*.log
+runs/**/planner_raw*.txt
+runs/**/planner_evidence.txt
+runs/**/plans/replacement_*.py
 runs/calibrate_*/**/trial_*/
 reports/**/raw/
+
+# Machine-local Harbor/proxy shims (paths to local venv + gateway)
+scripts/harbor_proxy_path/

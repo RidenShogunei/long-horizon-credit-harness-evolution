@@ -1,0 +1,17 @@
+{
+  "model": "DeepSeek-V4.1-Flash",
+  "usage": {
+    "prompt_tokens": 5553,
+    "total_tokens": 18326,
+    "completion_tokens": 12773,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 5376,
+      "multimodal_tokens": null
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7991
+    }
+  },
+  "provider": "tongji_agi"
+}

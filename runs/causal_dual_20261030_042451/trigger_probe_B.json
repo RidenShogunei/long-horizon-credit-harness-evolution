@@ -1,0 +1,20 @@
+{
+  "modules_root": "runs/causal_dual_20261030_042451/versions/H0_B1/modules",
+  "expected_substr": "EMPTY_WAIT_NORMALIZED",
+  "warning": "BASELINE_TOOLS_EMPTY_WAIT_NORMALIZED: empty-keystrokes wait rewritten to newline so following commands are not falsely marked as concatenated.",
+  "commands": [
+    [
+      "echo hi\n",
+      0.5
+    ],
+    [
+      "\n",
+      5.0
+    ],
+    [
+      "echo bye\n",
+      0.5
+    ]
+  ],
+  "triggered": true
+}

@@ -1,0 +1,49 @@
+{
+  "trajectories": 34,
+  "findings": [
+    {
+      "kind": "newline_warning_on_wait",
+      "sufficient": false,
+      "detail": "parser warned that a following command would be concatenated; the warning is already shown to the agent and empty-keystroke waits still elapsed. Not treated as a defect to patch.",
+      "excerpt": "Previous response had warnings:\nWARNINGS: - Command 1 should end with newline when followed by another command. Otherwise the two commands will be concatenated together on the same line.\n\nNew Terminal Output:\n\nroot@cb99150f1bbb:/app# sleep 60\nroot@cb99150f1bbb:/app# echo '--- cron.log ---'; cat /app/logs/cron.log 2>&1; echo '--- etl.log ---'; cat /app/logs/etl.log 2>&1\n--- cron.log ---\nCron run started at 2026-10-29 14:24:01\nETL process completed at 2026-10-29 14:24:01\n--- etl.log ---\n2026-10-29 14:22:15: ETL completed successfully. Processed 2 records. SSH: False\n2026-10-29 14:24:01: ETL completed successfully. Processed 2 records. SSH: False\nroot@cb99150f1bbb:/app#\n",
+      "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412/evals/H0_A1/cron-env-debug/rep_2/2026-10-29__22-19-16/cron-env-debug__LLisMsz/agent/trajectory.json",
+      "step_id": 9
+    },
+    {
+      "kind": "newline_warning_on_wait",
+      "sufficient": false,
+      "detail": "parser warned that a following command would be concatenated; the warning is already shown to the agent and empty-keystroke waits still elapsed. Not treated as a defect to patch.",
+      "excerpt": "Previous response had warnings:\nWARNINGS: - Command 3 should end with newline when followed by another command. Otherwise the two commands will be concatenated together on the same line.\n\nNew Terminal Output:\n\nroot@31efbe50eac8:/app# service cron start; sleep 1; service cron status\nStarting periodic command scheduler: cron.\nsed -i 's/^0 2 /\\* * /' /etc/cron.d/etl-job; cat /etc/cron.d/etl-job\ncron is running.\nroot@31efbe50eac8:/app# sed -i 's/^0 2 /\\* * /' /etc/cron.d/etl-job; cat /etc/cron.d/etl-job\nSHELL=/bin/bash\nPATH=/app/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\nVIRTUAL_ENV=/app/venv\nHOME=/app\n* * * * * root cd /app && echo 'ETL started at '$(date +\\%Y-\\%m-\\%dT\\%H:\\%M:\\%S) >> /app/logs/cron.log 2>&1 && /app/venv/bin/python3 /app/etl_process.py >> /app\n/logs/",
+      "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412/evals/H0_B2/cron-env-debug/rep_2/2026-10-29__23-53-17/cron-env-debug__uHDQFoY/agent/trajectory.json",
+      "step_id": 7
+    },
+    {
+      "kind": "newline_warning_on_wait",
+      "sufficient": false,
+      "detail": "parser warned that a following command would be concatenated; the warning is already shown to the agent and empty-keystroke waits still elapsed. Not treated as a defect to patch.",
+      "excerpt": "Previous response had warnings:\nWARNINGS: - Command 2 should end with newline when followed by another command. Otherwise the two commands will be concatenated together on the same line.\n\nNew Terminal Output:\n\nroot@01e248564120:/app# cat > /etc/cron.d/etl-job <<'CRON'\n> # Nightly ETL job\n> SHELL=/bin/sh\n> PATH=/app/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n> VIRTUAL_ENV=/app/venv\n> * * * * * root /app/venv/bin/python3 /app/etl_process.py >> /app/logs/cron.log 2>&1\n> CRON\nroot@01e248564120:/app# chmod 644 /etc/cron.d/etl-job\nroot@01e248564120:/app# rm -f /app/logs/etl.log /app/logs/cron.log\nroot@01e248564120:/app# service cron restart\nRestarting periodic command scheduler: cronStopping periodic command scheduler: cron.\nStarting periodic command scheduler: cron.\nr",
+      "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412/evals/H0/cron-env-debug/rep_1/2026-10-29__21-44-13/cron-env-debug__fAR8BqA/agent/trajectory.json",
+      "step_id": 9
+    },
+    {
+      "kind": "newline_warning_on_wait",
+      "sufficient": false,
+      "detail": "parser warned that a following command would be concatenated; the warning is already shown to the agent and empty-keystroke waits still elapsed. Not treated as a defect to patch.",
+      "excerpt": "Previous response had warnings:\nWARNINGS: - Command 1 should end with newline when followed by another command. Otherwise the two commands will be concatenated together on the same line.\n\nNew Terminal Output:\n\nroot@d43f3902b7e1:/app# date; echo '--- etl.log ---'; cat /app/logs/etl.log 2>/dev/null || true; echo '--- cron.log ---'; cat /app/logs/cron.log 2>/dev/null ||\ntrue\nThu Oct 29 13:57:09 UTC 2026\n--- etl.log ---\n2026-10-29 13:57:01: ETL completed successfully. Processed 2 records. SSH: False\n--- cron.log ---\nETL process completed at 2026-10-29 13:57:01\nroot@d43f3902b7e1:/app#\n",
+      "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412/evals/H0/cron-env-debug/rep_2/2026-10-29__21-52-52/cron-env-debug__kYPHqji/agent/trajectory.json",
+      "step_id": 8
+    },
+    {
+      "kind": "newline_warning_on_wait",
+      "sufficient": false,
+      "detail": "parser warned that a following command would be concatenated; the warning is already shown to the agent and empty-keystroke waits still elapsed. Not treated as a defect to patch.",
+      "excerpt": "Previous response had warnings:\nWARNINGS: - Command 1 should end with newline when followed by another command. Otherwise the two commands will be concatenated together on the same line.\n\nNew Terminal Output:\n\nroot@1a3092815e03:/app# sleep 1\nroot@1a3092815e03:/app# ps aux | grep '[c]ron' || true\nbash: ps: command not found\nroot@1a3092815e03:/app# cat > /etc/cron.d/etl-verify <<'CRON'\n> * * * * * root cd /app && /app/venv/bin/python3 /app/etl_process.py >> /app/logs/cron.log 2>&1\n> CRON\nroot@1a3092815e03:/app# chmod 644 /etc/cron.d/etl-verify\nroot@1a3092815e03:/app# date '+started verification at %Y-%m-%d %H:%M:%S'\nstarted verification at 2026-10-29 12:57:02\nroot@1a3092815e03:/app# date '+now %Y-%m-%d %H:%M:%S'; ps aux | grep '[c]ron' || true; ls -la /etc/cron.d/etl-verify; cat /etc/cron.d/",
+      "path": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_123206/evals/H0_B2/cron-env-debug/rep_1/2026-10-29__20-53-43/cron-env-debug__BoJW9rU/agent/trajectory.json",
+      "step_id": 7
+    }
+  ],
+  "sufficient": [],
+  "sufficient_count": 0,
+  "parser_error_count": 0,
+  "insufficient_newline_warnings": 5
+}
