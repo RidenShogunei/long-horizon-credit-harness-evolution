@@ -1,0 +1,44 @@
+{
+  "protocol_id": "research1-v1",
+  "calibrate_run_id": "calibrate_20261029_115545",
+  "probe": true,
+  "pool_fixed_order_first8": [
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy",
+    "build-imagemagick-legacy",
+    "complex-python-memory-leak-concurrency-bug",
+    "cron-env-debug",
+    "crypto-transaction-batching-optimizer",
+    "draft_dp_0004e5bb_aopeng",
+    "wasm-crackme-reverse"
+  ],
+  "pool_probe_executed": [
+    "cron-env-debug"
+  ],
+  "trials_per_task": 1,
+  "selected_tasks": [
+    "cron-env-debug",
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy",
+    "build-imagemagick-legacy"
+  ],
+  "exclusions": {
+    "complex-python-memory-leak-concurrency-bug": "probe_incomplete_awaiting_full_8x3",
+    "crypto-transaction-batching-optimizer": "probe_incomplete_awaiting_full_8x3",
+    "draft_dp_0004e5bb_aopeng": "probe_incomplete_awaiting_full_8x3",
+    "wasm-crackme-reverse": "probe_incomplete_awaiting_full_8x3",
+    "build-ffmpeg-legacy": "probe_aborted_heavy_docker_build"
+  },
+  "LOCKED_MODULE": "tools",
+  "LOCKED_MODULE_rationale": "Post-probe freeze after scorable H0 evidence on cron-env-debug (reward=1.0). Official Phase0 default tools; not pre-locked observation.",
+  "task_means": {
+    "cron-env-debug": 1.0
+  },
+  "status": "INCOMPLETE",
+  "blockers": [
+    "Full fixed-order 8×3 calibrate not finished; probe completed 1/2 light tasks before aborting build-ffmpeg-legacy docker build."
+  ],
+  "resume_path": "python -m research1 calibrate --config configs/research1/pilot.yaml  # full 8×3; or --probe --max-tasks 2 --max-trials 1",
+  "provider_id": "deepseek_official",
+  "temperature": 0.7
+}

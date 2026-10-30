@@ -50,7 +50,7 @@ ATTEMPTS="${ATTEMPTS:-2}"
 # depending on host.docker.internal inside ModularRSI's older Harbor.
 DOCKER_GW="$(docker network inspect bridge --format '{{(index .IPAM.Config 0).Gateway}}' 2>/dev/null || true)"
 PROXY_URL="${PROXY_URL:-http://${DOCKER_GW:-172.17.0.1}:7890}"
-NO_PROXY_LIST="${NO_PROXY_LIST:-localhost,127.0.0.1,::1,api.deepseek.com}"
+NO_PROXY_LIST="${NO_PROXY_LIST:-localhost,127.0.0.1,::1,api.deepseek.com,agi.tongji.edu.cn}"
 
 mkdir -p "$OUT_ROOT"
 cp "$REPO/configs/protocol.v0.json" "$OUT_ROOT/"

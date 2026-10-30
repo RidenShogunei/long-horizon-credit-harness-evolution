@@ -1,0 +1,140 @@
+{
+  "protocol_id": "research1-v1",
+  "frozen_at": "2026-10-29",
+  "supersedes": "research1-v0",
+  "title_zh": "基于长程信用分配的 Harness 稳定进化方法",
+  "title_en": "Stable Harness Evolution via Long-Horizon Credit Assignment",
+  "scope": {
+    "study": 1,
+    "study_focus": "long-horizon value of harness modifications; multi-round effect first",
+    "deferred": "component-dependency prediction (study 2)",
+    "evolution_target": "ModularRSI basic modular Terminus2 five modules, denoted H0",
+    "foundation_stage": "shared execution/versioning base + dual-rail smoke (P2A official, P2B branches); not full 60/84",
+    "not_evolved": [
+      "base solver model",
+      "Harbor runtime",
+      "editor",
+      "KIRA/Meta-Harness baseline"
+    ]
+  },
+  "roles": {
+    "solver": {
+      "config": "configs/roles.v0.json#solver",
+      "frozen": true,
+      "p2a_temperature": 0.0,
+      "p2a_note": "Official ModularRSI Phase0 SOLVER_TEMPERATURE=0.0",
+      "p2b_temperature": 0.7,
+      "p2b_note": "Frozen DeepSeek Flash solver from roles.v0 / meta-harness-repro"
+    },
+    "evolver": {
+      "config": "configs/roles.v0.json#evolver",
+      "frozen_until_training": true,
+      "output": "modification plan only; may touch multiple modules in general protocol; v1 foundation smoke locks one module"
+    },
+    "editor": {
+      "config": "configs/roles.v0.json#editor",
+      "frozen": true,
+      "mode": "deterministic_patch_apply"
+    }
+  },
+  "harness": {
+    "h0_name": "modularrsi_basic_terminus2",
+    "upstream_repo": "https://github.com/IQuestLab/ModularRSI",
+    "upstream_checkout": "/home/jinxu/arms_cache/modularrsi/ModularRSI",
+    "upstream_commit": "ed1e545bc60f050b404474e51ee18021777a0e23",
+    "modules": [
+      "agent_loop",
+      "observation",
+      "tools",
+      "context_mgmt",
+      "verification"
+    ],
+    "composer_for_h0": "static",
+    "modules_root": "/home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules",
+    "h0_snapshot": "configs/h0.snapshot.v0.json",
+    "h0_lock": "configs/research1/h0.lock.json",
+    "LOCKED_MODULE_policy": "single module after calibrate; do not pre-lock observation",
+    "license_note": "ModularRSI original contributions are CC BY-NC 4.0. Do not vendor upstream source into this private repo.",
+    "forbidden_edits": [
+      "Harbor internals",
+      "task tests and scorers",
+      "solver weights",
+      "editor code",
+      "/home/jinxu/meta-harness-repro/**"
+    ]
+  },
+  "baseline_control": {
+    "path": "/home/jinxu/meta-harness-repro",
+    "role": "read-only control; not modified in this project"
+  },
+  "task_sets": {
+    "source": "IQuestLab/ModularRSI_2000_Instances terminal tasks (tb)",
+    "local_path": "/home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances/tb",
+    "train_list_rule": "Read train names only from manifest.json or train_120.txt; never hand-fill",
+    "fix_git_note": "fix-git is connectivity smoke only if absent from train; not an evolution task",
+    "calibrate": {
+      "pool_n": 8,
+      "trials_per_task": 3,
+      "select_n": 4,
+      "lock_file": "configs/research1/tasks.lock.json"
+    },
+    "pool_is_not_heldout_test": true
+  },
+  "evaluation": {
+    "unit": "external task tests via Harbor; agent-internal verification is not the final score",
+    "failure_layers": [
+      "model",
+      "harness",
+      "container",
+      "scorer",
+      "infrastructure"
+    ],
+    "unknown_reward_rule": "unknown ≠ 0; keep reward null",
+    "retry": {
+      "max_extra_attempts": 2,
+      "retry_when": "official reward missing AND failure looks infrastructural",
+      "do_not_retry": "reward present including 0; agent timeout; limits exceeded; apply-failure"
+    }
+  },
+  "metrics": {
+    "regression_primary": "parent-step",
+    "best_ancestor": "diagnostic column only; not primary U",
+    "lambda_default": 0.5,
+    "always_store_separately": [
+      "terminal_gain",
+      "cumulative_regression"
+    ],
+    "U": "terminal_gain - lambda * cumulative_regression(parent-step)"
+  },
+  "rails": {
+    "P2A": {
+      "name": "official_modularrsi_smoke",
+      "invoke": "scripts/evolve.sh PROFILE=smoke",
+      "run_prefix": "runs/modularrsi_",
+      "temperature": 0.0
+    },
+    "P2B": {
+      "name": "own_branch_miniloop",
+      "shape": "same H0 parent → candidates A/B → eval → 1 continuation each",
+      "smoke_scale": "2 tasks × 2 reps (not nominal 60)",
+      "run_prefix": "runs/branches_",
+      "temperature": 0.7
+    },
+    "isolation": "separate run dirs; shared provider ledger; neither rail mutates the other's version tree"
+  },
+  "runtime": {
+    "proxy_url": "http://172.17.0.1:7890",
+    "provider_wrapper": "scripts/with_llm_provider.sh",
+    "disk_stop_gb_free": 15
+  },
+  "budgets_and_stops": {
+    "disk_stop_gb_free": 15,
+    "foundation_ready": "both P2A and P2B smokes PASS (or INCOMPLETE with explicit external blockers)",
+    "do_not_claim_pass_with_simulated_scores": true,
+    "nominal_60_and_MC_deferred": true
+  },
+  "secrets": {
+    "source": "/home/jinxu/.hermes/.env",
+    "never_commit": true
+  }
+}

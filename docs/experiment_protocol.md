@@ -1,68 +1,68 @@
-# 研究一实验协议（research1-v0）
+# 研究一实验协议（research1-v1）
 
-机器可读副本：`configs/protocol.v0.json`、`configs/roles.v0.json`。  
-之后每条执行记录和修改记录都必须带 `protocol_id=research1-v0`；进化器开始训练后还要额外带 `evolver_policy_id`。
+机器可读副本：`configs/protocol.v1.json`、`configs/roles.v0.json`、`configs/research1/pilot.yaml`。  
+旧版 `configs/protocol.v0.json` / 本文档 v0 叙述保留只读对照。  
+每条执行记录和修改记录都必须带 `protocol_id=research1-v1`；进化器开始训练后还要额外带 `evolver_policy_id`。
+
+## 0. 本阶段边界（Foundation）
+
+交付共用执行/版本/记录底座，并证明双线冒烟：
+
+- **P2A**：官方 ModularRSI `PROFILE=smoke`，真实 A13 日志
+- **P2B**：同父快照 → 两候选 → 各 1 次续跑（缩小为 2 题 × 2 次，不是 nominal 60）
+
+不做：价值模型训练、正式 4×3×5=60 / MC=84、P4 结论、五模块大规模复现。  
+禁止用模拟分数宣称 PASS。
 
 ## 1. 对象与角色
 
 | 角色 | 是否进化 | 配置 |
 | --- | --- | --- |
-| 求解器 | 否 | DeepSeek Flash，`temperature=0.7`，`thinking.disabled` |
-| 初始进化器 | 训练前冻结；训练时才更新 | 同模型族，只输出修改计划，提案超时 2400s |
-| 编辑器 | 否 | 固定补丁应用；重放时再打保存下来的补丁，不再问模型 |
+| 求解器 | 否 | P2A：`temperature=0.0`（官方 Phase0）；P2B：DeepSeek Flash `0.7`，`thinking.disabled` |
+| 初始进化器 | 训练前冻结；训练时才更新 | 同模型族，只输出修改计划 |
+| 编辑器 | 否 | 固定补丁应用；重放时再打保存下来的补丁 |
 | Harbor | 否 | 任务容器与外部评分 |
-| H0 | 是（研究一的对象） | ModularRSI 基础版模块化 Terminus2 五个模块 |
+| H0 | 是（研究一的对象） | ModularRSI `static` 五个 `baseline`；见 `configs/h0.snapshot.v0.json` / `h0.lock.json` |
 | KIRA / Meta-Harness | 否 | `/home/jinxu/meta-harness-repro`，只读对照 |
 
-可改范围只限 H0 的五个模块：`agent_loop`、`observation`、`tools`、`context_mgmt`、`verification`。  
-一次修改软预算：最多 5 个文件、最多 5 个模块、约 200 行变更；必须先有计划文本，再有补丁。补丁打不上记 `apply-failure`。
-
-研究一先看多轮效果。组件依赖预测留给研究二。上游 ModularRSI 仍把配对评测和跨批验证列为后续发布项；本协议自行要求：同配置前后对比，以及提案批之外的第二批检查。
+v1 基础阶段只锁一个 `LOCKED_MODULE`（校准后写入 `tasks.lock.json`），**不预锁 observation**。
 
 ## 2. 任务隔离
 
-| 集合 | 目标规模 | 进化器能否看见 | 用途 |
-| --- | ---: | --- | --- |
-| 调试 | 8 | 可以 | 打通环境、修改、分支 |
-| 提案 | 24 | 可以 | 提供失败证据 |
-| 奖励 | 24 | 不可以 | 即时效果与长程奖励 |
-| 开发 | 24 | 不可以 | 泛化检查，不产训练标签 |
+训练题名只从数据集 `manifest.json` / `train_120.txt` 读取，禁止手填。  
+`fix-git` 若不在 train，仅作环境联通记录，不进进化集。
 
-任务来自 ModularRSI 终端任务池。原始 `pool` 可以抽进化题，不能直接当最终测试集。  
-第一周不必凑满 80 题；第一条修改链路只用少量轻任务。
+校准：固定顺序 8 个 train × 最多 3 trial → 筛 4 题写入 `configs/research1/tasks.lock.json`。
 
 ## 3. 评测与失败
 
-- 最终成绩只认外部任务测试，不认智能体内部的 `verification`。
-- 默认每题 1 trial；H0 噪声探针为约 8 题 × 3 次。
-- 只有「官方 reward 缺失且像基础设施故障」才额外重试最多 2 次。已有 reward（含 0）、智能体超时、超限、`apply-failure` 不重试。
-- 失败必须落到一层：`model` / `harness` / `container` / `scorer` / `infrastructure`。
-- 结果类别：`success`、`no-effect`、`regression`、`apply-failure`。环境故障与方法失败分开记。
+- 最终成绩只认外部任务测试。
+- `unknown ≠ 0`：官方 reward 缺失时保持 `reward=null`。
+- 失败层：`model` / `harness` / `container` / `scorer` / `infrastructure`。
+- 必须代理 `http://172.17.0.1:7890`；必须 `source scripts/with_llm_provider.sh`；磁盘 <15GB 停。
 
-## 4. 长程指标
+## 4. 长程指标（v1）
 
-在同一奖励任务集上：
+- **主退化指标**：相对 **parent 步** 的下降之和（只计正下降）
+- **best_ancestor**：诊断列，不进主 U
+- **λ** 工程默认 `0.5`；始终分存 `terminal_gain` 与 `cumulative_regression`
+- **U** = `terminal_gain - λ * cumulative_regression`
 
-- **即时增益** = 子版本均分 − 父版本均分
-- **终点增益** = 叶子均分 − 根版本均分
-- **过程退化** = 路径上相对当前最好祖先均分的下降之和（只计正下降）
-- **长程奖励** = 各蒙特卡洛分支终点增益的平均 − 该根状态下汇总的过程退化
-- **恢复** = 出现过程退化后，后续重新达到或超过退化前祖先均分的分支比例
+## 5. CLI
 
-噪声规则：H0 噪声探针里已经翻转过的题，后来多通过一次，不记成修改效果。  
-即时最好的修改是否也有最好的长程奖励，是验证阶段要回答的问题，不在协议里预设答案。
+```bash
+python -m research1 preflight --config configs/research1/pilot.yaml --write-h0-lock
+python -m research1 calibrate --config configs/research1/pilot.yaml
+python -m research1 run-modularrsi --config configs/research1/pilot.yaml
+python -m research1 run-branches --config configs/research1/pilot.yaml --continuations 1
+python -m research1 audit --run RUN_ID
+python -m research1 report --run RUN_ID
+```
 
-调试用蒙特卡洛参数：同一状态 2 个候选，每个候选 2 条后续分支，路径长度 3（含当前修改），每次决策 2 道提案题，每个版本 4 道奖励题。分支之间源码、记忆、进化器历史隔离；后续进化器的模型、提示和预算固定。
-
-## 5. 预算与停止
-
-- `/home` 可用空间低于 15GB 立即停止拉镜像和开新任务。
-- 第一周范围：固定协议 → H0 冒烟 → 少量题的噪声与成本；H0 稳定后才做一条可重放修改。
-- 在长程奖励分析报告显示信号高于评分噪声之前，不训练进化器。
-- 不同 `evolver_policy_id` 的数据不得混成一个无区别的数据池。
+退出语义：`0=PASS`，`1=FAIL`，`2=INCOMPLETE`。
 
 ## 6. 上游与本仓库边界
 
-- ModularRSI 检出目录：`/home/jinxu/arms_cache/modularrsi/ModularRSI`（仓库外）。
-- 本仓库不纳入其受版权保护的源码；原始贡献为 CC BY-NC 4.0。
-- 密钥只从 `/home/jinxu/.hermes/.env` 读入进程环境，不写入本仓库。
+- ModularRSI 检出：`/home/jinxu/arms_cache/modularrsi/ModularRSI`（不拷进本仓）
+- 数据集：`/home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances`（CC BY-NC）
+- 不修改：`/home/jinxu/meta-harness-repro`

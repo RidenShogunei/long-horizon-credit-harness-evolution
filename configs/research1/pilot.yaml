@@ -1,0 +1,51 @@
+# research1-v1 pilot config. After load, CLI stamps _config_hash.
+protocol_id: research1-v1
+
+# Paths (absolute preferred)
+modularrsi_root: /home/jinxu/arms_cache/modularrsi/ModularRSI
+modules_root: /home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules
+dataset_root: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances
+dataset_tb: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances/tb
+h0_snapshot: configs/h0.snapshot.v0.json
+h0_lock: configs/research1/h0.lock.json
+tasks_lock: configs/research1/tasks.lock.json
+runs_root: runs
+reports_root: reports
+
+# Runtime gates
+proxy_url: http://172.17.0.1:7890
+disk_stop_gb_free: 15
+provider_mode: auto  # prefer tongji; fall back to official. Live probe 2026-10-29 20:32 OK.
+
+# H0
+composer: static
+upstream_commit: ed1e545bc60f050b404474e51ee18021777a0e23
+
+# LOCKED_MODULE: null until calibrate writes calibrate.stamp.json / tasks.lock.json
+LOCKED_MODULE: null
+
+# Calibrate
+calibrate_pool_n: 8
+calibrate_trials_per_task: 3
+calibrate_retry_infra: true
+
+# Temperatures
+# P2A uses upstream Phase0 SOLVER_TEMPERATURE=0.0 (not overridden here)
+p2a_solver_temperature: 0.0
+# P2B uses frozen DeepSeek Flash solver config
+p2b_solver_temperature: 0.7
+
+# Returns
+lambda: 0.5
+regression_primary: parent-step
+
+# P2B expansion toward 2×2 (light tasks that already scored under Harbor)
+p2b_reps: 2
+p2b_tasks:
+  - cron-env-debug
+  - browser-playable-leaderboard
+
+# Isolation
+rails:
+  modularrsi_run_prefix: modularrsi_
+  branches_run_prefix: branches_

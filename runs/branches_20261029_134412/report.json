@@ -1,0 +1,170 @@
+{
+  "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412",
+  "audit_status": "PASS",
+  "issues": [],
+  "summary.json": {
+    "status": "PASS",
+    "run_id": "branches_20261029_134412",
+    "tasks": [
+      "cron-env-debug",
+      "browser-playable-leaderboard"
+    ],
+    "reps": 2,
+    "LOCKED_MODULE": "tools",
+    "continuations": 1,
+    "provider_id": "tongji_agi",
+    "temperature": 0.7,
+    "lambda": 0.5,
+    "resume": {
+      "completed_steps": [
+        "h0_materialized",
+        "forked",
+        "eval_H0",
+        "eval_A1_B1",
+        "continuations"
+      ],
+      "updated_unix": 1793290437.0883708
+    },
+    "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412"
+  },
+  "fork_manifest.json": [
+    {
+      "label": "A",
+      "plan": {
+        "plan_id": "plan_A_9d1bd1c960a2",
+        "parent_version_id": "H0",
+        "locked_module": "tools",
+        "plan_text": "P2B candidate A: marker comment on tools/baseline.py",
+        "intended_files": [],
+        "candidate_label": "A",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      },
+      "attempt": {
+        "attempt_id": "attempt_A_H0_A1",
+        "plan_id": "plan_A_9d1bd1c960a2",
+        "parent_version_id": "H0",
+        "child_version_id": "H0_A1",
+        "patch_text": "--- a/tools/baseline.py\n+++ b/tools/baseline.py\n@@ -1,3 +1,4 @@\n+# research1-p2b-marker: A1\n \"\"\"Full-fidelity tmux tools module: faithful port of terminus-2's tmux + parser\n + prompt-template behavior.\n \n",
+        "applied": true,
+        "outcome_class": "no-effect",
+        "reject_reason": "",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      },
+      "child_version_id": "H0_A1"
+    },
+    {
+      "label": "B",
+      "plan": {
+        "plan_id": "plan_B_5d1a2dcb63ae",
+        "parent_version_id": "H0",
+        "locked_module": "tools",
+        "plan_text": "P2B candidate B: marker comment on tools/baseline.py (independent)",
+        "intended_files": [],
+        "candidate_label": "B",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      },
+      "attempt": {
+        "attempt_id": "attempt_B_H0_B1",
+        "plan_id": "plan_B_5d1a2dcb63ae",
+        "parent_version_id": "H0",
+        "child_version_id": "H0_B1",
+        "patch_text": "--- a/tools/baseline.py\n+++ b/tools/baseline.py\n@@ -1,3 +1,4 @@\n+# research1-p2b-marker: B1\n \"\"\"Full-fidelity tmux tools module: faithful port of terminus-2's tmux + parser\n + prompt-template behavior.\n \n",
+        "applied": true,
+        "outcome_class": "no-effect",
+        "reject_reason": "",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      },
+      "child_version_id": "H0_B1"
+    }
+  ],
+  "returns": {
+    "branch_A.json": {
+      "label_id": "return_branch_A",
+      "root_version_id": "H0",
+      "leaf_version_id": "H0_A2",
+      "branch_id": "branch_A",
+      "terminal_gain": 0.0,
+      "cumulative_regression": 0.25,
+      "parent_step_deltas": [
+        -0.25,
+        0.25
+      ],
+      "best_ancestor_deltas": [
+        -0.25,
+        0.0
+      ],
+      "u_lambda": -0.125,
+      "lambda_value": 0.5,
+      "regression_primary": "parent-step",
+      "protocol_id": "research1-v1",
+      "schema_version": "1.0.0"
+    },
+    "branch_B.json": {
+      "label_id": "return_branch_B",
+      "root_version_id": "H0",
+      "leaf_version_id": "H0_B2",
+      "branch_id": "branch_B",
+      "terminal_gain": 0.25,
+      "cumulative_regression": 0.0,
+      "parent_step_deltas": [
+        0.25,
+        0.0
+      ],
+      "best_ancestor_deltas": [
+        0.25,
+        0.0
+      ],
+      "u_lambda": 0.25,
+      "lambda_value": 0.5,
+      "regression_primary": "parent-step",
+      "protocol_id": "research1-v1",
+      "schema_version": "1.0.0"
+    },
+    "recomputed_branch_A.json": {
+      "label_id": "label_branch_A",
+      "root_version_id": "H0",
+      "leaf_version_id": "H0_A2",
+      "branch_id": "branch_A",
+      "terminal_gain": 0.0,
+      "cumulative_regression": 0.25,
+      "parent_step_deltas": [
+        -0.25,
+        0.25
+      ],
+      "best_ancestor_deltas": [
+        -0.25,
+        0.0
+      ],
+      "u_lambda": -0.125,
+      "lambda_value": 0.5,
+      "regression_primary": "parent-step",
+      "protocol_id": "research1-v1",
+      "schema_version": "1.0.0"
+    },
+    "recomputed_branch_B.json": {
+      "label_id": "label_branch_B",
+      "root_version_id": "H0",
+      "leaf_version_id": "H0_B2",
+      "branch_id": "branch_B",
+      "terminal_gain": 0.25,
+      "cumulative_regression": 0.0,
+      "parent_step_deltas": [
+        0.25,
+        0.0
+      ],
+      "best_ancestor_deltas": [
+        0.25,
+        0.0
+      ],
+      "u_lambda": 0.25,
+      "lambda_value": 0.5,
+      "regression_primary": "parent-step",
+      "protocol_id": "research1-v1",
+      "schema_version": "1.0.0"
+    }
+  }
+}

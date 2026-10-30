@@ -1,0 +1,10 @@
+{
+  "plan_id": "plan_B_5d1a2dcb63ae",
+  "parent_version_id": "H0",
+  "locked_module": "tools",
+  "plan_text": "P2B candidate B: marker comment on tools/baseline.py (independent)",
+  "intended_files": [],
+  "candidate_label": "B",
+  "protocol_id": "research1-v1",
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,26 @@
+{
+  "label": "B",
+  "plan": {
+    "plan_id": "plan_B_cont_15ea9a6545ea",
+    "parent_version_id": "H0_B1",
+    "locked_module": "tools",
+    "plan_text": "P2B continuation B2 marker",
+    "intended_files": [],
+    "candidate_label": "B_cont",
+    "protocol_id": "research1-v1",
+    "schema_version": "1.0.0"
+  },
+  "attempt": {
+    "attempt_id": "attempt_B_cont_H0_B2",
+    "plan_id": "plan_B_cont_15ea9a6545ea",
+    "parent_version_id": "H0_B1",
+    "child_version_id": "H0_B2",
+    "patch_text": "--- a/tools/baseline.py\n+++ b/tools/baseline.py\n@@ -1,3 +1,4 @@\n+# research1-p2b-marker: B2\n # research1-p2b-marker: B1\n \"\"\"Full-fidelity tmux tools module: faithful port of terminus-2's tmux + parser\n + prompt-template behavior.\n",
+    "applied": true,
+    "outcome_class": "no-effect",
+    "reject_reason": "",
+    "protocol_id": "research1-v1",
+    "schema_version": "1.0.0"
+  },
+  "child_version_id": "H0_B2"
+}

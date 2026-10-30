@@ -1,0 +1,52 @@
+{
+  "lock_id": "h0.lock.v1",
+  "protocol_id": "research1-v1",
+  "h0_id": "modularrsi_basic_terminus2_gen0_baselines",
+  "upstream_commit": "ed1e545bc60f050b404474e51ee18021777a0e23",
+  "modules_root": "/home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules",
+  "composer": "static",
+  "baseline_impl_files": {
+    "agent_loop": "agent_loop/baseline.py",
+    "observation": "observation/baseline.py",
+    "tools": "tools/baseline.py",
+    "context_mgmt": "context_mgmt/baseline.py",
+    "verification": "verification/baseline.py"
+  },
+  "file_sha256": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "agent_loop/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "agent_loop/baseline.py": "863d185d62558a0104656ff0f97bbd85496314bfc55cbcf779143f95d5f2ac1b",
+    "agent_loop/parse_error_recovery.py": "0ab6f85d16c1dc8ad86ed25ba2afc8d1f354ee4d308c7305621be46f9c72849c",
+    "agent_loop/planning_with_guard.py": "23f5ac899b2a4dbaef9648e545bb0f754092735dd7c02982eb49eb7334540cca",
+    "context_mgmt/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "context_mgmt/baseline.py": "78990717e02417420c2874d7fc411ccea2d7ec444afb158c1cf23d4a39f05a21",
+    "context_mgmt/passthrough.py": "349e64961c16d0fe21cd137512ccdd1941f20bca685d9adf19b6c2e509e45a21",
+    "observation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observation/baseline.py": "8692c728f672dc8882a9d1360fdb484ae99c0b111b75c1b759b145494d3f6a54",
+    "observation/terminal_scrollback.py": "c23db4f6817fe5258a39bff573347476233ce55dac5596a51729b8950964d298",
+    "tool_helper/__init__.py": "8976a1256a5be6b445a557ea3db1e41b43169571d6fd5dac9ad3ee4f3d050688",
+    "tool_helper/edit_block.py": "2d375a2d66b9636845d24831ac28f467a9b161c052830ef6d3e8f8f774b156cd",
+    "tool_helper/edit_file.py": "496663e086a30e9fcb0bb1a110dae39d7d19c697066146bb126867d889d57e5c",
+    "tool_helper/glob_files.py": "f5676c25a568d1600b355a16c43cce2a45479ac98e1deac5230f90ababfa4d62",
+    "tool_helper/grep_search.py": "6f7f8630ed456c2bd27df75ac3a868138beb9a1bb6a4764e8a414c451a21e778",
+    "tool_helper/read_file.py": "2338c24dcb1726d042b7343cf7aeddd5f522c2aa587e0d038b5f2ecf095516e2",
+    "tool_helper/write_file.py": "5827747dde56ee0cc30776d5fc5d26aeb44cbaa5d77a69c51fb2352059747976",
+    "tools/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tools/baseline.py": "d53d41b7526daa0c568e704072c96c3e227ae47a15c93cc79afb714f4fed4af4",
+    "tools/bypass_helpers.py": "9d1035771c0c3d603f19c3117b2abd234aca044a081186ef4f0644177a444238",
+    "tools/combined_robust.py": "f810bab91d143cfd4bad4f82441476e3318db852592318756edd519a47b46613",
+    "tools/editor_file_tools.py": "206197c97872935db94117b46bda55a3ef581c6b8b010690cbc87f0b02d653a5",
+    "tools/tmux_xml.py": "3632a1f9a58b0aa2016043b4b20632b5995337be3f185106b896c73f1d6bd764",
+    "verification/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verification/baseline.py": "be813cf559473cdb4e86ab975933d2961b72470db28e17eb4f10a68357867e40",
+    "verification/margin_gated.py": "faa583694e8e1b59366bb306afc7b8793251277b8f53afc3c165bbb2d5305138"
+  },
+  "proxy_url": "http://172.17.0.1:7890",
+  "provider_mode": "auto",
+  "provider_at_lock": {
+    "provider_id": "tongji_agi",
+    "api_base": "https://agi.tongji.edu.cn/v1",
+    "model": "openai/DeepSeek-V4.1-Flash"
+  },
+  "verified": true
+}

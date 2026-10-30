@@ -33,11 +33,15 @@
 
 在 10 到 20 道终端任务上走完一轮单组件修改：基础 harness，一次编辑，前后验证，然后落下完整记录。在此之前不做进化搜索。
 
-协议已冻结为 `research1-v0`。H0（ModularRSI `static` 五个 baseline）已在 `fix-git` 上冒烟通过；有代理时外部 reward=1.0。详见 `docs/experiment_protocol.md` 与 `experiments/h0_smoke_20261028_report.md`。
+协议已冻结为 **`research1-v1`**（`configs/protocol.v1.json`；`protocol.v0.json` 只读对照）。  
+共用底座：`python -m research1 preflight|calibrate|run-modularrsi|run-branches|audit|report`。  
+H0（ModularRSI `static` 五个 baseline）已在 `fix-git` 上冒烟通过；有代理时外部 reward=1.0。详见 `docs/experiment_protocol.md` 与 `experiments/h0_smoke_20261028_report.md`。
 
-## 现在还没有的东西
+## 运行时与数据（仓库外）
 
-本仓库还没有生成的训练数据，也不纳入 ModularRSI 源码。运行时在仓库外：`/home/jinxu/arms_cache/modularrsi/ModularRSI`。目录约定见 `docs/repo_layout.md`，本机环境见 `docs/environment.md`。同济/官方 API 周限额切换见 `docs/provider_switching.md`。
+- ModularRSI 检出：`/home/jinxu/arms_cache/modularrsi/ModularRSI` @ `ed1e545`
+- 数据集：`/home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances`（不 vendor）
+- 目录约定：`docs/repo_layout.md`；环境：`docs/environment.md`；供应商切换：`docs/provider_switching.md`
 
 ## 上游许可
 

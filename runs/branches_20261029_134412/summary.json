@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "run_id": "branches_20261029_134412",
+  "tasks": [
+    "cron-env-debug",
+    "browser-playable-leaderboard"
+  ],
+  "reps": 2,
+  "LOCKED_MODULE": "tools",
+  "continuations": 1,
+  "provider_id": "tongji_agi",
+  "temperature": 0.7,
+  "lambda": 0.5,
+  "resume": {
+    "completed_steps": [
+      "h0_materialized",
+      "forked",
+      "eval_H0",
+      "eval_A1_B1",
+      "continuations"
+    ],
+    "updated_unix": 1793290437.0883708
+  },
+  "run_dir": "/home/jinxu/long-horizon-credit-harness-evolution/runs/branches_20261029_134412"
+}

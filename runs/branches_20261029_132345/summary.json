@@ -1,0 +1,7 @@
+{
+  "status": "FAIL",
+  "run_id": "branches_20261029_132345",
+  "reason": "tongji_via_proxy_403",
+  "detail": "Host Harbor/LiteLLM inherited HTTP_PROXY=172.17.0.1:7890 while NO_PROXY lacked agi.tongji.edu.cn. Tongji returns 403 当前网络环境不支持 for proxied egress. Scores are invalid (llm_call_failed). Fixed in adapters.merge_no_proxy; rerun required.",
+  "invalidated": true
+}

@@ -1,0 +1,87 @@
+{
+  "lambda": 0.5,
+  "regression_primary": "parent-step",
+  "scores": {
+    "H0": {
+      "cron-env-debug": 0.5,
+      "browser-playable-leaderboard": 1.0
+    },
+    "H0_A1": {
+      "cron-env-debug": 0.0,
+      "browser-playable-leaderboard": 1.0
+    },
+    "H0_B1": {
+      "cron-env-debug": 1.0,
+      "browser-playable-leaderboard": 1.0
+    },
+    "H0_A2": {
+      "cron-env-debug": 0.5,
+      "browser-playable-leaderboard": 1.0
+    },
+    "H0_B2": {
+      "cron-env-debug": 1.0,
+      "browser-playable-leaderboard": 1.0
+    }
+  },
+  "branches": [
+    {
+      "branch_id": "branch_A",
+      "version_order": [
+        "H0",
+        "H0_A1",
+        "H0_A2"
+      ],
+      "stored_return": {
+        "label_id": "return_branch_A",
+        "root_version_id": "H0",
+        "leaf_version_id": "H0_A2",
+        "branch_id": "branch_A",
+        "terminal_gain": 0.0,
+        "cumulative_regression": 0.25,
+        "parent_step_deltas": [
+          -0.25,
+          0.25
+        ],
+        "best_ancestor_deltas": [
+          -0.25,
+          0.0
+        ],
+        "u_lambda": -0.125,
+        "lambda_value": 0.5,
+        "regression_primary": "parent-step",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      }
+    },
+    {
+      "branch_id": "branch_B",
+      "version_order": [
+        "H0",
+        "H0_B1",
+        "H0_B2"
+      ],
+      "stored_return": {
+        "label_id": "return_branch_B",
+        "root_version_id": "H0",
+        "leaf_version_id": "H0_B2",
+        "branch_id": "branch_B",
+        "terminal_gain": 0.25,
+        "cumulative_regression": 0.0,
+        "parent_step_deltas": [
+          0.25,
+          0.0
+        ],
+        "best_ancestor_deltas": [
+          0.25,
+          0.0
+        ],
+        "u_lambda": 0.25,
+        "lambda_value": 0.5,
+        "regression_primary": "parent-step",
+        "protocol_id": "research1-v1",
+        "schema_version": "1.0.0"
+      }
+    }
+  ],
+  "skip_eval": false
+}

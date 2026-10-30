@@ -12,6 +12,7 @@ credentials.json
 # Python
 __pycache__/
 *.py[cod]
+*.egg-info/
 .venv/
 venv/
 
@@ -32,3 +33,17 @@ volumes/
 experiments/**/attempt_*/
 experiments/**/*_console.log
 experiments/**/runtime.env.json
+
+# research1 run trees (keep summaries / score tables / short reports)
+runs/**/evals/
+runs/**/archive/
+runs/**/versions/
+runs/**/agent/
+runs/**/*.stdout.log
+runs/**/*.stderr.log
+runs/**/trial.log
+runs/**/job.log
+runs/**/*.cast
+runs/**/console.*.log
+runs/calibrate_*/**/trial_*/
+reports/**/raw/

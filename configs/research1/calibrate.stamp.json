@@ -1,0 +1,11 @@
+{
+  "LOCKED_MODULE": "tools",
+  "selected_tasks": [
+    "cron-env-debug",
+    "browser-playable-leaderboard",
+    "build-ffmpeg-legacy",
+    "build-imagemagick-legacy"
+  ],
+  "tasks_lock": "configs/research1/tasks.lock.json",
+  "updated_from": "calibrate_20261029_115545"
+}

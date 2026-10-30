@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "run_id": "modularrsi_20261029_114348",
+  "LOCKED_MODULE": "tools",
+  "profile": "smoke",
+  "solver_temperature_policy": "upstream_phase0_0.0",
+  "provider_id": "tongji_agi",
+  "model": "openai/DeepSeek-V4.1-Flash",
+  "exit_code": 0,
+  "dry_run": true,
+  "archive": "/home/jinxu/long-horizon-credit-harness-evolution/runs/modularrsi_20261029_114348/archive",
+  "A13": "/home/jinxu/long-horizon-credit-harness-evolution/runs/modularrsi_20261029_114348/A13_local_adaptations.md"
+}
