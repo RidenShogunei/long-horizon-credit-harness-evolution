@@ -1,7 +1,0 @@
---- a/tools/baseline.py
-+++ b/tools/baseline.py
-@@ -1,3 +1,4 @@
-+# research1-p2b-marker: A1
- """Full-fidelity tmux tools module: faithful port of terminus-2's tmux + parser
- + prompt-template behavior.
- 

@@ -29,3 +29,9 @@ Scale notes: P2B expanded to **2 tasks × 2 reps** on Tongji (`cron-env-debug`, 
 - Protocol: `configs/protocol.v1.json`
 - P2A: `runs/modularrsi_20261029_115545/` (+ `A13_local_adaptations.md`)
 - P2B: `runs/branches_20261029_123206/`
+
+## Audit note (2026-10-30)
+
+Independent audit of `branches_20261029_134412`: see `reports/audit_134412.md`. Comment-only markers; U numbers match store; score deltas are noise on `cron-env-debug`.
+
+Cleaned aborted half-runs: `branches_*114349`, `*114358`, `*134413`, `calibrate_*114414`, `modularrsi_*114414`.
