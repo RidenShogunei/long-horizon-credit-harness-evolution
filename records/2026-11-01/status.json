@@ -9,11 +9,6 @@
     "retries": 32,
     "total": 128
   },
-  "budget_used_current_batch": {
-    "regular": 8,
-    "retries": 0,
-    "total": 8
-  },
   "current_campaign": "runs/data_edit_trial_20261101_v14",
   "campaign_status": "GROUNDED_EDIT_TRIAL_NO_QUALIFIED_EDIT",
   "phase": "finished",
@@ -23,7 +18,7 @@
       "qualified_keep_verified": 8,
       "note": "Historical keep rows; not CURRENT formal SFT export"
     },
-    "current_newest": {
+    "cumulative": {
       "independent_roots": 6,
       "raw_plans": 28,
       "qualified_edit": 0,
@@ -33,6 +28,16 @@
       "rejected": 1,
       "revoked": 3,
       "teacher_errors": 1
+    },
+    "latest_batch": {
+      "raw_plans": 2,
+      "new_independent_roots": 0,
+      "qualified_edit": 0,
+      "qualified_keep": 0,
+      "pending": 2,
+      "teacher_errors": 0,
+      "editor_starts": 0,
+      "child_evaluations": 0
     }
   },
   "student_model_selected": false,
@@ -53,5 +58,16 @@
     "framework": "unittest discover",
     "count": 625,
     "task": "C26"
-  }
+  },
+  "budget_used_cumulative": {
+    "regular": 8,
+    "retries": 0,
+    "total": 8
+  },
+  "budget_new_latest_batch": {
+    "regular": 0,
+    "retries": 0,
+    "total": 0
+  },
+  "publication_correction_china_time": "2026-11-01T20:00:17.583930+08:00"
 }

@@ -24,7 +24,7 @@ python -m research1 data --help
 | pending / rejected / revoked / teacher_errors | 16 / 1 / 3 / 1 |
 | CURRENT formal SFT 行 | 0 |
 | MC 值（CURRENT） | 0 |
-| 本批次已用预算 regular / retries | 8 / 0 |
+| 累计已用预算 regular / retries | 8 / 0 |
 | 采集控制器 | 未运行 |
 | 学生模型 | 未选定 |
 

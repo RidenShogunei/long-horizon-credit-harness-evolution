@@ -12,7 +12,7 @@ Updated: 2026-11-01T19:44:25.064386+08:00 (China time).
 | 冻结批次哈希 | `records/2026-11-01/campaign_inventory.json` |
 | 工程 smoke 摘要 | `reports/foundation_status.md` |
 
-**CURRENT 正式计数（V14 批次，只读折叠）：** qualified edit **0**；CURRENT formal SFT **0**；MC **0**；历史 qualified keep **8**；本批次预算已用 8/0 regular/retries；控制器 **未运行**。
+**CURRENT 正式计数（V14 批次，只读折叠）：** qualified edit **0**；CURRENT formal SFT **0**；MC **0**；历史 qualified keep **8**；累计已用 8/0 regular/retries；控制器 **未运行**。
 
 ## 仅服务器本地（不提交 GitHub）
 

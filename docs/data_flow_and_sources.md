@@ -9,7 +9,7 @@
 - 冻结任务分区、父 harness 源码与 preservation 合约
 - 运行 proposal 任务，仅暴露决策时刻源码、轨迹证据与分支历史
 - DS teacher 输出结构化单步 edit 或 keep Plan
-- 事实审查与 applicability 审查；否则 eligible 的 Plan 需独立 audit
+- 事实与适用性审查通过的候选，再进入独立审核
 - 固定 implementer 保存单一 patch，再做 scope/behavior/preservation 检查
 - 真实子代评估；独立准入与 provenance 绑定的 generic SFT 导出
 - 另跑真实 K=2、M=2、L_after=2 续跑并导出 G、D、U
