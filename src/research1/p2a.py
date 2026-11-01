@@ -63,8 +63,8 @@ def run_modularrsi(
     config_path: Path | None = None,
     *,
     dry_run: bool = False,
-    max_tasks: int | None = 2,
-    task_seed: int = SMOKE_TASK_SEED,
+    max_tasks: int | None = None,
+    task_seed: int | None = None,
 ) -> tuple[int, dict[str, Any]]:
     cfg = load_pilot(config_path)
     pf = run_preflight(config_path)
@@ -110,19 +110,35 @@ def run_modularrsi(
     write_local_adaptations_note(out / "A13_local_adaptations.md")
     mr = resolve_path(cfg, "modularrsi_root")
     ds = resolve_path(cfg, "dataset_tb")
-    cap = 2 if max_tasks is None else int(max_tasks)
+    # Workload: config defaults, CLI max_tasks overrides when provided.
+    profile = str(cfg.get("modularrsi_profile") or cfg.get("profile") or "smoke")
+    cap = int(cfg.get("modularrsi_max_tasks") or cfg.get("max_tasks") or 2)
+    if max_tasks is not None:
+        cap = int(max_tasks)
+    seed = int(cfg.get("modularrsi_task_seed") or cfg.get("task_seed") or SMOKE_TASK_SEED)
+    if task_seed is not None:
+        seed = int(task_seed)
+    epochs = int(cfg.get("modularrsi_epochs") or 1)
+    reflect_every = int(cfg.get("modularrsi_reflect_every") or (2 if profile == "smoke" else 10))
+    task_concurrency = int(cfg.get("modularrsi_task_concurrency") or (2 if profile == "smoke" else 6))
+    attempts = int(cfg.get("modularrsi_attempts") or 3)
+
     train = train_task_names(ds)
-    queued = smoke_task_queue(train, cap, task_seed, epochs=1)
+    queued = smoke_task_queue(train, cap, seed, epochs=epochs)
     write_json(
         out / "task_selection.json",
         {
-            "task_seed": task_seed,
+            "task_seed": seed,
             "max_tasks": cap,
-            "epochs": 1,
+            "epochs": epochs,
+            "profile": profile,
+            "reflect_every": reflect_every,
+            "task_concurrency": task_concurrency,
+            "attempts": attempts,
             "selector": "upstream_slice_then_shuffle",
             "note": (
-                "phase0 slices tasks[:max_tasks] before Random(task_seed).shuffle. "
-                "Every seed keeps the same smoke pair."
+                "phase0 slices tasks[:max_tasks] before Random(task_seed).shuffle "
+                "each epoch. Seed does not change the prefix membership."
             ),
             "train_prefix": train[:cap],
             "queued_tasks": queued,
@@ -141,9 +157,13 @@ def run_modularrsi(
         archive_root=out / "archive",
         model=prov.model,
         api_base=prov.api_base,
-        profile="smoke",
-        max_tasks=max_tasks,
-        task_seed=task_seed,
+        profile=profile,
+        max_tasks=cap,
+        task_seed=seed,
+        epochs=epochs,
+        reflect_every=reflect_every,
+        task_concurrency=task_concurrency,
+        attempts=attempts,
         dry_run=dry_run,
     )
     save_process_logs(out, proc, name="evolve")
@@ -151,12 +171,17 @@ def run_modularrsi(
         "status": "PASS" if proc.returncode == 0 else "FAIL",
         "run_id": run_id,
         "LOCKED_MODULE": locked,
-        "profile": "smoke",
+        "profile": profile,
+        "max_tasks": cap,
+        "epochs": epochs,
+        "reflect_every": reflect_every,
+        "task_concurrency": task_concurrency,
+        "attempts": attempts,
         "solver_temperature_policy": "upstream_phase0_0.0",
         "provider_id": prov.provider_id,
         "model": prov.model,
         "api_base": prov.api_base,
-        "task_seed": task_seed,
+        "task_seed": seed,
         "queued_tasks": queued,
         "no_proxy": merge_no_proxy(os.environ.get("NO_PROXY") or os.environ.get("no_proxy")),
         "exit_code": proc.returncode,

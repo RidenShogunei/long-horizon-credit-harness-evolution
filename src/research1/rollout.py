@@ -9,7 +9,7 @@ from typing import Any
 
 from research1.contracts import ReturnLabel, Transition, write_json
 from research1.planning import apply_plan_patch, make_plan, store_plan
-from research1.returns import StepScores, label_branch, mean_score
+from research1.returns import IncompleteReturnError, recompute_from_tables
 from research1.versions import load_state, materialize_version
 
 
@@ -145,16 +145,26 @@ def label_path_from_score_tables(
     version_order: list[str],
     score_tables: dict[str, dict[str, float]],
     lambda_value: float = 0.5,
+    expected_tasks: list[str] | None = None,
+    task_weights: dict[str, float] | None = None,
+    trial_counts: dict[str, dict[str, int]] | None = None,
+    required_repetitions: int | None = None,
+    label_scope: str = "real_evolution",
 ) -> ReturnLabel:
-    path = [
-        StepScores(vid, mean_score(score_tables[vid])) for vid in version_order
-    ]
-    lab = label_branch(
+    lab = recompute_from_tables(
         label_id=f"return_{branch_id}",
         branch_id=branch_id,
-        path=path,
+        version_order=version_order,
+        score_tables=score_tables,
         lambda_value=lambda_value,
+        expected_tasks=expected_tasks,
+        task_weights=task_weights,
+        trial_counts=trial_counts,
+        required_repetitions=required_repetitions,
+        label_scope=label_scope,
     )
+    if not lab.is_complete:
+        raise IncompleteReturnError("refusing to persist incomplete label: " + "; ".join(lab.incomplete_reasons))
     write_json(run_dir / "returns" / f"{branch_id}.json", lab)
     return lab
 

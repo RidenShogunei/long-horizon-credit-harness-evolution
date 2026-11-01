@@ -8,7 +8,7 @@ from typing import Any
 
 from research1 import EXIT_FAIL, EXIT_INCOMPLETE, EXIT_PASS
 from research1.contracts import validate_task_run
-from research1.returns import recompute_from_tables
+from research1.returns import IncompleteReturnError, recompute_from_tables
 
 
 def _load_json(path: Path) -> Any:
@@ -42,18 +42,30 @@ def audit_run(run_dir: Path) -> dict[str, Any]:
     # Branch isolation: A must not embed B rewards in its own score tables wrongly
     score_path = run_dir / "score_tables.json"
     recomputed: list[dict[str, Any]] = []
+    incomplete_returns = False
     if score_path.is_file():
         tables_doc = _load_json(score_path)
         lambda_value = float(tables_doc.get("lambda", 0.5))
         for branch in tables_doc.get("branches", []):
-            lab = recompute_from_tables(
-                branch_id=branch["branch_id"],
-                version_order=branch["version_order"],
-                score_tables=tables_doc["scores"],
-                lambda_value=lambda_value,
-            )
             stored = branch.get("stored_return")
-            if stored:
+            try:
+                lab = recompute_from_tables(
+                    branch_id=branch["branch_id"], version_order=branch["version_order"],
+                    score_tables=tables_doc["scores"], lambda_value=lambda_value,
+                    expected_tasks=tables_doc.get("expected_tasks"),
+                    trial_counts=tables_doc.get("trial_counts"),
+                    required_repetitions=tables_doc.get("required_repetitions"),
+                    task_weights=tables_doc.get("task_weights"),
+                    label_scope=tables_doc.get("label_scope", "legacy_diagnostic"),
+                )
+            except IncompleteReturnError as exc:
+                incomplete_returns = True
+                notes.append(f"branch {branch['branch_id']}: incomplete returns: {exc}")
+                continue
+            if not lab.is_complete or lab.label_scope != "real_evolution":
+                incomplete_returns = True
+                notes.append(f"branch {branch['branch_id']}: diagnostic/incomplete label, not formal evolution supervision")
+            if stored and stored.get("metric_definition") == lab.metric_definition:
                 for field in ("terminal_gain", "cumulative_regression", "u_lambda"):
                     if abs(float(stored.get(field, 0)) - float(getattr(lab, field))) > 1e-9:
                         issues.append(
@@ -73,13 +85,14 @@ def audit_run(run_dir: Path) -> dict[str, Any]:
     if fork.is_file():
         notes.append("fork_manifest present")
 
-    status = "PASS" if not issues else "FAIL"
+    status = "FAIL" if issues else ("INCOMPLETE" if incomplete_returns else "PASS")
     return {
         "status": status,
         "run_dir": str(run_dir),
         "issues": issues,
         "notes": notes,
         "recomputed_returns": recomputed,
+        "returns_complete": bool(recomputed) and not incomplete_returns,
     }
 
 

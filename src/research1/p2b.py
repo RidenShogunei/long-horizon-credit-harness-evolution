@@ -1,4 +1,4 @@
-"""P2B: same-parent fork → two candidates → 1 continuation each (mini loop)."""
+"""Historical comment-marker diagnostic; never a completed evolution experiment."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from research1.adapters import (
 )
 from research1.config import load_json, load_pilot, resolve_path
 from research1.contracts import write_json
-from research1.evaluation import aggregate_task_means, summarize_trial
+from research1.evaluation import aggregate_task_evaluation, summarize_trial
 from research1.preflight import run_preflight
 from research1.rollout import (
     continue_once,
@@ -121,7 +121,9 @@ def _eval_version(
             )
             write_json(trial_dir / "task_run.json", summary)
             runs.append(summary)
-    return aggregate_task_means(runs)
+    evaluation = aggregate_task_evaluation(runs, expected_tasks=tasks, required_repetitions=reps)
+    write_json(run_dir / "evals" / version_id / "evaluation_summary.json", evaluation)
+    return evaluation.scores
 
 
 def run_branches(
@@ -191,7 +193,7 @@ def run_branches(
     )
     mark_step(run_dir, "forked")
 
-    # If patches failed (fragile context), fall back to copy-only children via empty note files
+    # A failed diagnostic patch must not be replaced by an invented candidate.
     for f in forks:
         if not f.get("child_version_id"):
             return EXIT_FAIL, {
@@ -281,6 +283,16 @@ def run_branches(
                 )
         mark_step(run_dir, "continuations")
 
+    evaluations = {}
+    trial_counts = {}
+    for version in scores:
+        summary_path = run_dir / "evals" / version / "evaluation_summary.json"
+        if summary_path.is_file():
+            evaluations[version] = load_json(summary_path)
+            trial_counts[version] = evaluations[version]["trial_counts"]
+    measurement_complete = not skip_eval and all(
+        evaluations.get(version, {}).get("is_complete", False) for version in scores
+    )
     branches = []
     for f in forks:
         label = f["label"]
@@ -298,18 +310,20 @@ def run_branches(
             parent_scores=scores.get("H0", {}),
             child_scores=scores.get(f["child_version_id"], {}),
         )
-        lab = label_path_from_score_tables(
-            run_dir,
-            branch_id=f"branch_{label}",
-            version_order=order,
-            score_tables=scores,
-            lambda_value=lambda_value,
-        )
+        lab = None
+        if measurement_complete:
+            lab = label_path_from_score_tables(
+                run_dir, branch_id=f"branch_{label}", version_order=order,
+                score_tables=scores, lambda_value=lambda_value,
+                expected_tasks=tasks, task_weights=cfg.get("task_weights"),
+                trial_counts=trial_counts, required_repetitions=reps,
+                label_scope="comment_marker_control",
+            )
         branches.append(
             {
                 "branch_id": f"branch_{label}",
                 "version_order": order,
-                "stored_return": lab.to_dict(),
+                "stored_return": None if lab is None else lab.to_dict(),
             }
         )
 
@@ -319,13 +333,17 @@ def run_branches(
         "scores": scores,
         "branches": branches,
         "skip_eval": skip_eval,
+        "expected_tasks": tasks,
+        "task_weights": cfg.get("task_weights"),
+        "trial_counts": trial_counts,
+        "required_repetitions": reps,
+        "label_scope": "comment_marker_control",
+        "evaluations": evaluations,
     }
     write_json(run_dir / "score_tables.json", score_doc)
 
-    status = "INCOMPLETE" if skip_eval else "PASS"
-    # If no rewards at all on H0, mark incomplete
-    if not skip_eval and not scores.get("H0"):
-        status = "INCOMPLETE"
+    # A complete measurement of no-op comments is still not a real evolution loop.
+    status = "INCOMPLETE"
 
     summary = {
         "status": status,
@@ -339,6 +357,9 @@ def run_branches(
         "lambda": lambda_value,
         "resume": resume_marker(run_dir),
         "run_dir": str(run_dir),
+        "label_scope": "comment_marker_control",
+        "diagnostic_status": "PASS" if measurement_complete else "INCOMPLETE",
+        "reason": "comment markers measure control noise; not a formal evolution PASS or MC label",
     }
     write_json(run_dir / "summary.json", summary)
     code = {

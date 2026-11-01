@@ -1,0 +1,47 @@
+{
+  "protocol_id": "research1-v1",
+  "protocol_name": "modularrsi_full_n8",
+  "LOCKED_MODULE": "verification",
+  "LOCKED_MODULE_rationale": "Follow tools-locked smoke attribution (modularrsi_20261030_022626): contrast finding is_culprit=false for tools, pointed premature completion at verification. Full n8 reproduction therefore locks verification so implementation editor can edit the blamed module.",
+  "source_attribution": {
+    "tools_smoke_run_id": "modularrsi_20261030_022626",
+    "tools_smoke_report": "reports/modularrsi_smoke_repro.md",
+    "verification_smoke_run_id": "modularrsi_20261030_042127",
+    "verification_smoke_note": "2-task verification smoke all-passed and did not exercise implementation edit; n8 is the method reproduction that aims for a full reflect→edit→promote→load loop."
+  },
+  "workload": {
+    "profile": "train",
+    "max_tasks": 8,
+    "epochs": 1,
+    "reflect_every": 4,
+    "task_concurrency": 2,
+    "attempts": 3,
+    "task_seed": 0,
+    "selector": "upstream_slice_then_shuffle",
+    "train_prefix_expected": [
+      "browser-playable-leaderboard",
+      "build-ffmpeg-legacy",
+      "build-imagemagick-legacy",
+      "complex-python-memory-leak-concurrency-bug",
+      "cron-env-debug",
+      "crypto-transaction-batching-optimizer",
+      "draft_dp_0004e5bb_aopeng",
+      "wasm-crackme-reverse"
+    ]
+  },
+  "success_criteria": [
+    "At least one reflection window runs (contrast and/or implementation path exercised)",
+    "If implementation commits: gen_{k} promoted or discard_reason recorded",
+    "If promoted: a later solver trial loads modules_root under the new gen (not only gen_0)",
+    "Score uplift is NOT required for method reproduction PASS"
+  ],
+  "do_not_modify": [
+    "runs/modularrsi_20261030_022626",
+    "runs/modularrsi_20261030_042127",
+    "configs/research1/tasks.lock.json",
+    "configs/research1/pilot_verification.yaml"
+  ],
+  "pilot_overlay": "configs/research1/pilot_modularrsi_n8.yaml",
+  "status": "FROZEN",
+  "updated": "2026-10-30"
+}

@@ -258,10 +258,19 @@ def run_official_evolve_smoke(
     profile: str = "smoke",
     max_tasks: int | None = None,
     task_seed: int = 0,
+    epochs: int | None = None,
+    reflect_every: int | None = None,
+    task_concurrency: int | None = None,
+    attempts: int | None = None,
     dry_run: bool = False,
     extra_env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    """Invoke upstream scripts/evolve.sh with PROFILE=smoke (official Phase0)."""
+    """Invoke upstream scripts/evolve.sh (official Phase0).
+
+    Defaults match PROFILE=smoke. Full n-task reproductions override
+    ``profile`` / ``max_tasks`` / ``epochs`` / ``reflect_every`` via env
+    vars that ``evolve.sh`` already forwards to phase0.
+    """
     archive_root.mkdir(parents=True, exist_ok=True)
     env = os.environ.copy()
     env.update(
@@ -284,6 +293,14 @@ def run_official_evolve_smoke(
     )
     if max_tasks is not None:
         env["MAX_TASKS"] = str(max_tasks)
+    if epochs is not None:
+        env["EPOCHS"] = str(epochs)
+    if reflect_every is not None:
+        env["REFLECT_EVERY"] = str(reflect_every)
+    if task_concurrency is not None:
+        env["TASK_CONCURRENCY"] = str(task_concurrency)
+    if attempts is not None:
+        env["ATTEMPTS"] = str(attempts)
     # Inject proxy into host env; phase0/harbor may inherit for downloads.
     px = proxy_url()
     for k in ("HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"):
@@ -307,6 +324,11 @@ def run_official_evolve_smoke(
                 "MODEL": model,
                 "API_BASE": api_base,
                 "TASK_SEED": task_seed,
+                "MAX_TASKS": env.get("MAX_TASKS"),
+                "EPOCHS": env.get("EPOCHS"),
+                "REFLECT_EVERY": env.get("REFLECT_EVERY"),
+                "TASK_CONCURRENCY": env.get("TASK_CONCURRENCY"),
+                "ATTEMPTS": env.get("ATTEMPTS"),
                 "NO_PROXY": env.get("NO_PROXY"),
                 "PYTHON_BIN": env.get("PYTHON_BIN"),
                 "dry_run": dry_run,

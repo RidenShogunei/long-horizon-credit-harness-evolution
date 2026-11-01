@@ -34,6 +34,8 @@ class ReturnsTests(unittest.TestCase):
         self.assertAlmostEqual(lab.cumulative_regression, 0.10)
         self.assertAlmostEqual(lab.u_lambda, 0.20 - 0.5 * 0.10)
         self.assertEqual(lab.regression_primary, "parent-step")
+        self.assertFalse(lab.is_complete)
+        self.assertEqual(lab.metric_definition, "legacy-version-mean-v1")
 
     def test_recompute_independent(self) -> None:
         scores = {
@@ -48,6 +50,7 @@ class ReturnsTests(unittest.TestCase):
         )
         self.assertAlmostEqual(lab.terminal_gain, 0.5)
         self.assertAlmostEqual(lab.cumulative_regression, 0.0)
+        self.assertFalse(lab.is_complete)  # old API did not verify frozen tasks/R
 
 
 if __name__ == "__main__":

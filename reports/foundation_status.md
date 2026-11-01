@@ -1,3 +1,7 @@
+> **2026-11-01 data-collection truth (readonly):** campaign `data_edit_trial_20261101_v14`; 28 raw plans; 0 formal SFT; 0 qualified edit; 0 MC; budget 8 regular / 0 retries; controller stopped; student unset. Details: `docs/reports_catalog.md`.
+
+> 2026-10-31 maintenance update: historical FoundationReady/smoke statements below describe engineering diagnostics. They do not certify current training readiness. The sole seed is revoked, corrected maintenance realization is pending real-task re-evaluation, and new long-horizon targets remain empty. See maintenance_20261031.md.
+
 # Foundation status (research1-v1)
 
 Updated: 2026-10-30 (Asia/Shanghai) — Tongji dual-track wave archived: tools smoke + verification smoke + causal edit + dual-branch (INCOMPLETE)
@@ -42,6 +46,18 @@ Scale notes: P2B expanded to **2 tasks × 2 reps** on Tongji (`cron-env-debug`, 
 - 报告：`reports/modularrsi_smoke_verification_next.md`
 - 未改写 `modularrsi_20261030_022626`
 
+### A3 方法复现协议（8 题完整自进化，已冻结待跑）
+
+| 项 | 状态 |
+| --- | --- |
+| 配置 / 锁 | **已冻结** |
+| 正式跑次 | **未启动** |
+
+- 配置：`configs/research1/pilot_modularrsi_n8.yaml`
+- 锁：`configs/research1/n8_full.lock.json`
+- 协议：`reports/modularrsi_full_n8_protocol.md`
+- 要点：`train[:8]`、`epochs=1`、`reflect_every=4`、`LOCKED_MODULE=verification`、Tongji；成功标准含 reflect→（实现/discard）→晋升后加载，**不以涨分为 PASS**
+
 ---
 
 ## Track B — research1 自动修改闭环（tools）
@@ -71,22 +87,34 @@ Scale notes: P2B expanded to **2 tasks × 2 reps** on Tongji (`cron-env-debug`, 
 
 注释-only 对照仍单独标控：`runs/branches_20261029_134412`（见 `reports/audit_134412.md`）。上游 ModularRSI checkout 只读。
 
+### B3 plan I/O distillation
+
+| 项 | 状态 |
+| --- | --- |
+| PLAN 层教师数据（轨迹摘录 + 组件快照 → target/intent/trigger） | **已落地** |
+| 固定编辑器消费一条计划并写入独立版本目录 | **已应用**（无 Harbor 复评） |
+
+- 跑次：`runs/distill_plan_20261030_082714`（5 条成功 plan I/O，Tongji `DeepSeek-V4.1-Flash`，temperature 0）
+- 报告：`reports/research1_plan_distill.md`
+- CLI：`research1 distill-plan`
+- 教师标签是计划输入/输出，不是涨分，也不是 comment marker
+
 ---
 
 ## Blockers / follow-ups
 
 1. Provider：`pilot.yaml` `provider_mode: auto`（prefer Tongji）。Harbor 宿主代理需 `NO_PROXY` 含 `agi.tongji.edu.cn`（已在 `adapters.merge_no_proxy`）；无效跑次 `branches_20261029_132345`。
 2. Full calibrate still open.
-3. **A next**：需要能 mixed-fail 的条件，才能验证 verification 实施编辑与 `gen_1` 加载。
+3. **A next**：执行 `pilot_modularrsi_n8` 完整自进化环（见 `reports/modularrsi_full_n8_protocol.md`）。
 4. **B next**：仅在有新的、有依据的 tools 缺陷时再开续决策；不再做 trigger 盲复测。
 5. Calibrate/smoke 仍易撞上重镜像任务（ffmpeg）；优先轻量任务。
 
 ## Key paths
 
-- Package: `src/research1/`（含 `causal.py`）
+- Package: `src/research1/`（含 `causal.py`、`distill.py`）
 - Config: `configs/research1/pilot.yaml`, `pilot_verification.yaml`, locks
-- Reports: `modularrsi_smoke_repro.md`, `modularrsi_smoke_verification_next.md`, `research1_scaffold_causal.md`, `research1_dual_branch.md`
-- Runs: `modularrsi_20261030_022626`, `042127`, `causal_20261030_022523`, `causal_edit_20261030_025402`, `causal_dual_20261030_042451`
+- Reports: `modularrsi_smoke_repro.md`, `modularrsi_smoke_verification_next.md`, `research1_scaffold_causal.md`, `research1_dual_branch.md`, `research1_plan_distill.md`
+- Runs: `modularrsi_20261030_022626`, `042127`, `causal_20261030_022523`, `causal_edit_20261030_025402`, `causal_dual_20261030_042451`, `distill_plan_20261030_082714`
 
 ## Audit / cleanup note (2026-10-30)
 

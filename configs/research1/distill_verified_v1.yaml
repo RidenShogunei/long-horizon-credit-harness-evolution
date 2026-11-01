@@ -1,0 +1,27 @@
+# Legacy warning-only auxiliary collection. NOT an admission policy for SFT.
+# CLI requires --allow-legacy; new data use collect-plan-init and admission_registry.
+legacy_auxiliary_only: true
+protocol_id: research1-v1
+extends_note: same paths as pilot.yaml; collection caps live on the CLI
+
+modularrsi_root: /home/jinxu/arms_cache/modularrsi/ModularRSI
+modules_root: /home/jinxu/arms_cache/modularrsi/ModularRSI/generations/merged_active/gen_0/modules
+dataset_root: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances
+dataset_tb: /home/jinxu/arms_cache/modularrsi/ModularRSI_2000_Instances/tb
+h0_snapshot: configs/h0.snapshot.v0.json
+h0_lock: configs/research1/h0.lock.json
+tasks_lock: configs/research1/tasks.lock.json
+runs_root: runs
+reports_root: reports
+
+proxy_url: http://172.17.0.1:7890
+disk_stop_gb_free: 15
+provider_mode: tongji_agi
+
+composer: static
+LOCKED_MODULE: tools
+
+# Stop at 40 probe-positive plans, or after 120 candidates, whichever first.
+target_positives: 40
+max_candidates: 120
+verification: auxiliary_warning_probe_only

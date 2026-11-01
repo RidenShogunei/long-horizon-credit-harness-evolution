@@ -3,43 +3,39 @@
 from __future__ import annotations
 
 import json
+import math
 import re
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
 from research1.contracts import FailureLayer, RunStatus, TaskRun
 
 _INFRA_PATTERNS = [
-    r"HTTP.?429",
-    r"HTTP.?502",
-    r"HTTP.?503",
-    r"HTTP.?504",
+    r"HTTP(?:\s*Error)?[\s:_]*(?:401|403|429|502|503|504)\b",
     r"connection\s+(refused|reset|error|timed?\s*out)",
-    r"docker",
-    r"unauthorized",
-    r"authentication",
-    r"no space left",
-    r"proxy",
+    r"\b(?:APIConnectionError|ConnectionError|ConnectTimeout|ProxyError|AuthenticationError)\b",
+    r"\b(?:DockerException|DockerError)\b|cannot connect to (?:the )?docker daemon|error response from daemon",
+    r"\bunauthorized\b|authentication\s+(?:failed|failure|error|denied)",
+    r"no space left on device",
+    r"proxy\s+(?:connection\s+)?(?:failed|failure|error|refused)",
 ]
 _SCORER_PATTERNS = [
     r"uvx?:?\s*(not found|No such file)",
     r"failed to download.*uv",
-    r"test\.sh",
-    r"verifier",
-    r"pytest",
+    r"\b(?:Verifier\w*(?:Error|Exception)|RewardFileNotFoundError)\b",
+    r"(?:test\.sh|pytest).*?(?:not found|no such file|failed to (?:start|run))",
+    r"verifier\s+(?:failed|failure|error|timed out)",
 ]
 _HARNESS_PATTERNS = [
-    r"module.*import",
-    r"composer",
-    r"active_bundle",
-    r"AttributeError",
-    r"ImportError",
+    r"\b(?:ModuleNotFoundError|AttributeError|ImportError)\b",
+    r"composer\s+(?:failed|failure|error)",
+    r"active_bundle.*?(?:mismatch|not found|missing|invalid)",
 ]
 _MODEL_PATTERNS = [
-    r"rate.?limit",
-    r"context.?length",
-    r"max.?tokens",
-    r"model.*error",
+    r"\b(?:RateLimitError|ContextWindowExceededError)\b",
+    r"(?:context.?length|max.?tokens).*?(?:exceeded|too (?:long|many))",
+    r"model\s+(?:request\s+)?(?:failed|error)",
 ]
 
 
@@ -47,6 +43,9 @@ def classify_failure(text: str, reward: float | None) -> FailureLayer:
     if reward is not None and reward > 0:
         return "model"  # scored success path; layer unused
     blob = text.lower()
+    if reward is not None and re.search(r"AgentTimeoutError|agent execution timed out", blob, re.I):
+        # Harbor still runs the verifier after the agent exhausts its task budget.
+        return "model"
     for pat in _INFRA_PATTERNS:
         if re.search(pat, blob, re.I):
             return "infrastructure"
@@ -128,10 +127,20 @@ def collect_log_text(output_dir: Path, limit_chars: int = 200_000) -> str:
                 parts.append(p.read_text(errors="replace")[:50_000])
             except OSError:
                 pass
-    # also scan result.json message fields
+    # Only exception fields are error evidence. Config values such as docker,
+    # proxy URLs and verifier names are ordinary runtime settings.
     rj = find_result_json(output_dir)
     if rj:
-        parts.append(rj.read_text(errors="replace")[:20_000])
+        try:
+            data = json.loads(rj.read_text(errors="replace"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        exception = data.get("exception_info") or {}
+        if isinstance(exception, dict):
+            for key in ("exception_type", "exception_message"):
+                value = exception.get(key)
+                if isinstance(value, str):
+                    parts.append(value[:20_000])
     blob = "\n".join(parts)
     return blob[:limit_chars]
 
@@ -179,7 +188,7 @@ def summarize_trial(
 
 
 def aggregate_task_means(runs: list[TaskRun], *, require_reward: bool = True) -> dict[str, float]:
-    """Mean reward per task; skips null rewards (unknown ≠ 0)."""
+    """Diagnostic means; skips nulls. Not sufficient for a complete return label."""
     buckets: dict[str, list[float]] = {}
     for r in runs:
         if r.reward is None:
@@ -188,6 +197,58 @@ def aggregate_task_means(runs: list[TaskRun], *, require_reward: bool = True) ->
             continue
         buckets.setdefault(r.task_name, []).append(float(r.reward))
     return {t: sum(vs) / len(vs) for t, vs in buckets.items() if vs}
+
+
+@dataclass
+class TaskEvaluation:
+    scores: dict[str, float]
+    trial_counts: dict[str, int]
+    expected_tasks: list[str]
+    required_repetitions: int
+    is_complete: bool
+    issues: list[str]
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+def aggregate_task_evaluation(
+    runs: list[TaskRun], *, expected_tasks: list[str], required_repetitions: int,
+) -> TaskEvaluation:
+    """Fixed task set and exactly R distinct scored trials, without dropping nulls.
+
+    Partial means are diagnostic only; is_complete remains false when any planned
+    trial is missing, unscored, duplicated, extra, or belongs to another version.
+    """
+    if not expected_tasks or len(set(expected_tasks)) != len(expected_tasks):
+        raise ValueError("expected_tasks must be nonempty and unique")
+    if isinstance(required_repetitions, bool) or not isinstance(required_repetitions, int) or required_repetitions < 1:
+        raise ValueError("required_repetitions must be a positive integer")
+    buckets: dict[str, dict[int, float]] = {task: {} for task in expected_tasks}
+    seen: set[tuple[str, int]] = set()
+    issues: list[str] = []
+    if len({run.version_id for run in runs}) > 1:
+        issues.append("mixed version IDs in one evaluation")
+    for run in runs:
+        if run.task_name not in buckets or run.trial_index not in range(1, required_repetitions + 1):
+            issues.append(f"unexpected task/trial {run.task_name}/{run.trial_index}")
+            continue
+        key = (run.task_name, run.trial_index)
+        if key in seen:
+            issues.append(f"duplicate task/trial {key}")
+            continue
+        seen.add(key)
+        reward = run.reward
+        if run.status != "PASS" or isinstance(reward, bool) or not isinstance(reward, (int, float)) or not math.isfinite(reward):
+            issues.append(f"unscored task/trial {key}")
+            continue
+        buckets[run.task_name][run.trial_index] = float(reward)
+    counts = {task: len(values) for task, values in buckets.items()}
+    for task, count in counts.items():
+        if count != required_repetitions:
+            issues.append(f"{task}: scored trials {count}, fixed R={required_repetitions}")
+    scores = {task: math.fsum(values.values()) / len(values) for task, values in buckets.items() if values}
+    return TaskEvaluation(scores, counts, list(expected_tasks), required_repetitions, not issues, issues)
 
 
 def should_retry(run: TaskRun) -> bool:

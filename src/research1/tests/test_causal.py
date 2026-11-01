@@ -7,6 +7,9 @@ import unittest
 import json
 import tempfile
 from pathlib import Path
+from contextlib import ExitStack
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from research1.causal import (
     BRANCH_STRATEGIES,
@@ -18,6 +21,8 @@ from research1.causal import (
     is_private_base_image,
     outcome_for,
     parse_planner_output,
+    probe_parse_warning,
+    run_dual_branch,
     score_direction,
     select_expansion_tasks,
     sufficient_findings,
@@ -39,6 +44,79 @@ def register(library):
 
 
 class CausalEditorTests(unittest.TestCase):
+    def test_dual_branch_records_each_branch_rewards_without_leakage(self) -> None:
+        """Exercise the branch loop with all model/Harbor calls replaced."""
+        with tempfile.TemporaryDirectory() as td, ExitStack() as mocks:
+            root = Path(td)
+            parent = root / "parent"
+            (parent / "tools").mkdir(parents=True)
+            (parent / "tools" / "baseline.py").write_text(_BEFORE)
+            for label in ("A", "B"):
+                module_dir = root / f"H0_{label}1"
+                (module_dir / "tools").mkdir(parents=True)
+                (module_dir / "tools" / "baseline.py").write_text(_BEFORE.replace("return response", f"return '{label}'"))
+
+            def plan(**kwargs):
+                label = kwargs["label"]
+                (kwargs["run_dir"] / "plans").mkdir(parents=True, exist_ok=True)
+                return {"ok": True, "replacement": _BEFORE, "plan_text": label,
+                        "trigger": f"TRIGGER_{label}", "diff_text": label}
+
+            def edit(**kwargs):
+                label = kwargs["plan"].candidate_label
+                return SimpleNamespace(applied=True, child_version_id=kwargs["child_version_id"],
+                                       attempt_id=f"attempt_{label}", reject_reason="")
+
+            replacements = {
+                "load_pilot": lambda _: {},
+                "run_preflight": lambda _: SimpleNamespace(status="PASS"),
+                "resolve_path": lambda cfg, name: root / name,
+                "_best_false_concat": lambda _: {"kind": "false_concat", "detail": "evidence"},
+                "with_llm_provider_env": lambda _: SimpleNamespace(),
+                "apply_provider_to_environ": lambda _: None,
+                "ensure_h0_version": lambda *args: SimpleNamespace(modules_root=str(parent)),
+                "_excerpt_for_planner": lambda *args: "bounded evidence",
+                "_plan_one_edit": plan,
+                "make_plan": lambda **kwargs: SimpleNamespace(plan_id=f"plan_{kwargs['candidate_label']}", **kwargs),
+                "apply_plan_patch": edit,
+                "load_state": lambda versions, version: SimpleNamespace(modules_root=str(root / version)),
+                "_eval_version_task": lambda **kwargs: [SimpleNamespace(reward=0.5)],
+                "_eval_one": lambda **kwargs: SimpleNamespace(reward=0.8 if kwargs["version_id"] == "H0_A1" else 0.2),
+                "_measure_trigger": lambda **kwargs: {"triggered": True, "trigger_hits": [], "loaded_modules_roots": [], "loaded_modules_root_ok": True},
+                "aggregate_task_means": lambda trials: {"cron-env-debug": sum(trial.reward for trial in trials) / len(trials)},
+                "write_transition": lambda *args, **kwargs: None,
+                "mark_step": lambda *args: None,
+                "_collect_findings": lambda _: [],
+                "_write_dual_report": lambda *args: None,
+            }
+            for name, replacement in replacements.items():
+                mocks.enter_context(patch(f"research1.causal.{name}", side_effect=replacement))
+            mocks.enter_context(patch.dict("os.environ", {"NO_PROXY": "agi.tongji.edu.cn"}))
+            _, result = run_dual_branch(prior_h0=parent, reps=1, max_trigger_reps=1)
+            branches = {branch["label"]: branch for branch in result["branches"]}
+            self.assertEqual(branches["A"]["raw_rewards"], [0.8])
+            self.assertEqual(branches["B"]["raw_rewards"], [0.2])
+            self.assertAlmostEqual(branches["A"]["observed_delta"], 0.3)
+            self.assertAlmostEqual(branches["B"]["observed_delta"], -0.3)
+
+    def test_parse_probe_keeps_error_commands_and_completion_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "tools").mkdir()
+            (root / "tools" / "baseline.py").write_text(
+                "from types import SimpleNamespace\n"
+                "class BaselineTools:\n"
+                "    def __init__(self, parser_name): pass\n"
+                "    def parse_llm_response(self, response):\n"
+                "        return SimpleNamespace(warning='keep warning', error='keep error', "
+                "is_task_complete=True, commands=[SimpleNamespace(keystrokes='echo hi\\n', duration_sec=2)])\n"
+            )
+            result = probe_parse_warning(root, {})
+        self.assertEqual(result["warning"], "keep warning")
+        self.assertEqual(result["error"], "keep error")
+        self.assertTrue(result["is_task_complete"])
+        self.assertEqual(result["commands"], [["echo hi\n", 2.0]])
+
     def test_comment_only_is_rejected(self) -> None:
         after = "# research1-p2b-marker: A1\n" + _BEFORE
         changed, reason = functional_ast_changed(_BEFORE, after)

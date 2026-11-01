@@ -1,0 +1,57 @@
+{
+  "task": "C28_public_upload_snapshot",
+  "updated_china_time": "2026-11-01T19:44:25.064386+08:00",
+  "baseline_git_head": "717a083b375fea6344176fc57482d5c3587536d2",
+  "data_collection_complete": false,
+  "calibration_complete": false,
+  "budget_caps": {
+    "regular": 96,
+    "retries": 32,
+    "total": 128
+  },
+  "budget_used_current_batch": {
+    "regular": 8,
+    "retries": 0,
+    "total": 8
+  },
+  "current_campaign": "runs/data_edit_trial_20261101_v14",
+  "campaign_status": "GROUNDED_EDIT_TRIAL_NO_QUALIFIED_EDIT",
+  "phase": "finished",
+  "controller_running": false,
+  "counts": {
+    "historical": {
+      "qualified_keep_verified": 8,
+      "note": "Historical keep rows; not CURRENT formal SFT export"
+    },
+    "current_newest": {
+      "independent_roots": 6,
+      "raw_plans": 28,
+      "qualified_edit": 0,
+      "current_formal_sft_rows": 0,
+      "mc_values": 0,
+      "pending": 16,
+      "rejected": 1,
+      "revoked": 3,
+      "teacher_errors": 1
+    }
+  },
+  "student_model_selected": false,
+  "training_ready": false,
+  "public_status_path": "records/2026-11-01/status.json",
+  "server_only_live_pointers": [
+    "reports/data_collection_current.json",
+    "reports/data_collection_progress_current.json",
+    "reports/grounded_edit_admission_progress_data_edit_trial_20261101_v14.json"
+  ],
+  "frozen_verification_vs_c26": {
+    "ok": true,
+    "backup_campaigns": 14,
+    "current_campaigns": 14,
+    "method": "direct JSON content equality"
+  },
+  "offline_tests_reference": {
+    "framework": "unittest discover",
+    "count": 625,
+    "task": "C26"
+  }
+}

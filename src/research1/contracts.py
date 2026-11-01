@@ -124,9 +124,92 @@ class ReturnLabel:
     regression_primary: str = "parent-step"
     protocol_id: str = PROTOCOL_ID
     schema_version: str = SCHEMA_VERSION
+    # Old scalar-only labels remain readable, but are never complete taskwise labels.
+    metric_definition: str = "legacy-version-mean-v1"
+    label_scope: str = "legacy_diagnostic"
+    is_complete: bool = False
+    incomplete_reasons: list[str] = field(default_factory=list)
+    version_order: list[str] = field(default_factory=list)
+    task_ids: list[str] = field(default_factory=list)
+    task_weights: dict[str, float] = field(default_factory=dict)
+    per_task_deltas: list[dict[str, float]] = field(default_factory=list)
+    per_task_scores: dict[str, dict[str, float]] = field(default_factory=dict)
+    trial_counts: dict[str, dict[str, int]] = field(default_factory=dict)
+    required_repetitions: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "ReturnLabel":
+        return cls(**{key: value for key, value in data.items() if key in cls.__dataclass_fields__})
+
+
+@dataclass
+class MCPath:
+    """One completed real continuation path, not R repeats of a fixed version.
+
+    ``horizon`` is the number L of evolution decisions AFTER the candidate's first
+    edit. Thus version_order must contain parent, first implementation, and L
+    successor versions. IDs/seeds are provenance supplied by the collector; this
+    pure data contract does not run or independently verify a collection process.
+    """
+
+    path_id: str
+    candidate_id: str
+    policy_id: str
+    horizon: int
+    first_implementation_hash: str
+    continuation_seed: str | int
+    version_order: list[str]
+    score_tables: dict[str, dict[str, float]]
+    trial_counts: dict[str, dict[str, int]]
+    expected_tasks: list[str]
+    required_repetitions: int
+    task_weights: dict[str, float] | None = None
+    lambda_value: float = 0.5
+    path_kind: str = "real_evolution"
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "MCPath":
+        # Unknown fields usually indicate a misspelled condition; do not discard them.
+        return cls(**data)
+
+
+@dataclass
+class MCValueLabel:
+    candidate_id: str
+    root_version_id: str
+    first_implementation_hash: str
+    policy_id: str
+    horizon: int
+    n_paths: int
+    expected_paths: int
+    mean_terminal_gain: float
+    std_terminal_gain: float
+    mean_cumulative_regression: float
+    std_cumulative_regression: float
+    mean_u_lambda: float
+    std_u_lambda: float
+    lambda_value: float
+    task_ids: list[str]
+    task_weights: dict[str, float]
+    required_repetitions: int
+    paths: list[dict[str, Any]]
+    metric_definition: str = "taskwise-parent-step-v2"
+    uncertainty_kind: str = "sample_standard_deviation"
+    is_complete: bool = True
+    schema_version: str = "mc-value-v1"
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "MCValueLabel":
+        return cls(**data)
 
 
 def write_json(path: Path, obj: Any) -> None:
@@ -149,8 +232,6 @@ def validate_task_run(d: dict[str, Any]) -> list[str]:
     for key in ("run_id", "version_id", "task_name", "trial_index", "failure_layer", "status"):
         if key not in d:
             errors.append(f"missing {key}")
-    if d.get("reward") is None and d.get("failure_layer") == "unknown":
-        errors.append("unknown failure_layer must not be treated as reward=0; keep reward null")
     if d.get("reward") == 0 and d.get("failure_layer") == "unknown":
         errors.append("do not coerce unknown to reward=0")
     return errors

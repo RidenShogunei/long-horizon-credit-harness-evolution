@@ -2017,6 +2017,7 @@ def run_dual_branch(
             if meas["triggered"]:
                 break
         v1_runs_by_label[label] = runs
+        raw = [trial.reward for trial in runs]
         mean_child = _mean(raw)
         delta = None if mean_h0 is None or mean_child is None else mean_child - mean_h0
         direction = score_direction(delta)
@@ -2500,9 +2501,38 @@ def resume_dual_triggers(run_dir: Path, config_path: Path | None = None, **kwarg
 
 
 def probe_version_trigger(modules_root: Path, expected_substr: str) -> dict[str, Any]:
-    """Deterministic probe: feed the evidenced empty-mid-batch pattern into BaselineTools."""
-    import importlib.util
+    """Deterministic probe: feed the evidenced empty-mid-batch pattern into BaselineTools.
+
+    The tools module imports Harbor, which reads its installed package metadata.
+    That import only works in the ModularRSI virtualenv, so other interpreters
+    hand the probe to that interpreter.
+    """
     import sys
+
+    venv_python = Path("/home/jinxu/arms_cache/modularrsi/ModularRSI/.venv/bin/python")
+    if venv_python.is_file() and Path(sys.executable).resolve() != venv_python.resolve():
+        import subprocess
+
+        script = (
+            "import json, sys\n"
+            "from pathlib import Path\n"
+            "sys.path.insert(0, '/home/jinxu/long-horizon-credit-harness-evolution/src')\n"
+            "from research1.causal import probe_version_trigger\n"
+            "print(json.dumps(probe_version_trigger(Path(sys.argv[1]), sys.argv[2])))\n"
+        )
+        proc = subprocess.run(
+            [str(venv_python), "-c", script, str(modules_root), expected_substr],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        if proc.returncode != 0:
+            detail = (proc.stderr or proc.stdout or "").strip().splitlines()
+            raise RuntimeError(detail[-1] if detail else "probe interpreter failed")
+        line = next(row for row in reversed(proc.stdout.splitlines()) if row.startswith("{"))
+        return json.loads(line)
+
+    import importlib.util
 
     mr_src = "/home/jinxu/arms_cache/modularrsi/ModularRSI/src"
     if mr_src not in sys.path:
@@ -2532,4 +2562,55 @@ def probe_version_trigger(modules_root: Path, expected_substr: str) -> dict[str,
         "warning": warning,
         "commands": cmds,
         "triggered": expected_substr in warning,
+    }
+
+
+def probe_parse_warning(modules_root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """Replay a batch and retain the parser outputs needed for preservation checks."""
+    import sys
+
+    venv_python = Path("/home/jinxu/arms_cache/modularrsi/ModularRSI/.venv/bin/python")
+    if venv_python.is_file() and Path(sys.executable).resolve() != venv_python.resolve():
+        import subprocess
+
+        script = (
+            "import json, sys\n"
+            "from pathlib import Path\n"
+            "sys.path.insert(0, '/home/jinxu/long-horizon-credit-harness-evolution/src')\n"
+            "from research1.causal import probe_parse_warning\n"
+            "req = json.loads(sys.stdin.read())\n"
+            "print(json.dumps(probe_parse_warning(Path(req['modules_root']), req['payload'])))\n"
+        )
+        proc = subprocess.run(
+            [str(venv_python), "-c", script],
+            input=json.dumps({"modules_root": str(modules_root), "payload": payload}),
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        if proc.returncode != 0:
+            detail = (proc.stderr or proc.stdout or "").strip().splitlines()
+            raise RuntimeError(detail[-1] if detail else "probe interpreter failed")
+        line = next(row for row in reversed(proc.stdout.splitlines()) if row.startswith("{"))
+        return json.loads(line)
+
+    import importlib.util
+
+    mr_src = "/home/jinxu/arms_cache/modularrsi/ModularRSI/src"
+    if mr_src not in sys.path:
+        sys.path.insert(0, mr_src)
+    path = Path(modules_root) / TARGET_REL
+    spec = importlib.util.spec_from_file_location(f"probe_parse_{path.parent.parent.name}", path)
+    assert spec and spec.loader
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    tools = mod.BaselineTools(parser_name="json")
+    result = tools.parse_llm_response(json.dumps(payload))
+    warning = result.warning or ""
+    return {
+        "modules_root": str(modules_root),
+        "warning": warning,
+        "error": result.error,
+        "is_task_complete": result.is_task_complete,
+        "commands": [[c.keystrokes, float(c.duration_sec)] for c in (result.commands or [])],
     }
