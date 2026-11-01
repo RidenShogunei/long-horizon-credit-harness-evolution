@@ -1,0 +1,75 @@
+{
+  "source_id": "berriai__litellm-9828",
+  "split": "train",
+  "verification_status": "strict_pinned_before_after_behavior_pass",
+  "curation_notes": "JSON schema key ordering for structured agent outputs on Vertex.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "BerriAI/litellm",
+    "base_commit": "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+    "original_source_path": "litellm/llms/vertex_ai/common_utils.py",
+    "visible_path": "agent_runtime/vertex/common_utils.py",
+    "harness_module": "agent_runtime"
+  },
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-9828/before/litellm/llms/vertex_ai/common_utils.py",
+      "sha256": "e600185b071b61fd02747d658760d8845742b50322cbc2976db2c4a86eae0398",
+      "qualname": "_build_vertex_schema",
+      "start_line": 168,
+      "end_line": 190
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-LITELLM-9828",
+    "root_lineage_id": "BerriAI/litellm@837a6948d83b",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_runtime"
+    ],
+    "module_code": {
+      "agent_runtime/vertex/common_utils.py": "def _build_vertex_schema(parameters: dict):\n    \"\"\"\n    This is a modified version of https://github.com/google-gemini/generative-ai-python/blob/8f77cc6ac99937cd3a81299ecf79608b91b06bbb/google/generativeai/types/content_types.py#L419\n    \"\"\"\n    # Get valid fields from Schema TypedDict\n    valid_schema_fields = set(get_type_hints(Schema).keys())\n\n    defs = parameters.pop(\"$defs\", {})\n    # flatten the defs\n    for name, value in defs.items():\n        unpack_defs(value, defs)\n    unpack_defs(parameters, defs)\n\n    # 5. Nullable fields:\n    #     * https://github.com/pydantic/pydantic/issues/1270\n    #     * https://stackoverflow.com/a/58841311\n    #     * https://github.com/pydantic/pydantic/discussions/4872\n    convert_anyof_null_to_nullable(parameters)\n    add_object_type(parameters)\n    # Postprocessing\n    # Filter out fields that don't exist in Schema\n    filtered_parameters = filter_schema_fields(parameters, valid_schema_fields)\n    return filtered_parameters\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reporter claim (not executed trajectory): [Bug]: Vertex AI does not respect JSON schema key ordering"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt litellm/llms/vertex_ai/common_utils.py qualname=_build_vertex_schema lines 168-190 sha256=e600185b071b61fd02747d658760d8845742b50322cbc2976db2c4a86eae0398:\ndef _build_vertex_schema(parameters: dict):\n    \"\"\"\n    This is a modified version of https://github.com/google-gemini/generative-ai-python/blob/8f77cc6ac99937cd3a81299ecf79608b91b06bbb/google/generativeai/types/content_types.py#L419\n    \"\"\"\n    # Get valid fields from Schema TypedDict\n    valid_schema_fields = set(get_type_hints(Schema).keys())\n\n    defs = parameters.pop(\"$defs\", {})\n    # flatten the defs\n    for name, value in defs.items():\n        unpack_defs(value, defs)\n    unpack_defs(parameters, defs)\n\n    # 5. Nullable fields:\n    #     * https://github.com/pydantic/pydantic/issues/1270\n    #     * https://stackoverflow.com/a/58841311\n    #     * https://github.com/pydantic/pydantic/discussions/4872\n    convert_anyof_null_to_nullable(parameters)\n    add_object_type(parameters)\n    # Postprocessing\n    # Filter out fields that don't exist in Schema\n    filtered_parameters = filter_schema_fields(parameters, valid_schema_fields)\n    return filtered_parameters\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_runtime",
+    "locations": [
+      "agent_runtime/vertex/common_utils.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: Vertex structured-output schema builder drops JSON key order so propertyOrdering never reaches Gemini/Vertex requests.",
+    "intended_change": "Thread add_property_ordering through _build_vertex_schema and set_schema_property_ordering when building tool/response schemas.",
+    "preserve_behaviors": [
+      "Existing unpack_defs flattening of $defs still runs before field filtering",
+      "Invalid schema fields still stripped via Schema TypedDict hints"
+    ],
+    "verification_plan": [
+      "After with add_property_ordering=True adds propertyOrdering list matching property declaration order",
+      "Before leaves parameters without propertyOrdering"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "litellm_strict"
+}

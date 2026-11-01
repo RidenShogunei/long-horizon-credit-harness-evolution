@@ -1,0 +1,52 @@
+{
+  "batch": "crewai_strict",
+  "case": "1818",
+  "result": {
+    "source_id": "crewaiinc__crewai-1818",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_with_knowledge_omits_agent_knowledge_key": true,
+      "after_with_knowledge_includes_content": true
+    },
+    "preservation": {
+      "without_knowledge_no_agent_knowledge_after": true,
+      "without_knowledge_core_fields_after": true,
+      "without_knowledge_core_fields_before": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before": "c1c1509abebce55eea17981656093ae4cf0fb55752cc2391af24f6468bc16015",
+      "after": "b604a1835ad86306ef2f8c4fbfbc8c752b834a4567eaf33990d6948cb9f24c91"
+    },
+    "observations": {
+      "before_with_knowledge_fields": {
+        "has_knowledge": false,
+        "has_description": true,
+        "has_expected": true,
+        "has_role": true,
+        "has_goal": true,
+        "has_task_tools": true
+      },
+      "after_with_knowledge_fields": {
+        "has_knowledge": true,
+        "has_description": true,
+        "has_expected": true,
+        "has_role": true,
+        "has_goal": true,
+        "has_task_tools": true
+      },
+      "after_without_knowledge_fields": {
+        "has_knowledge": false,
+        "has_description": true,
+        "has_expected": true,
+        "has_role": true,
+        "has_goal": true,
+        "has_task_tools": true
+      }
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "8eacaec9c10987e0cb3f478fc90bdf8b761065984a3332320d0580106130f76e",
+  "ran_utc": "2026-11-01T15:44:07.795520+00:00"
+}

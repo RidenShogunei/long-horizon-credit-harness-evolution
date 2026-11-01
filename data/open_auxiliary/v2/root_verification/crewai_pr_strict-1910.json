@@ -1,0 +1,36 @@
+{
+  "batch": "crewai_pr_strict",
+  "case": "1910",
+  "result": {
+    "source_id": "crewaiinc__crewai-1910",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_pep604_raises": true,
+      "after_pep604_described": true
+    },
+    "preservation": {
+      "classic_optional_list_in_both": true,
+      "classic_still_valid_before": true,
+      "before_union_and_after_union_detail": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before_sha256": "07a5a7290c2cccfae5387f000699209b0dd2c402761872beda134849fa77ceb2",
+      "after_sha256": "b57d974818804aa6ce632ac2633ca24a6d8dda31b40207584eb25e6010b4e10a"
+    },
+    "before_observed": {
+      "classic": "{\n  \"opt\": Optional[int],\n  \"items\": List[str],\n  \"mix\": Union\n}",
+      "pep604_error": "AttributeError",
+      "pep604_snippet": ""
+    },
+    "after_observed": {
+      "classic": "{\n  \"opt\": Optional[int],\n  \"items\": List[str],\n  \"mix\": Optional[Union[str, int]]\n}",
+      "pep604_error": null,
+      "pep604_snippet": "{\n  \"opt_pep604\": int | None\n}"
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ce456f223c4b34039030e34bf80c1b43a5a606e2fc1eec91a10a0f2b8181482b",
+  "ran_utc": "2026-11-01T15:44:20.937316+00:00"
+}

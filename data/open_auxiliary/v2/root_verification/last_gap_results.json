@@ -1,0 +1,94 @@
+{
+  "berriai__litellm-5232": {
+    "status": "pass",
+    "before": [
+      {
+        "arguments": "",
+        "index": 1
+      },
+      {
+        "arguments": "",
+        "index": 1
+      },
+      {
+        "arguments": "{}",
+        "index": 1
+      }
+    ],
+    "after": [
+      {
+        "arguments": "",
+        "index": 0
+      },
+      {
+        "arguments": "",
+        "index": 0
+      },
+      {
+        "arguments": "{}",
+        "index": 0
+      }
+    ],
+    "root_correction": "Worker selected first emitted tool chunk instead of stop chunk. Correct preservation compares the complete sequence; both emit empty start/delta and {} at stop."
+  },
+  "berriai__litellm-9828": {
+    "executed": true,
+    "status": "pass",
+    "checks": {
+      "default_false_full_output_equal": true,
+      "invalid_field_stripped_both": true,
+      "ordering_only_when_flag": true,
+      "variant_matched_unpack_dependency": true
+    },
+    "observations": {
+      "before_keys": [
+        "type",
+        "properties"
+      ],
+      "applied_no_order_keys": [
+        "type",
+        "properties"
+      ]
+    },
+    "caller_propagation": {
+      "status": "pass",
+      "before": {
+        "type": "object",
+        "properties": {
+          "z": {
+            "type": "string"
+          },
+          "a": {
+            "type": "integer"
+          }
+        }
+      },
+      "after": {
+        "type": "object",
+        "properties": {
+          "z": {
+            "type": "string"
+          },
+          "a": {
+            "type": "integer"
+          }
+        },
+        "propertyOrdering": [
+          "z",
+          "a"
+        ]
+      },
+      "method": "VertexGeminiConfig._map_response_schema"
+    },
+    "source_binding": {
+      "repo": "BerriAI/litellm",
+      "base_commit": "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+      "dependency_url": "https://raw.githubusercontent.com/BerriAI/litellm/837a6948d83be839a2c28dc7d84a6f78cb86c054/litellm/litellm_core_utils/prompt_templates/common_utils.py",
+      "dependency_sha256": "a5fc5f405d6d2be1c92c7edea69d0ee7a10ff842aab1394b8cd67ea97daf4991",
+      "same_pinned_dependency_for_both_variants": true
+    }
+  },
+  "reviewed_worker_script_sha256": "0a31b4f86b7c28dc809ea86b3a75e47494b82c3062ef0e0b30352346157eaa77",
+  "models_loaded": false,
+  "paid_evaluations": 0
+}

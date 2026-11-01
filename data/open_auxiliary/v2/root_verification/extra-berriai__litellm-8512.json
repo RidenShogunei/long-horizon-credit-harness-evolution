@@ -1,0 +1,23 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "new_model_tools_after_only": true,
+    "supported_unchanged": true,
+    "unsupported_unchanged": true,
+    "supports_tool_choice_is_stub": true
+  },
+  "observations": {
+    "before": {
+      "new": false,
+      "supported": true,
+      "unsupported": false
+    },
+    "after": {
+      "new": true,
+      "supported": true,
+      "unsupported": false
+    }
+  },
+  "root_note": "supports_tool_choice stubbed True for bedrock only; real provider semantics not verified"
+}

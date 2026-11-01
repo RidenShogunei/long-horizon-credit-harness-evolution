@@ -36,3 +36,7 @@ python -m research1 --help
 ## 配置
 
 `configs/protocol.v0.json`, `protocol.v1.json`, `providers.v0.json`, `roles.v0.json`, `h0.snapshot.v0.json` 等为 foundation 对照；研究一批次配置在各 `runs/*/protocol.json`（**不** 上传 `runs/` 树）。
+
+## 开源 auxiliary v2（静态快照 + 归档脚本）
+
+与 `python -m research1 data` **并行、不替代**：已批准的 23 条 auxiliary edit 在 [`data/open_auxiliary/v2/`](../data/open_auxiliary/v2/)（manifest、`acceptance_ledger.json`、raw 96 语料、proof fixtures）。集成工作流脚本归档在 [`scripts/open_data/`](../scripts/open_data/INDEX.md)；阶段说明见 [`open_data_collection.md`](open_data_collection.md)。**无** 新 CLI；本目录 map 不声称这些脚本可在任意 clone 上直接重跑。

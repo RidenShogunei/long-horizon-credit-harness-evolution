@@ -1,0 +1,60 @@
+{
+  "batch": "crewai_pr_strict",
+  "case": "1791",
+  "result": {
+    "source_id": "crewaiinc__crewai-1791",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_json_braces_error": true,
+      "after_json_braces_ok": true
+    },
+    "preservation": {
+      "simple_placeholder_unchanged": true,
+      "missing_key_still_errors_both": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before_sha256": "7ea100ef082bda4e2f754bd532ad88e275aaa2b3ed32f4c87c5eb83c29e3a5bb",
+      "after_sha256": "dad1f748ba0e0e54633c3ea7d831e8bd7e7d3ed6a8a9e77dfd43a1840c1aad94",
+      "fixture_script_sha256": "2992075a3e660512dcda8c7ed2e8dafae83d0aacf0b20eb24970f3540015450b"
+    },
+    "before_observed": {
+      "json_braces": {
+        "error": "KeyError",
+        "expected_output": null,
+        "description": null
+      },
+      "simple": {
+        "error": null,
+        "expected_output": "Hello Bob",
+        "description": "Do work"
+      },
+      "missing_key": {
+        "error": "KeyError",
+        "expected_output": null,
+        "description": null
+      }
+    },
+    "after_observed": {
+      "json_braces": {
+        "error": null,
+        "expected_output": "Summary for Ada: {\"count\": 1}",
+        "description": "Do work"
+      },
+      "simple": {
+        "error": null,
+        "expected_output": "Hello Bob",
+        "description": "Do work"
+      },
+      "missing_key": {
+        "error": "KeyError",
+        "expected_output": null,
+        "description": null
+      }
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ce456f223c4b34039030e34bf80c1b43a5a606e2fc1eec91a10a0f2b8181482b",
+  "ran_utc": "2026-11-01T15:44:24.291338+00:00"
+}

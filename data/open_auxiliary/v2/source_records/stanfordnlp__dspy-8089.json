@@ -1,0 +1,61 @@
+{
+  "instance_id": "stanfordnlp__dspy-8089",
+  "repo": "stanfordnlp/dspy",
+  "base_commit": "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+  "patch": "diff --git a/dspy/primitives/tool.py b/dspy/primitives/tool.py\nindex 3e9a7182..8b3d1fa9 100644\n--- a/dspy/primitives/tool.py\n+++ b/dspy/primitives/tool.py\n@@ -119,7 +119,7 @@ class Tool:\n                 v_json_schema = self._resolve_pydantic_schema(v)\n                 args[k] = v_json_schema\n             else:\n-                args[k] = TypeAdapter(v).json_schema() or \"Any\"\n+                args[k] = TypeAdapter(v).json_schema()\n             if default_values[k] is not inspect.Parameter.empty:\n                 args[k][\"default\"] = default_values[k]\n             if arg_desc and k in arg_desc:\n@@ -137,7 +137,8 @@ class Tool:\n                 raise ValueError(f\"Arg {k} is not in the tool's args.\")\n             try:\n                 instance = v.model_dump() if hasattr(v, \"model_dump\") else v\n-                if not self.args[k] == \"Any\":\n+                type_str = self.args[k].get(\"type\")\n+                if type_str is not None and type_str != \"Any\":\n                     validate(instance=instance, schema=self.args[k])\n             except ValidationError as e:\n                 raise ValueError(f\"Arg {k} is invalid: {e.message}\")\n",
+  "problem_statement": "[Bug] New defaults handling for Tools creates TypeError if assigned \"Any\"\n### What happened?\n\n`TypeError: 'str' object does not support item assignment` occurs a tool argument has a default value but no type hint: https://github.com/stanfordnlp/dspy/blob/main/dspy/primitives/tool.py#L122\n\n### Steps to reproduce\n\n```\ndef my_tool(limit = 120):\n    return True\n\nagent  = dspy.ReAct(SomeSig, tools=[my_tool])\n```\nGives the following error:\n```\nFile ...dspy/predict/react.py:24, in ReAct.__init__(self, signature, tools, max_iters)\n     21 self.signature = signature = ensure_signature(signature)\n     22 self.max_iters = max_iters\n---> 24 tools = [t if isinstance(t, Tool) else Tool(t) for t in tools]\n     25 tools = {tool.name: tool for tool in tools}\n     27 inputs = \", \".join([f\"`{k}`\" for k in signature.input_fields.keys()])\n\nFile .../dspy/primitives/tool.py:61, in Tool.__init__(self, func, name, desc, args, arg_types, arg_desc)\n     58 self.arg_types = arg_types\n     59 self.arg_desc = arg_desc\n---> 61 self._parse_function(func, arg_desc)\n\nFile .../dspy/primitives/tool.py:124, in Tool._parse_function(self, func, arg_desc)\n    122     args[k] = TypeAdapter(v).json_schema() or \"Any\"\n    123 if default_values[k] is not inspect.Parameter.empty:\n--> 124     args[k][\"default\"] = default_values[k]\n    125 if arg_desc and k in arg_desc:\n    126     args[k][\"description\"] = arg_desc[k]\n\nTypeError: 'str' object does not support item assignment\n```\nAdding a type hint does not give the error, e.g. `def my_tool(limit: int = 120):`\n\n### DSPy version\n\n2.6.5",
+  "pr_description": "Fix default arg when type hints are not available\nresolve #8086 \r\n\r\nThe standard is mapping `Any` to empty json schema, no need to use a special string identifier `\"Any\"` to represent the situation where no type hint is provided.",
+  "license": "MIT",
+  "test_patch": "diff --git a/tests/primitives/test_tool.py b/tests/primitives/test_tool.py\nindex 6b49f24f..02e8170b 100644\n--- a/tests/primitives/test_tool.py\n+++ b/tests/primitives/test_tool.py\n@@ -150,3 +150,12 @@ def test_invalid_function_call():\n def test_parameter_desc():\n     tool = Tool(dummy_function, arg_desc={\"x\": \"The x parameter\"})\n     assert tool.args[\"x\"][\"description\"] == \"The x parameter\"\n+\n+\n+def test_tool_with_default_args_without_type_hints():\n+    def foo(x=100):\n+        return x\n+\n+    tool = Tool(foo)\n+    assert tool.args[\"x\"][\"default\"] == 100\n+    assert not hasattr(tool.args[\"x\"], \"type\")\n",
+  "FAIL_TO_PASS": [
+    "tests/primitives/test_tool.py::test_tool_with_default_args_without_type_hints"
+  ],
+  "PASS_TO_PASS": [
+    "tests/primitives/test_tool.py::test_basic_initialization",
+    "tests/primitives/test_tool.py::test_tool_from_function",
+    "tests/primitives/test_tool.py::test_tool_from_class",
+    "tests/primitives/test_tool.py::test_tool_from_function_with_pydantic",
+    "tests/primitives/test_tool.py::test_tool_from_function_with_pydantic_nesting",
+    "tests/primitives/test_tool.py::test_tool_callable",
+    "tests/primitives/test_tool.py::test_tool_with_pydantic_callable",
+    "tests/primitives/test_tool.py::test_invalid_function_call",
+    "tests/primitives/test_tool.py::test_parameter_desc"
+  ],
+  "interface": "Method: Tool.__init__(self, func, name=None, desc=None, args=None, arg_types=None, arg_desc=None)\nLocation: dspy/primitives/tool.py\nInputs: \n- func: a callable Python function to be wrapped as a tool.  \n- name (optional): explicit tool name; defaults to function.__name__.  \n- desc (optional): description string.  \n- args (optional): user‑provided argument schema dictionary.  \n- arg_types (optional): mapping of argument names to type hints.  \n- arg_desc (optional): mapping of argument names to human‑readable descriptions.  \nOutputs: \n- Returns a Tool instance. The instance has an `.args` dictionary where each key is a parameter name and the value is a schema dict. For parameters **without** a type hint, the schema contains no `\"type\"` key; if the parameter has a default value, a `\"default\"` key with that value is added. For parameters **with** a type hint, the schema includes `\"type\"` (derived from the hint) and, if a default is present, `\"default\"` as well. No `\"type\"` entry means callers must not attempt type‑based validation.\nDescription: Constructs a Tool by introspecting `func`'s signature, extracting default values and optional type hints, and building a lightweight schema used by DSPy’s tool‑execution mechanisms. Use this when wrapping functions for agents, especially when some arguments lack explicit type annotations.\n",
+  "meta": {
+    "llm_metadata": {
+      "code": "A",
+      "confidence": 0.97,
+      "detected_issues": {
+        "B1": false,
+        "B2": false,
+        "B3": false,
+        "B4": false,
+        "B5": false,
+        "B6": false
+      },
+      "difficulty": "easy",
+      "external_urls": [
+        "https://github.com/stanfordnlp/dspy/blob/main/dspy/primitives/tool.py#L122"
+      ],
+      "intent_completeness": "complete",
+      "pr_categories": [
+        "regression_bug",
+        "minor_bug"
+      ],
+      "reasoning": "The issue reports a TypeError when a tool function has default arguments without type hints, caused by storing a string \"Any\" instead of a dict for argument metadata. The added test checks that defaults are recorded correctly and that no type field appears, matching the intended fix. No test‑suite coupling, naming, external dependencies, ambiguity, unrelated patches, or hidden knowledge are evident. Therefore the task is well‑specified and solvable (code A).",
+      "test_alignment_issues": []
+    },
+    "num_modified_files": 1,
+    "num_modified_lines": 3,
+    "pr_author": "chenmoneygithub",
+    "pr_labels": [],
+    "pr_url": null
+  },
+  "_source": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+    "parquet_sha256": "0e0bf9355f892ad74ae98d4e1c404f39fd6654a8e351ee3e6ab162e4a64cd3ad",
+    "license_compilation": "CC-BY-4.0"
+  }
+}

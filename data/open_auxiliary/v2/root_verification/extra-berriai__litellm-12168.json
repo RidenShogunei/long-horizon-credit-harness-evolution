@@ -1,0 +1,10 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "invalid_function_dict_rejected_before": true,
+    "invalid_function_dict_rejected_after": true,
+    "named_function_accepted_before": true,
+    "named_function_accepted_after": true
+  }
+}

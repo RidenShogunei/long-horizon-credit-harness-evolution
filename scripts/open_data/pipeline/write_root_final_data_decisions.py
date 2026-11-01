@@ -1,0 +1,32 @@
+import json,pathlib,datetime,subprocess,sys
+from concurrent.futures import ThreadPoolExecutor
+W=pathlib.Path(__file__).resolve().parent;B=W/'open_dataset_integration_v2'
+overrides={
+ 'stanfordnlp__dspy-8089':{
+  'problem_hypothesis':"Current-code fact: Tool.__init__ invokes _parse_function, which substitutes the string 'Any' when TypeAdapter returns an empty schema and then assigns defaults into args[k]. Reporter claim: an unannotated parameter with a default raises TypeError. Hypothesis: retain dictionary schemas and use the schema type to decide whether to validate a supplied argument.",
+  'intended_change':"In Tool._parse_function retain TypeAdapter(v).json_schema() directly. In Tool.__call__, read type_str from self.args[k].get('type') and run jsonschema validation only when type_str is not None and is not 'Any'; continue forwarding kwargs to self.func.",
+  'verification_plan':['Construct a Tool around an unannotated defaulted parameter and call it: compare before initialization error with the edited result.','Compare typed default schemas and return values in both versions.','Compare BaseModel parameter schemas and invoke the wrapped callable with a model instance in both versions.'],
+ },
+ 'stanfordnlp__dspy-8340':{'verification_plan':['Call the actual ChatAdapter assistant-message formatter with output fields; verify the completion marker is appended while existing field headers and body are preserved.','Compare the user-message content and field structure for the same supplied values.']},
+ 'stanfordnlp__dspy-8053':{
+  'problem_hypothesis':"Current-code fact: propose_instructions_for_program disables task demos when demo_candidates is falsy, but its subsequent loop still indexes demo_candidates[0]. Reporter claim: bootstrap can provide None. Hypothesis: select the loop count from N in that branch instead of indexing missing demos.",
+  'intended_change':"In GroundedProposer.propose_instructions_for_program use the existing N parameter as num_demos when demo_candidates is falsy; for provided candidates use max(len(demo_candidates[0]), 1), then iterate range(num_demos). Keep predictor iteration and instruction collection.",
+  'preserve_behaviors':['For a provided nonempty two-demo candidate list, retain the two per-predictor calls and their demo indices.','Continue collecting the instruction returned by the existing per-predictor proposal hook.'],
+  'verification_plan':['Invoke the actual outer proposer method with demo_candidates=None and N=2 while replacing the external proposal hook with a recording callable; before must fail and the edit must perform two calls.','With a provided nonempty two-demo list, compare the call count and demo indices before and after.']},
+ 'berriai__litellm-11964':{'preserve_behaviors':['Schemas without references retain their content.','Fields unrelated to a resolvable nested reference retain their values.']},
+ 'berriai__litellm-8512':{'preserve_behaviors':['Already supported model families retain tools in supported parameters; the checked unsupported family continues without tools.','Retain the existing supports_tool_choice call and its arguments.'],'verification_plan':['Call get_supported_openai_params with the reported Llama 3.3 model and compare tools support before and after.','Compare a known supported Llama 3.2 model and an unsupported Titan model under the same provider-interface fixture; this isolates capability-list behavior and does not establish SDK integration.']},
+ 'berriai__litellm-9828':{
+ 'problem_hypothesis':"Current-code fact: _build_vertex_schema filters and normalizes schema fields without adding propertyOrdering; VertexGeminiConfig._map_response_schema calls that builder without an ordering option. Reporter claim: structured output needs explicit property ordering. Hypothesis: preserve declaration order through an opt-in schema ordering pass on the response-schema path.",
+ 'intended_change':"Add add_property_ordering=False to _build_vertex_schema. After existing normalization and filtering, an enabled recursive helper adds propertyOrdering from each object's existing properties order, retaining explicit ordering where present. In the existing VertexGeminiConfig._map_response_schema method pass add_property_ordering=True to the builder for response schemas. Both visible files belong to the same tools adapter module.",
+ 'preserve_behaviors':['With ordering disabled, the checked schema retains exactly the prior normalized output.','Valid schema constraints remain and unsupported fields are filtered as before.'],
+ 'verification_plan':['Compare nested object schemas through _build_vertex_schema: the default path must match the parent and the opt-in path must add declaration ordering.','Execute the actual _map_response_schema caller with the real pinned builder and verify that the response path enables ordering.','Use the same parent-revision unpack_defs dependency for both variants and check constraints and invalid-field filtering.']},
+}
+doc={'review_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exclude_ids':[],'plan_overrides':overrides,'source_scopes':{},'notes':['All Plans are editorially curated public issue/change demonstrations, not original teacher Plans.','Formal autonomous SFT and MC values remain zero.','Smolagents226 revoked, CrewPR2604 rejected; published raw records preserved.','No student training or inference is authorized in this phase.']}
+(B/'root_final_decisions.json').write_text(json.dumps(doc,ensure_ascii=False,indent=2),encoding='utf8')
+ids=['stanfordnlp__dspy-8089','crewaiinc__crewai-1791','crewaiinc__crewai-1910','crewaiinc__crewai-2424','berriai__litellm-11964','berriai__litellm-12168','berriai__litellm-8512']
+def run(sid):
+    p=subprocess.run([sys.executable,'-X','utf8',str(B/'root_scope_extras/verify_extras.py'),'--only',sid],capture_output=True,text=True,encoding='utf8',timeout=45)
+    v=json.loads(p.stdout);assert v['status']=='pass',(sid,v)
+    path=B/'root_rerun'/('extra-'+sid+'.json');path.write_text(json.dumps(v,ensure_ascii=False,indent=2),encoding='utf8');return sid
+with ThreadPoolExecutor(max_workers=3) as ex:done=list(ex.map(run,ids))
+print(json.dumps({'extra_root_reruns_passed':done,'root_override_count':len(overrides)}))

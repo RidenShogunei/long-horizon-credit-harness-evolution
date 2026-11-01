@@ -1,0 +1,35 @@
+{
+  "records": [
+    {
+      "sample_id": "All-Hands-AI__OpenHands-3925",
+      "repo": "All-Hands-AI/OpenHands",
+      "base_commit": "f7ebc1cf1f1f4ae306d1e630ac57b618d0d85810",
+      "license_as_reported": "MIT License",
+      "upstream_license_url": "https://raw.githubusercontent.com/All-Hands-AI/OpenHands/f7ebc1cf1f1f4ae306d1e630ac57b618d0d85810/LICENSE",
+      "license_sha256": "620ea528732cdf251e4d3a00b8a69d6c06a730001d748756e3bc9b7b49a6a599",
+      "local_license_file": "620ea528732cdf25_LICENSE.txt",
+      "scope": "Raw source record retained outside accepted positive samples."
+    },
+    {
+      "sample_id": "All-Hands-AI__OpenHands-4154",
+      "repo": "All-Hands-AI/OpenHands",
+      "base_commit": "c8a933590ac9bd55aa333940bacd4e323eff34bc",
+      "license_as_reported": "MIT License",
+      "upstream_license_url": "https://raw.githubusercontent.com/All-Hands-AI/OpenHands/c8a933590ac9bd55aa333940bacd4e323eff34bc/LICENSE",
+      "license_sha256": "620ea528732cdf251e4d3a00b8a69d6c06a730001d748756e3bc9b7b49a6a599",
+      "local_license_file": "620ea528732cdf25_LICENSE.txt",
+      "scope": "Raw source record retained outside accepted positive samples."
+    },
+    {
+      "sample_id": "mem0ai__mem0-2774",
+      "repo": "mem0ai/mem0",
+      "base_commit": "a40268dd5126be2f78efa4c723e856a07835a4c4",
+      "license_as_reported": "Apache-2.0",
+      "upstream_license_url": "https://raw.githubusercontent.com/mem0ai/mem0/a40268dd5126be2f78efa4c723e856a07835a4c4/LICENSE",
+      "license_sha256": "0bbcbe931c353293a2fafce08326181dfeea0e568c566afd4ce8337a70f5e219",
+      "local_license_file": "0bbcbe931c353293_LICENSE.txt",
+      "scope": "Raw source record retained outside accepted positive samples."
+    }
+  ],
+  "accepted_sample_count_unchanged": 23
+}

@@ -1,0 +1,76 @@
+{
+  "source_id": "berriai__litellm-12168",
+  "split": "train",
+  "verification_status": "strict_pinned_before_after_behavior_pass",
+  "curation_notes": "Scoped to utils.py validation helper; published patch also contains docs-only Slack links excluded from plan module.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "BerriAI/litellm",
+    "base_commit": "f76375b65131f2dccb601995d7c5eabc3d5884fd",
+    "original_source_path": "litellm/utils.py",
+    "visible_path": "agent_runtime/utils.py",
+    "harness_module": "agent_runtime"
+  },
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-12168/before/litellm/utils.py",
+      "sha256": "dc3fb72ff3f00f56b145a7ee32ad03f6273126e546cfd66c94ac5ce032ce5466",
+      "qualname": "validate_chat_completion_tool_choice",
+      "start_line": 6556,
+      "end_line": 6581
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-LITELLM-12168",
+    "root_lineage_id": "BerriAI/litellm@f76375b65131",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_runtime"
+    ],
+    "module_code": {
+      "agent_runtime/utils.py": "def validate_chat_completion_tool_choice(\n    tool_choice: Optional[Union[dict, str]],\n) -> Optional[Union[dict, str]]:\n    \"\"\"\n    Confirm the tool choice is passed in the OpenAI format.\n\n    Prevents user errors like: https://github.com/BerriAI/litellm/issues/7483\n    \"\"\"\n    from litellm.types.llms.openai import (\n        ChatCompletionToolChoiceObjectParam,\n        ChatCompletionToolChoiceStringValues,\n    )\n\n    if tool_choice is None:\n        return tool_choice\n    elif isinstance(tool_choice, str):\n        return tool_choice\n    elif isinstance(tool_choice, dict):\n        if tool_choice.get(\"type\") is None or tool_choice.get(\"function\") is None:\n            raise Exception(\n                f\"Invalid tool choice, tool_choice={tool_choice}. Please ensure tool_choice follows the OpenAI spec\"\n            )\n        return tool_choice\n    raise Exception(\n        f\"Invalid tool choice, tool_choice={tool_choice}. Got={type(tool_choice)}. Expecting str, or dict. Please ensure tool_choice follows the OpenAI tool_choice spec\"\n    )\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reporter claim (not executed trajectory): [Bug]: Cursor IDE compatibility: tool_choice validation error when using {\"type\": \"auto\"} format - should support both OpenAI specs"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt litellm/utils.py qualname=validate_chat_completion_tool_choice lines 6556-6581 sha256=dc3fb72ff3f00f56b145a7ee32ad03f6273126e546cfd66c94ac5ce032ce5466:\ndef validate_chat_completion_tool_choice(\n    tool_choice: Optional[Union[dict, str]],\n) -> Optional[Union[dict, str]]:\n    \"\"\"\n    Confirm the tool choice is passed in the OpenAI format.\n\n    Prevents user errors like: https://github.com/BerriAI/litellm/issues/7483\n    \"\"\"\n    from litellm.types.llms.openai import (\n        ChatCompletionToolChoiceObjectParam,\n        ChatCompletionToolChoiceStringValues,\n    )\n\n    if tool_choice is None:\n        return tool_choice\n    elif isinstance(tool_choice, str):\n        return tool_choice\n    elif isinstance(tool_choice, dict):\n        if tool_choice.get(\"type\") is None or tool_choice.get(\"function\") is None:\n            raise Exception(\n                f\"Invalid tool choice, tool_choice={tool_choice}. Please ensure tool_choice follows the OpenAI spec\"\n            )\n        return tool_choice\n    raise Exception(\n        f\"Invalid tool choice, tool_choice={tool_choice}. Got={type(tool_choice)}. Expecting str, or dict. Please ensure tool_choice follows the OpenAI tool_choice spec\"\n    )\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_runtime",
+    "locations": [
+      "agent_runtime/utils.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: validate_chat_completion_tool_choice rejects Cursor-style dict tool_choice {\"type\":\"auto\"} lacking function field.",
+    "intended_change": "Accept dict tool_choice when type is auto/none/required and no function key; keep strict OpenAI function dict validation otherwise.",
+    "preserve_behaviors": [
+      "String tool_choice values still pass through unchanged",
+      "Invalid function dicts still raise with OpenAI-spec error"
+    ],
+    "verification_plan": [
+      "Before raises on {\"type\":\"auto\"}",
+      "After returns same dict unchanged"
+    ],
+    "verification_kind": null
+  },
+  "scope_patch": "scope_patches/berriai__litellm-12168_utils_only.patch",
+  "_batch": "litellm_strict"
+}

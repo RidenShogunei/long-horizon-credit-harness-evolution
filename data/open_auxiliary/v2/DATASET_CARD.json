@@ -1,0 +1,20 @@
+{
+  "dataset_id": "research1-open-auxiliary-integrated-v2",
+  "usage": "bounded public issue/change planning auxiliary",
+  "formal_training_ready": false,
+  "counts": {
+    "train": 20,
+    "validation": 3,
+    "edit": 23,
+    "keep": 0,
+    "independent_issue_roots": 23,
+    "independent_parent_code_states": 23,
+    "source_repositories": 4,
+    "new_accepted_this_batch": 19,
+    "retained_v1": 4,
+    "revoked_v1": 1,
+    "formal_autonomous_sft": 0,
+    "mc_values": 0
+  },
+  "primary_manifest": "dataset_manifest.json"
+}

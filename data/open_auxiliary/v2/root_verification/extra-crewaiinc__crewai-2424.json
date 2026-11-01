@@ -1,0 +1,28 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "before_signal_send_fires": true,
+    "after_signal_send_fires": true
+  },
+  "observations": {
+    "before": {
+      "trace": [
+        {
+          "sender_is_none": true,
+          "event_type": "ToolEvent"
+        }
+      ],
+      "handler_path": "emit_called"
+    },
+    "after": {
+      "trace": [
+        {
+          "sender_is_none": true,
+          "event_type": "ToolEvent"
+        }
+      ],
+      "handler_path": "emit_called"
+    }
+  }
+}

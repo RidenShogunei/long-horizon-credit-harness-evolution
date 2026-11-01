@@ -30,6 +30,19 @@ python -m research1 data --help
 
 **公开权威状态（已提交）：** [`records/2026-11-01/status.json`](records/2026-11-01/status.json)。
 
+## 开源辅助规划数据 v2（已整理，待 root 审阅提交）
+
+| 项 | 值 |
+| --- | --- |
+| 数据集目录 | [`data/open_auxiliary/v2/`](data/open_auxiliary/v2/) |
+| 23 条 auxiliary **edit**（非 formal qualified） | 20 train / 3 validation；keep **0** |
+| 正式 autonomous SFT / MC | **0** / **0**（训练与推理仍暂停） |
+| 采集/验收脚本索引 | [`scripts/open_data/INDEX.md`](scripts/open_data/INDEX.md) |
+| 流程说明 | [`docs/open_data_collection.md`](docs/open_data_collection.md) |
+| 本回合组织状态 | [`records/2026-11-02/open_data_status.json`](records/2026-11-02/open_data_status.json) |
+
+内容与 root 批准的 `release_v2` 快照一致（289 项 manifest 哈希已在本仓库路径下复核为 0 mismatch）。不得将 auxiliary 编辑样本称为 formal V14 qualified edit 或 G/D/U。
+
 **仅部署机本地、不进入本仓库的 live 指针：** `reports/data_collection_current.json`、`reports/data_collection_progress_current.json`、`reports/grounded_edit_admission_progress_data_edit_trial_20261101_v14.json` 及 `runs/**` 原始 ledger/语料。索引说明见 `docs/reports_catalog.md`；工程 smoke 摘要见 `reports/foundation_status.md`（**不**表示训练就绪）。
 
 ## 文档地图
@@ -39,6 +52,7 @@ python -m research1 data --help
 | `docs/code_map.md` | 研究一 data CLI 与 foundation 模块 |
 | `docs/reports_catalog.md` | 公开记录 vs 服务器 live 指针 |
 | `docs/data_flow_and_sources.md` | 开放数据源调查（solver 轨迹 vs 目标 G/D/U） |
+| `docs/open_data_collection.md` | 已批准的 auxiliary v2 快照与验收脚本阶段图 |
 | `docs/data_protocol.md` | **历史** 采集协议 |
 | `docs/experiment_protocol.md` | **历史** foundation 实验协议 |
 

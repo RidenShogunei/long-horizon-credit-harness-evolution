@@ -1,0 +1,75 @@
+{
+  "source_id": "berriai__litellm-8512",
+  "split": "train",
+  "verification_status": "strict_pinned_before_after_behavior_pass",
+  "curation_notes": "Tool-call capability detection for Bedrock Llama 3.3 agent models.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "BerriAI/litellm",
+    "base_commit": "1d22052f47e0a376dfc212afdb9ace176c7524c1",
+    "original_source_path": "litellm/llms/bedrock/chat/converse_transformation.py",
+    "visible_path": "agent_runtime/providers/bedrock_converse.py",
+    "harness_module": "agent_runtime"
+  },
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-8512/before/litellm/llms/bedrock/chat/converse_transformation.py",
+      "sha256": "faf87b0579e823e618927ff918791eb1248f23d219bb09656c6e77f895e326e4",
+      "qualname": "AmazonConverseConfig.get_supported_openai_params",
+      "start_line": 86,
+      "end_line": 118
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-LITELLM-8512",
+    "root_lineage_id": "BerriAI/litellm@1d22052f47e0",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_runtime"
+    ],
+    "module_code": {
+      "agent_runtime/providers/bedrock_converse.py": "    def get_supported_openai_params(self, model: str) -> List[str]:\n        supported_params = [\n            \"max_tokens\",\n            \"max_completion_tokens\",\n            \"stream\",\n            \"stream_options\",\n            \"stop\",\n            \"temperature\",\n            \"top_p\",\n            \"extra_headers\",\n            \"response_format\",\n        ]\n\n        ## Filter out 'cross-region' from model name\n        base_model = BedrockModelInfo.get_base_model(model)\n\n        if (\n            base_model.startswith(\"anthropic\")\n            or base_model.startswith(\"mistral\")\n            or base_model.startswith(\"cohere\")\n            or base_model.startswith(\"meta.llama3-1\")\n            or base_model.startswith(\"meta.llama3-2\")\n            or base_model.startswith(\"amazon.nova\")\n        ):\n            supported_params.append(\"tools\")\n\n        if litellm.utils.supports_tool_choice(\n            model=model, custom_llm_provider=self.custom_llm_provider\n        ):\n            # only anthropic and mistral support tool choice config. otherwise (E.g. cohere) will fail the call - https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ToolChoice.html\n            supported_params.append(\"tool_choice\")\n\n        return supported_params\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reporter claim (not executed trajectory): [Bug]: Tool calling llama meta.llama3-3-70b-instruct-v1:0 not supported"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt litellm/llms/bedrock/chat/converse_transformation.py qualname=AmazonConverseConfig.get_supported_openai_params lines 86-118 sha256=faf87b0579e823e618927ff918791eb1248f23d219bb09656c6e77f895e326e4:\n    def get_supported_openai_params(self, model: str) -> List[str]:\n        supported_params = [\n            \"max_tokens\",\n            \"max_completion_tokens\",\n            \"stream\",\n            \"stream_options\",\n            \"stop\",\n            \"temperature\",\n            \"top_p\",\n            \"extra_headers\",\n            \"response_format\",\n        ]\n\n        ## Filter out 'cross-region' from model name\n        base_model = BedrockModelInfo.get_base_model(model)\n\n        if (\n            base_model.startswith(\"anthropic\")\n            or base_model.startswith(\"mistral\")\n            or base_model.startswith(\"cohere\")\n            or base_model.startswith(\"meta.llama3-1\")\n            or base_model.startswith(\"meta.llama3-2\")\n            or base_model.startswith(\"amazon.nova\")\n        ):\n            supported_params.append(\"tools\")\n\n        if litellm.utils.supports_tool_choice(\n            model=model, custom_llm_provider=self.custom_llm_provider\n        ):\n            # only anthropic and mistral support tool choice config. otherwise (E.g. cohere) will fail the call - https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ToolChoice.html\n            supported_params.append(\"tool_choice\")\n\n        return supported_params\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_runtime",
+    "locations": [
+      "agent_runtime/providers/bedrock_converse.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: Bedrock Converse tool-calling support list omits meta.llama3-3 models so tools param dropped for Llama 3.3 agents.",
+    "intended_change": "Treat base_model.startswith('meta.llama3-3') like other tool-capable Bedrock model families.",
+    "preserve_behaviors": [
+      "Non-tool models still omit tools from supported params",
+      "tool_choice gating via supports_tool_choice unchanged"
+    ],
+    "verification_plan": [
+      "After includes tools for meta.llama3-3-70b-instruct-v1:0",
+      "Before omits tools for same model id"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "litellm_strict"
+}

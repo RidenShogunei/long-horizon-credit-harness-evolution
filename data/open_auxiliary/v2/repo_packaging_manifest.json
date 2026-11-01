@@ -1,0 +1,45 @@
+{
+  "packaging_id": "repo-open-data-20261102-c66",
+  "repo_relative_root": "data/open_auxiliary/v2",
+  "sealed_release_reference": {
+    "description": "Root-approved public snapshot; 289 payload paths listed in dataset_manifest.json files{}.",
+    "immutable_source_zip_sha256": "d7de1479d022de7fdfc4f6618434b0231f7b82ac428aca53ed84cc91591cc40b",
+    "immutable_source_zip_name": "research1_open_auxiliary_v2.zip",
+    "sealed_manifest_archive": "archive/sealed_dataset_manifest_release_v2.json"
+  },
+  "file_counts": {
+    "sealed_payload_files_in_manifest": 289,
+    "repository_files_under_v2_total": 301,
+    "packaging_and_attribution_files_not_in_manifest_files_map": 12
+  },
+  "integrity_after_relocation": {
+    "verified_utc": "2026-11-01T16:24:55Z",
+    "manifest_file": "dataset_manifest.json",
+    "entries_checked": 289,
+    "content_hash_mismatches": 0,
+    "note": "dataset_manifest.json files{} lists 289 payload paths; files below are packaging/attribution only. No sealed payload bytes modified."
+  },
+  "packaging_and_attribution_file_sha256": {
+    "NOTICE.md": "7c6b52f20e1692c8f4113a48d474d9bd455389ac28d1c500c9218bbab8949e3a",
+    "archive/sealed_dataset_manifest_release_v2.json": "75543d2ab68d1b442b434d7902ca183b5d69987cf62c0e841a805644abc9c4fa",
+    "dataset_manifest.json": "75543d2ab68d1b442b434d7902ca183b5d69987cf62c0e841a805644abc9c4fa",
+    "repo_packaging_manifest.json": "74141b6dffd48d9f402f6c96ad0078753304175c503fa8ae4149a4163d978926",
+    "resolved_license_inventory.json": "c38ee2aa6f22b077eb04762204868158623df94541fc8a500d497c4cac69782a",
+    "third_party_licenses/LICENSE_BY_SHA256.json": "56622a0a64fd34271446d8562df6894960b036352b8406fc291a0a4f6776bafe",
+    "third_party_licenses/_license_fetch_log.json": "ea079d837d03c2c2113d12b120ba4c47b80c1e9e1717a598e2fc9ce6cf7f8bc4",
+    "third_party_licenses/sha256_28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774__crewAIInc_crewAI__LICENSE": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+    "third_party_licenses/sha256_b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273__BerriAI_litellm__LICENSE": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+    "third_party_licenses/sha256_c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4__huggingface_smolagents__LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party_licenses/sha256_d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d__crewAIInc_crewAI__LICENSE": "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d",
+    "third_party_licenses/sha256_fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb__stanfordnlp_dspy__LICENSE": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb"
+  },
+  "deliberate_duplicate_views": [
+    "evolver_aux.*.jsonl merges framework + infrastructure partitions; partition-specific evolver_framework_aux.* and evolver_infrastructure_aux.* remain for honest usage splits.",
+    "evolver_aux.train.jsonl and evolver_aux.train.edit.jsonl share identical content when keep=0 (empty keep sidecars)."
+  ],
+  "excluded_from_repo": [
+    "research1_open_auxiliary_v2.zip duplicate (hash recorded above; zip not checked in)",
+    "429MB parquet candidate caches and full HuggingFace downloads",
+    ".git directories, __pycache__, session stdout/thinking logs, model weight checkpoints"
+  ]
+}

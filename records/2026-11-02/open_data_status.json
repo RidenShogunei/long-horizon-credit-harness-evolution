@@ -1,0 +1,85 @@
+{
+  "record_date": "2026-11-02",
+  "dataset_id": "research1-open-auxiliary-integrated-v2",
+  "repo_dataset_root": "data/open_auxiliary/v2",
+  "immutable_source_zip": {
+    "name": "research1_open_auxiliary_v2.zip",
+    "sha256": "d7de1479d022de7fdfc4f6618434b0231f7b82ac428aca53ed84cc91591cc40b",
+    "stored_in_repo": false
+  },
+  "sealed_release_counts": {
+    "sealed_payload_files_in_dataset_manifest_files_map": 289,
+    "repository_files_under_v2_total": 301,
+    "packaging_and_attribution_files_not_in_sealed_files_map": 12,
+    "manifest_verification_mismatches_on_sealed_payload": 0,
+    "integrity_verified_utc": "2026-11-01T16:24:55Z"
+  },
+  "sample_counts": {
+    "auxiliary_edit": 23,
+    "train": 20,
+    "validation": 3,
+    "keep": 0,
+    "source_repositories": 4,
+    "independent_parent_code_states": 23,
+    "raw_source_records": 96,
+    "strict_patch_reconstructions": 66,
+    "raw_ledger": {
+      "accepted_auxiliary": 23,
+      "not_admitted": 63,
+      "pending_verification": 7,
+      "failed_verification": 2,
+      "reconstruction_failed": 1
+    },
+    "batch_acceptance": {
+      "new_accepted_this_batch": 19,
+      "retained_v1": 4,
+      "revoked_v1_in_manifest": 1
+    },
+    "partitions": {
+      "FRAMEWORK_PLANNING_AUXILIARY": 16,
+      "AGENT_INFRASTRUCTURE_AUXILIARY": 7
+    },
+    "formal_autonomous_sft": 0,
+    "mc_values": 0
+  },
+  "attribution": {
+    "notice": "data/open_auxiliary/v2/NOTICE.md",
+    "resolved_inventory": "data/open_auxiliary/v2/resolved_license_inventory.json",
+    "third_party_licenses_dir": "data/open_auxiliary/v2/third_party_licenses/",
+    "canonical_license_files_sha256_named": 5
+  },
+  "readiness_flags_from_dataset_manifest": {
+    "diagnostic_tokenizer_length_and_assistant_boundary_passed": true,
+    "target_student_selected": false,
+    "formal_training_ready": false,
+    "full_upstream_test_suite_run": false,
+    "terminal_bench_transfer_verified": false,
+    "collection_complete": false,
+    "no_training_or_inference": true
+  },
+  "organized_artifacts": {
+    "dataset_snapshot": "data/open_auxiliary/v2/",
+    "workflow_scripts_index": "scripts/open_data/INDEX.md",
+    "workflow_script_python_copies": 28,
+    "documentation": [
+      "docs/open_data_collection.md",
+      "records/2026-11-02/cleanup.md"
+    ]
+  },
+  "excluded_from_git": [
+    "research1_open_auxiliary_v2.zip",
+    "429MB parquet downloads",
+    "__pycache__",
+    ".git",
+    ".pytest_cache",
+    "model weights",
+    "Cursor session stdout/thinking logs",
+    "credentials and API keys"
+  ],
+  "formal_campaign_v14_unchanged": {
+    "pointer": "records/2026-11-01/status.json",
+    "qualified_edit": 0,
+    "current_formal_sft": 0,
+    "mc": 0
+  }
+}

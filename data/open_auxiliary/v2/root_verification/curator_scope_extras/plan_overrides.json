@@ -1,0 +1,907 @@
+{
+  "schema_version": "root_scope_extras_v1",
+  "plan_schema_fields": [
+    "action",
+    "target_module",
+    "locations",
+    "evidence_refs",
+    "problem_hypothesis",
+    "intended_change",
+    "preserve_behaviors",
+    "verification_plan",
+    "verification_kind"
+  ],
+  "permitted_module_paths": [
+    "agent_loop",
+    "observation",
+    "tools",
+    "context_mgmt",
+    "verification"
+  ],
+  "samples": {
+    "stanfordnlp__dspy-8089": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "tools",
+        "locations": [
+          "tools/tool.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Source fact: Tool.__init__ sets args[k] to TypeAdapter(v).json_schema() or the string 'Any', then assigns args[k]['default']. Reporter claim: untyped defaulted parameters raise TypeError because 'Any' is a str. Hypothesis: keep dict schemas and gate validation on schema['type'].",
+        "intended_change": "Stop coercing missing hints to the literal 'Any' string; omit json_schema() falsy fallback; in __call__ validate only when args[k] is a dict with type not equal to 'Any'.",
+        "preserve_behaviors": [
+          "Tools with explicit typed parameters still expose JSON schema dicts",
+          "Tool invocation still forwards kwargs to the wrapped callable",
+          "Pydantic BaseModel-typed parameters still use resolved pydantic schemas"
+        ],
+        "verification_plan": [
+          "Construct Tool around def f(limit=120) without annotations; before raises on init, after succeeds",
+          "Call after Tool with explicit limit and confirm return value"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "dspy.primitives.tool.Tool.__init__",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8089/before/dspy/primitives/tool.py",
+          "sha256": "2247475bc1d6cfbbac4267328d0843f9f0a20b1ace86a7bca715eb7b24f7a683",
+          "start_line": 110,
+          "end_line": 144
+        }
+      ],
+      "plan_corrections": {
+        "verification_kind": null,
+        "problem_hypothesis": "Source fact: Tool._parse_function (invoked from Tool.__init__) builds args via TypeAdapter/BaseModel schema loop; reporter claim: untyped defaulted parameters get literal 'Any' string then default assignment raises TypeError. Hypothesis: keep dict schemas and gate validation on schema type."
+      },
+      "source_refs_suggestions": [
+        {
+          "qualname": "dspy.primitives.tool.Tool._parse_function",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8089/before/dspy/primitives/tool.py",
+          "start_line": 90,
+          "end_line": 131,
+          "note": "Primary schema inference loop; __init__ only delegates via self._parse_function(func, arg_desc)."
+        },
+        {
+          "qualname": "dspy.primitives.tool.Tool.__call__",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8089/before/dspy/primitives/tool.py",
+          "start_line": 133,
+          "end_line": 145
+        }
+      ],
+      "root_notes": "Root extra verified BaseModel arg schema preservation via real TypeAdapter path; strict batch typed/untyped probe unchanged.",
+      "extra_status": "pass"
+    },
+    "crewaiinc__crewai-1791": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "agent_loop/task.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: expected_output uses str.format and breaks on JSON braces. Reporter: templates with JSON snippets raise KeyError. Hypothesis: interpolate_only escapes braces except explicit placeholders; wrap file IO errors as RuntimeError.",
+        "intended_change": "Route expected_output through interpolate_only; add try/except around _save_file raising RuntimeError on OSError/IOError.",
+        "preserve_behaviors": [
+          "Simple `{user}` placeholders still interpolate on before and after",
+          "description interpolation behavior unchanged"
+        ],
+        "verification_plan": [
+          "JSON braces + {user}: before KeyError; after preserves JSON and user"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.task.Task.interpolate_only",
+          "original_path": "src/crewai/task.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1791/before/src/crewai/task.py",
+          "sha256": "7ea100ef082bda4e2f754bd532ad88e275aaa2b3ed32f4c87c5eb83c29e3a5bb",
+          "start_line": 34,
+          "end_line": 493
+        },
+        {
+          "qualname": "crewai.task.Task.interpolate_inputs",
+          "original_path": "src/crewai/task.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1791/before/src/crewai/task.py",
+          "sha256": "7ea100ef082bda4e2f754bd532ad88e275aaa2b3ed32f4c87c5eb83c29e3a5bb",
+          "start_line": 34,
+          "end_line": 493
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [
+        {
+          "qualname": "crewai.task.Task",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1791/before/src/crewai/task.py",
+          "start_line": 34,
+          "end_line": 493,
+          "note": "Remove spurious interpolate_only ref (applied-only); cite Task container with interpolate_inputs and _save_file."
+        },
+        {
+          "qualname": "crewai.task.Task._save_file",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1791/before/src/crewai/task.py",
+          "start_line": 473,
+          "end_line": 490
+        }
+      ],
+      "root_notes": "Extra verified _save_file OSError→RuntimeError wrap via monkeypatched Path.open; strict interpolation probes preserved.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-11964": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/prompt_templates/common_utils.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: unpack_defs only inlines $ref under properties/anyOf/items and misses nested anyOf/items $ref paths used for structured tool schemas.",
+        "intended_change": "Replace unpack_defs with a depth-first walker that merges $defs/definitions and resolves every $ref in-place across dict/list subtrees.",
+        "preserve_behaviors": [
+          "Schemas without $ref remain unchanged aside from normal dict traversal",
+          "Unknown $ref names are left untouched rather than raising"
+        ],
+        "verification_plan": [
+          "Nested anyOf $ref resolves to inlined subschema on after tree",
+          "Property $ref under properties still inlines as before"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-11964/before/litellm/litellm_core_utils/prompt_templates/common_utils.py",
+          "sha256": "c9a3b65a3a67d3a40a0a8740d9c419ee05b8df23746f03f343c2dd28b97ee65f",
+          "qualname": "unpack_defs",
+          "start_line": 492,
+          "end_line": 522
+        }
+      ],
+      "plan_corrections": {
+        "preserve_behaviors": [
+          "Schemas without $ref remain unchanged aside from normal dict traversal",
+          "Nested resolvable $ref paths inline on after; curator claim 'unknown $ref untouched' not verified (see root_notes)"
+        ]
+      },
+      "source_refs_suggestions": [],
+      "root_notes": "Root extra ran no-$ref equality and missing-$ref observation; narrowed preserve only where observed.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-8512": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/providers/bedrock_converse.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: Bedrock Converse tool-calling support list omits meta.llama3-3 models so tools param dropped for Llama 3.3 agents.",
+        "intended_change": "Treat base_model.startswith('meta.llama3-3') like other tool-capable Bedrock model families.",
+        "preserve_behaviors": [
+          "Non-tool models still omit tools from supported params",
+          "tool_choice gating via supports_tool_choice unchanged"
+        ],
+        "verification_plan": [
+          "After includes tools for meta.llama3-3-70b-instruct-v1:0",
+          "Before omits tools for same model id"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-8512/before/litellm/llms/bedrock/chat/converse_transformation.py",
+          "sha256": "faf87b0579e823e618927ff918791eb1248f23d219bb09656c6e77f895e326e4",
+          "qualname": "AmazonConverseConfig.get_supported_openai_params",
+          "start_line": 86,
+          "end_line": 118
+        }
+      ],
+      "plan_corrections": {
+        "preserve_behaviors": [
+          "Observed get_supported_openai_params tools list for known supported/unsupported bedrock models unchanged under stubbed supports_tool_choice(bedrock=True)",
+          "After exposes tools param for meta.llama3-3-70b-instruct-v1:0 while before omits it"
+        ]
+      },
+      "source_refs_suggestions": [],
+      "root_notes": "supports_tool_choice mocked; do not claim real provider tool_choice semantics verified.",
+      "extra_status": "pass"
+    },
+    "crewaiinc__crewai-1910": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "context_mgmt",
+        "locations": [
+          "prompts/converter.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: describe_field only treats typing.Union optional forms and calls __name__ on all types. Reporter: PEP604 `int | None` and some annotations crash. Hypothesis: treat pipe-union args like Optional and guard types lacking __name__.",
+        "intended_change": "Extend union detection for PEP604 args; optional branch handles single and multi non-None members; fall back to str(field_type) when __name__ absent.",
+        "preserve_behaviors": [
+          "typing.Optional fields still render as Optional[inner]",
+          "Nested BaseModel fields still expand recursively"
+        ],
+        "verification_plan": [
+          "Model with `int | None` field: before generate_model_description raises; after returns description containing opt field"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.utilities.converter.generate_model_description",
+          "original_path": "src/crewai/utilities/converter.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1910/before/src/crewai/utilities/converter.py",
+          "sha256": "07a5a7290c2cccfae5387f000699209b0dd2c402761872beda134849fa77ceb2",
+          "start_line": 230,
+          "end_line": 262
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Nested BaseModel generate_model_description preserved before/after.",
+      "extra_status": "pass"
+    },
+    "crewaiinc__crewai-2424": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "observation",
+        "locations": [
+          "agent_loop/crewai_event_bus.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: emit registers handlers by exact event type only. Reporter: base-type listeners miss subclass events. Hypothesis: iterate registered types and invoke handlers when isinstance(event, registered_type).",
+        "intended_change": "Replace exact type lookup with isinstance-based dispatch loop over handler map.",
+        "preserve_behaviors": [
+          "Handlers registered for concrete event type still run",
+          "Blinker signal send still occurs after handler loop"
+        ],
+        "verification_plan": [
+          "Subclass event: before only concrete handler; after both base and concrete handlers fire"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.utilities.events.crewai_event_bus.CrewAIEventsBus.emit",
+          "original_path": "src/crewai/utilities/events/crewai_event_bus.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-2424/before/src/crewai/utilities/events/crewai_event_bus.py",
+          "sha256": "ce4b08842a2c421457031746e571333821c27a4a04f8142b97c4f589984e3603",
+          "start_line": 13,
+          "end_line": 109
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Blinker signal.send IO trace fires on before and after emit.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-5232": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/providers/anthropic_stream.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: streaming Anthropic tool-call deltas reuse provider content_block index so parallel tool calls get wrong OpenAI-style tool index.",
+        "intended_change": "Track self.tool_index on content_block_start for tool_use and emit that stable index in streamed tool_calls chunks.",
+        "preserve_behaviors": [
+          "Non-tool streaming chunks still map through existing delta handler",
+          "empty tool-call arg guard behavior unchanged"
+        ],
+        "verification_plan": [
+          "After iterator assigns monotonic tool_index starting at 0 on tool_use start",
+          "Before leaves default -1 and passes provider index through"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-5232/before/litellm/llms/anthropic.py",
+          "sha256": "86777c7e439a81ba884d3ee4b0a81699a764d35d2c9e9e4a1eebc9e5fbe0cef0",
+          "qualname": "ModelResponseIterator",
+          "start_line": 1117,
+          "end_line": 1197
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Added empty tool delta arguments guard check.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-12168": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/utils.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: validate_chat_completion_tool_choice rejects Cursor-style dict tool_choice {\"type\":\"auto\"} lacking function field.",
+        "intended_change": "Accept dict tool_choice when type is auto/none/required and no function key; keep strict OpenAI function dict validation otherwise.",
+        "preserve_behaviors": [
+          "String tool_choice values still pass through unchanged",
+          "Invalid function dicts still raise with OpenAI-spec error"
+        ],
+        "verification_plan": [
+          "Before raises on {\"type\":\"auto\"}",
+          "After returns same dict unchanged"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-12168/before/litellm/utils.py",
+          "sha256": "dc3fb72ff3f00f56b145a7ee32ad03f6273126e546cfd66c94ac5ce032ce5466",
+          "qualname": "validate_chat_completion_tool_choice",
+          "start_line": 6556,
+          "end_line": 6581
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Invalid function dict and named function acceptance probed.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-9828": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/vertex/common_utils.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: Vertex structured-output schema builder drops JSON key order so propertyOrdering never reaches Gemini/Vertex requests.",
+        "intended_change": "Thread add_property_ordering through _build_vertex_schema and set_schema_property_ordering when building tool/response schemas.",
+        "preserve_behaviors": [
+          "Existing unpack_defs flattening of $defs still runs before field filtering",
+          "Invalid schema fields still stripped via Schema TypedDict hints"
+        ],
+        "verification_plan": [
+          "After with add_property_ordering=True adds propertyOrdering list matching property declaration order",
+          "Before leaves parameters without propertyOrdering"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-9828/before/litellm/llms/vertex_ai/common_utils.py",
+          "sha256": "e600185b071b61fd02747d658760d8845742b50322cbc2976db2c4a86eae0398",
+          "qualname": "_build_vertex_schema",
+          "start_line": 168,
+          "end_line": 190
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "9828 helpers with variant-matched 11964 unpack_defs; default_false output equality checked.",
+      "extra_status": "pass"
+    },
+    "berriai__litellm-9261": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_runtime",
+        "locations": [
+          "agent_runtime/prompt_templates/factory.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: ollama_pt prompt builder skips consecutive system-role messages after user blocks, so system instructions never reach the Ollama prompt template.",
+        "intended_change": "After user content merge, merge consecutive system messages into a ### System block before assistant merging.",
+        "preserve_behaviors": [
+          "User and assistant merge loops still advance msg_i monotonically",
+          "BadMessageError still raised when msg_i stalls"
+        ],
+        "verification_plan": [
+          "Two consecutive system messages after user produce one ### System section on after",
+          "Before omits system section for the same message list"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-9261/before/litellm/litellm_core_utils/prompt_templates/factory.py",
+          "sha256": "f3a4b0dcca99b68e86551b1523b61cf65890629e561ef8756f9a3ab4a6488966",
+          "qualname": "ollama_pt",
+          "start_line": 169,
+          "end_line": 310
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-1818": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "agent_loop/planning_handler.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Before: CrewPlanner._create_tasks_summary omits agent knowledge. Reporter: knowledge_sources ignored during planning.",
+        "intended_change": "Add _get_agent_knowledge(task) reading task.agent.knowledge_sources[].content; append agent_knowledge to summary when non-empty.",
+        "preserve_behaviors": [
+          "Tasks without knowledge_sources omit agent_knowledge key",
+          "task_description, task_expected_output, agent role/goal remain present"
+        ],
+        "verification_plan": [
+          "With knowledge: after summary contains content; before does not",
+          "Without knowledge: after summary lacks agent_knowledge; core fields present"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.utilities.planning_handler.CrewPlanner",
+          "original_path": "src/crewai/utilities/planning_handler.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-1818/before/src/crewai/utilities/planning_handler.py",
+          "sha256": "c1c1509abebce55eea17981656093ae4cf0fb55752cc2391af24f6468bc16015",
+          "start_line": 24,
+          "end_line": 86
+        },
+        {
+          "qualname": "crewai.utilities.planning_handler.CrewPlanner._create_tasks_summary",
+          "original_path": "src/crewai/utilities/planning_handler.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-1818/before/src/crewai/utilities/planning_handler.py",
+          "sha256": "c1c1509abebce55eea17981656093ae4cf0fb55752cc2391af24f6468bc16015",
+          "start_line": 71,
+          "end_line": 86
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-2408": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "context_mgmt",
+        "locations": [
+          "context_mgmt/prompts.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Before: Prompts._build_prompt uses custom branch when either template set; system-only leaves prompt_template None causing AttributeError.",
+        "intended_change": "Require both templates for custom branch; fallback to i18n slices if either missing; optional response_template guarded.",
+        "preserve_behaviors": [
+          "No custom templates: rendered prompt identical before/after",
+          "Both custom templates provided: rendered prompt identical before/after"
+        ],
+        "verification_plan": [
+          "Default path string equality before vs after",
+          "Dual-template path string equality before vs after",
+          "System-only: before AttributeError; after equals default-path string"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.utilities.prompts.Prompts",
+          "original_path": "src/crewai/utilities/prompts.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2408/before/src/crewai/utilities/prompts.py",
+          "sha256": "8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f",
+          "start_line": 8,
+          "end_line": 78
+        },
+        {
+          "qualname": "crewai.utilities.prompts.Prompts._build_prompt",
+          "original_path": "src/crewai/utilities/prompts.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2408/before/src/crewai/utilities/prompts.py",
+          "sha256": "8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f",
+          "start_line": 49,
+          "end_line": 78
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-2570": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "tools",
+        "locations": [
+          "tools/base_tool.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: crewai.tools.base_tool.BaseTool.run returns self._run(...) directly. Reporter: async tool _run returns coroutine object. Hypothesis: asyncio.iscoroutine then asyncio.run before return (nested active event loop not verified here).",
+        "intended_change": "In BaseTool.run, assign result = self._run(...); if asyncio.iscoroutine(result) return asyncio.run(result); else return result.",
+        "preserve_behaviors": [
+          "Sync _run return values pass through unchanged",
+          "Using Tool: {name} print line still emitted before _run"
+        ],
+        "verification_plan": [
+          "Async _run: before returns coroutine object; after returns resolved dict",
+          "Sync _run: int 7 before and after",
+          "Stdout preserves Using Tool print prefix"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.tools.base_tool.BaseTool",
+          "original_path": "src/crewai/tools/base_tool.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+          "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+          "start_line": 18,
+          "end_line": 177
+        },
+        {
+          "qualname": "crewai.tools.base_tool.BaseTool.run",
+          "original_path": "src/crewai/tools/base_tool.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+          "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+          "start_line": 62,
+          "end_line": 68
+        },
+        {
+          "qualname": "crewai.tools.base_tool.BaseTool._run",
+          "original_path": "src/crewai/tools/base_tool.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+          "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+          "start_line": 71,
+          "end_line": 76
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-2588": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "context_mgmt",
+        "locations": [
+          "context_mgmt/mem0_storage.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Before: Mem0Storage.__init__ calls Memory.from_config(config) where config is API metadata dict, not mem0_local_config. Hypothesis: pass mem0_local_config.",
+        "intended_change": "In local branch use Memory.from_config(mem0_local_config) instead of Memory.from_config(config).",
+        "preserve_behaviors": [
+          "No API key and empty local config: Memory() default constructor",
+          "MEM0_API_KEY set: MemoryClient constructed with same org/project kwargs as before"
+        ],
+        "verification_plan": [
+          "Local mem0_local_config forwarded to fake Memory.from_config",
+          "Default Memory() path unchanged",
+          "Dummy MEM0_API_KEY env: MemoryClient receives api_key/org_id/project_id"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.memory.storage.mem0_storage.Mem0Storage",
+          "original_path": "src/crewai/memory/storage/mem0_storage.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2588/before/src/crewai/memory/storage/mem0_storage.py",
+          "sha256": "a3022bc77f3a1bff3a4fb3f63dffca46cdaa3ccaa2cd47314ad2e8dc6232b185",
+          "start_line": 9,
+          "end_line": 139
+        },
+        {
+          "qualname": "crewai.memory.storage.mem0_storage.Mem0Storage.__init__",
+          "original_path": "src/crewai/memory/storage/mem0_storage.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2588/before/src/crewai/memory/storage/mem0_storage.py",
+          "sha256": "a3022bc77f3a1bff3a4fb3f63dffca46cdaa3ccaa2cd47314ad2e8dc6232b185",
+          "start_line": 14,
+          "end_line": 53
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-2865": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "agent_loop/task.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: Task.prompt never adds Markdown formatting guidance. Reporter: users need optional Markdown output contract. Hypothesis: markdown bool field gates appended instruction block in prompt().",
+        "intended_change": "Add markdown Optional field default False; when True append fixed Markdown syntax instruction slice to prompt parts.",
+        "preserve_behaviors": [
+          "markdown=False prompt matches prior description+expected_output structure",
+          "i18n expected_output slice still included"
+        ],
+        "verification_plan": [
+          "markdown=True: after prompt contains Markdown syntax block; before does not"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.task.Task.prompt",
+          "original_path": "src/crewai/task.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-2865/before/src/crewai/task.py",
+          "sha256": "6922cf7452e4a77486f954506e19200e82601b833bb849b800eca1a91d76edca",
+          "start_line": 56,
+          "end_line": 757
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-2890": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "planning/crew_base.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Current-code: CrewBase wrapper renames class but stores no logical crew identifier. Reporter: logging/debug needs original class name. Hypothesis: assign WrappedClass._crew_name = cls.__name__.",
+        "intended_change": "After wrapper naming, set _crew_name to decorated class __name__.",
+        "preserve_behaviors": [
+          "Decorator still returns wrapped crew class with is_crew_class flag",
+          "Wrapped __name__ still includes original class name in parentheses"
+        ],
+        "verification_plan": [
+          "Before: decorated class lacks _crew_name; after: _crew_name equals original class name"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.project.crew_base.CrewBase",
+          "original_path": "src/crewai/project/crew_base.py",
+          "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-2890/before/src/crewai/project/crew_base.py",
+          "sha256": "22f680f5084825664324194af51dc7f2d88e299fd3ce3e056358a5f5c3e2d931",
+          "start_line": 16,
+          "end_line": 256
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "crewaiinc__crewai-3150": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "agent_loop/task.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Before: crewai.task.Task._save_file always mkdir(parents=True) when parent missing. Reporter wants opt-out via new Task.create_directory field (not in before state).",
+        "intended_change": "Add Task.create_directory default True on Task model; gate mkdir in _save_file; when create_directory is False and parent missing raise RuntimeError; when parent exists still write file.",
+        "preserve_behaviors": [
+          "output_file unset raises ValueError in _save_file (both versions)",
+          "Default create_directory=True still creates nested dirs and writes content",
+          "create_directory=False with existing parent directory still writes content"
+        ],
+        "verification_plan": [
+          "Missing parent + create_directory=False: after rejects; before still creates",
+          "Missing parent + default True: nested file created with content hello",
+          "Existing parent + create_directory=False: after still writes",
+          "output_file None: ValueError both versions"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "crewai.task.Task",
+          "original_path": "src/crewai/task.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-3150/before/src/crewai/task.py",
+          "sha256": "3007b5e29bd4da7a507da55289f7506a5b211bd56f38171aded5f816c91f3781",
+          "start_line": 56,
+          "end_line": 784
+        },
+        {
+          "qualname": "crewai.task.Task._save_file",
+          "original_path": "src/crewai/task.py",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-3150/before/src/crewai/task.py",
+          "sha256": "3007b5e29bd4da7a507da55289f7506a5b211bd56f38171aded5f816c91f3781",
+          "start_line": 726,
+          "end_line": 772
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "huggingface__smolagents-1088": {
+      "original_plan_draft": {
+        "action": null,
+        "target_module": null,
+        "locations": null,
+        "evidence_refs": null,
+        "problem_hypothesis": null,
+        "intended_change": null,
+        "preserve_behaviors": null,
+        "verification_plan": null,
+        "verification_kind": null
+      },
+      "original_source_refs": [],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "huggingface__smolagents-285": {
+      "original_plan_draft": {
+        "action": null,
+        "target_module": null,
+        "locations": null,
+        "evidence_refs": null,
+        "problem_hypothesis": null,
+        "intended_change": null,
+        "preserve_behaviors": null,
+        "verification_plan": null,
+        "verification_kind": null
+      },
+      "original_source_refs": [],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "huggingface__smolagents-478": {
+      "original_plan_draft": {
+        "action": null,
+        "target_module": null,
+        "locations": null,
+        "evidence_refs": null,
+        "problem_hypothesis": null,
+        "intended_change": null,
+        "preserve_behaviors": null,
+        "verification_plan": null,
+        "verification_kind": null
+      },
+      "original_source_refs": [],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "huggingface__smolagents-891": {
+      "original_plan_draft": {
+        "action": null,
+        "target_module": null,
+        "locations": null,
+        "evidence_refs": null,
+        "problem_hypothesis": null,
+        "intended_change": null,
+        "preserve_behaviors": null,
+        "verification_plan": null,
+        "verification_kind": null
+      },
+      "original_source_refs": [],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "stanfordnlp__dspy-8053": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "agent_loop",
+        "locations": [
+          "agent_loop/grounded_proposer.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: MIPROv2 bootstrap can yield demo_candidates=None leading to TypeError subscripting None inside propose_instructions_for_program. Source fact: falsy demo_candidates branch still iterated len(demo_candidates[0]).",
+        "intended_change": "When demo_candidates is falsy, set num_demos=N instead of indexing demo_candidates[0]; loop range(num_demos).",
+        "preserve_behaviors": [
+          "When demo_candidates provided, still iterate max(len(demo_candidates[0]),1) demos",
+          "propose_instruction_for_predictor still invoked per predictor/demo index"
+        ],
+        "verification_plan": [
+          "Call propose_instructions_for_program with demo_candidates=None and N=2 using stubbed predictor hook",
+          "Before raises TypeError; after performs two stub calls"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "dspy.propose.grounded_proposer.GroundedProposer.propose_instructions_for_program",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8053/before/dspy/propose/grounded_proposer.py",
+          "sha256": "8e41cd1c4c61795e9f83e424233350542d52259ccb3747b8fd27fdb3c5029aa0",
+          "start_line": 321,
+          "end_line": 378
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    },
+    "stanfordnlp__dspy-8340": {
+      "original_plan_draft": {
+        "action": "edit",
+        "target_module": "context_mgmt",
+        "locations": [
+          "context_mgmt/chat_adapter.py"
+        ],
+        "evidence_refs": [
+          "ev_reported_issue",
+          "ev_exact_source"
+        ],
+        "problem_hypothesis": "Reporter claim: History/adapter-constructed assistant messages omit the [[ ## completed ## ]] marker required by ChatAdapter field instructions. Source fact: format_assistant_message_content returned only format_field_with_value output.",
+        "intended_change": "Append '\\n\\n[[ ## completed ## ]]\\n' to assistant_message_content before returning.",
+        "preserve_behaviors": [
+          "Output field headers/content from format_field_with_value remain unchanged",
+          "parse() and other ChatAdapter methods untouched in scoped plan"
+        ],
+        "verification_plan": [
+          "Call format_assistant_message_content on before vs after ChatAdapter with stubbed body",
+          "Confirm after includes completed marker; before lacks it while body preserved"
+        ],
+        "verification_kind": null
+      },
+      "original_source_refs": [
+        {
+          "qualname": "dspy.adapters.chat_adapter.ChatAdapter.format_assistant_message_content",
+          "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8340/before/dspy/adapters/chat_adapter.py",
+          "sha256": "5c1a8121fb9f388956c67f61f74df80b2b2a0f67a65b8772d468763e0babba8f",
+          "start_line": 138,
+          "end_line": 151
+        }
+      ],
+      "plan_corrections": {},
+      "source_refs_suggestions": [],
+      "root_notes": "Strict batch + acceptance_strengthened (smol) sufficient; no Plan factual override.",
+      "extra_status": "skipped_strict_sufficient"
+    }
+  }
+}

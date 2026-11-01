@@ -1,0 +1,866 @@
+[
+  {
+    "sample_id": "All-Hands-AI__OpenHands-3925",
+    "repo": "All-Hands-AI/OpenHands",
+    "base_commit": "f7ebc1cf1f1f4ae306d1e630ac57b618d0d85810",
+    "patch_sha256": "de3371fe05bba57a3f75f68ffe937308cf54d88ac6c878453ca1c1e23ce97ee3",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "All-Hands-AI__OpenHands-4154",
+    "repo": "All-Hands-AI/OpenHands",
+    "base_commit": "c8a933590ac9bd55aa333940bacd4e323eff34bc",
+    "patch_sha256": "2fbd02663b3384182e1f5db86f136d2dd8862b4bfa2f8e0b18e3796b93f4b880",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-1088",
+    "repo": "huggingface/smolagents",
+    "base_commit": "3240fa878ac288a217d62fcf516241ac54ab4184",
+    "patch_sha256": "68a52c57891e17a46fe70bf81c8bb8854116b0a81de38895e5d8bce7aea58c2a",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "huggingface__smolagents-226",
+    "repo": "huggingface/smolagents",
+    "base_commit": "a4ec1e5be3fb553b45af5f38f134f7be26d3a274",
+    "patch_sha256": "438d201c55f50f266191d83075976dc464288bb79faedce45fb17a92d8d6caa1",
+    "original_patch_reconstructed": true,
+    "status": "failed_verification",
+    "reason": "Observed wildcard constructor regression; v1 auxiliary positive revoked."
+  },
+  {
+    "sample_id": "huggingface__smolagents-285",
+    "repo": "huggingface/smolagents",
+    "base_commit": "bd08d6485daad3a8eba8d22ca0c185c6653acf2c",
+    "patch_sha256": "963ea28340ee5c92abb9f9e22e53cbbe579fd112afcd60a01d60468d8ae60203",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "huggingface__smolagents-385",
+    "repo": "huggingface/smolagents",
+    "base_commit": "68f3da12ea303c2bcb32c4224291eaa6f006c8a4",
+    "patch_sha256": "79ab83b16d2343c5db54a854cd5cf8d5df71a23e0a92f1b68516ee0360da37e3",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-478",
+    "repo": "huggingface/smolagents",
+    "base_commit": "39908439d29d3004ec59313be2fd89f43f06b485",
+    "patch_sha256": "bd4d730337d8fa383d0af00405affcb639fb721f4e658f53682e825df8be3d37",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "huggingface__smolagents-693",
+    "repo": "huggingface/smolagents",
+    "base_commit": "e5a71dab1cf83fd0c1f24ffeee30f193e05d5aa2",
+    "patch_sha256": "07a8052b86c239e4f34dc6b0cc60a88bf77992e5a415027cb6060851f0b08bbd",
+    "original_patch_reconstructed": false,
+    "status": "reconstruction_failed",
+    "reason": "Original patch reconstruction incomplete; retained unchanged."
+  },
+  {
+    "sample_id": "huggingface__smolagents-790",
+    "repo": "huggingface/smolagents",
+    "base_commit": "df617bb4c1c3956ed327212ed6b17f0df9efe6f3",
+    "patch_sha256": "3c2a749ebef34c60b24383b6e16032ba2e627c4532f45fd811f4a219ce439521",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-868",
+    "repo": "huggingface/smolagents",
+    "base_commit": "e2a469032a3625b00048416437c02a57fde5d9cb",
+    "patch_sha256": "42d39ee8f01bd9aa095285613072420f02fa9bde32cfc9fefdce5e30f0cdb071",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-877",
+    "repo": "huggingface/smolagents",
+    "base_commit": "ff7ba5117fa6329af1f7b21e6c174320c729bfb4",
+    "patch_sha256": "c11e4ba26013f63e0ed55f2f37abb2801c083ceab60c6bebf4967ebcf9cfc3a9",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-891",
+    "repo": "huggingface/smolagents",
+    "base_commit": "0329674dcb515e2f0130e6fb22b4f2cd5652038f",
+    "patch_sha256": "2e0b3544a694601146838b6964396b6dadae40425ff8bb9af2e6eb6d8acf6342",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "huggingface__smolagents-895",
+    "repo": "huggingface/smolagents",
+    "base_commit": "40d795ddb60808d5094efad8e909f39376896d17",
+    "patch_sha256": "35378419df76f1eee32a87e10d82290129ca179a1d4bbd47f47dad81bec41ee3",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "huggingface__smolagents-900",
+    "repo": "huggingface/smolagents",
+    "base_commit": "b67cc947985a22ae4f6771aab6e76eae74dd8df9",
+    "patch_sha256": "fa624456fcb416fa1cba9e9a7953b32280bce45a191decdce884eb94707053ee",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-10633",
+    "repo": "BerriAI/litellm",
+    "base_commit": "a4fb1da2d9be87803221f4fed39486b51c9a880f",
+    "patch_sha256": "f95110bb2d79d5a67e96bd610931a8c239c098887e66815d6c22352b3beaed90",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-4760",
+    "repo": "BerriAI/litellm",
+    "base_commit": "a176feeacc5fdf504747978d82056eb84679c4be",
+    "patch_sha256": "e050287cf81be7d347a267ed9ecb81fff20665ae056661dcaf2747f97574494e",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-6265",
+    "repo": "BerriAI/litellm",
+    "base_commit": "43878bd2a06ce3694449ad620ce5b3e93d225628",
+    "patch_sha256": "071a8cbb78213ec0d28d804f36d1b15702ad184ccdfd9762139951b0ef727928",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-9419",
+    "repo": "BerriAI/litellm",
+    "base_commit": "7cf7e80c5a288d153e520b1a6f61acf85513fe20",
+    "patch_sha256": "57641cae5ca25b421af657de080c6a7fdb170361e82938e2ff2547b670db508c",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-10697",
+    "repo": "BerriAI/litellm",
+    "base_commit": "86f19d2fae0f0197f4c146955fcad8a5f26dc220",
+    "patch_sha256": "a5bbd706f78a79fe2eae08ec75b15a0763fa46e28450593692ba23a696261979",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-1556",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "92d25a7066227d18f852eb49a397b46c11f0dc1a",
+    "patch_sha256": "ae2deffa6094890ccc7d8eae054626b35724112deee8598237373c6942367cb8",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8445",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "c27eff3e81f0a057f7ddbd4ae6285d9dd040c865",
+    "patch_sha256": "bb3445597fca1d6624ddd9e3b734e125a031face549215e45b76fd3280c38ff8",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-6138",
+    "repo": "BerriAI/litellm",
+    "base_commit": "6005450c8fe6f354c6d3dbcdc873ddc5c4025c70",
+    "patch_sha256": "8e8db50e4881b221e0be3942b918ab4c7601edca467daa49ca9c968e82b84b4b",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "berriai__litellm-9261",
+    "repo": "BerriAI/litellm",
+    "base_commit": "4a6dcd64ff1a6151d7e5fec022b3905265791fcd",
+    "patch_sha256": "8d88c1b3706778d0d4766269d57065d7f42d3cbf4d787ce9a9b0f4415e4e9b00",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-6563",
+    "repo": "BerriAI/litellm",
+    "base_commit": "fe100e903ec7cdf55aeb3a9607e05558ce269e1c",
+    "patch_sha256": "05758d794adcbf54ec69d2db8921260b4e6e6e40bd34bf57060e83aeb0db5daf",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "berriai__litellm-10959",
+    "repo": "BerriAI/litellm",
+    "base_commit": "be672b2b18a12b71db08caba0d6ac81f88431719",
+    "patch_sha256": "334944b4367bf91a6b7bb4a381e9cd0860d2eb1fd6ddfe3faf6ae0a7cf17006c",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-1651",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "9a952fef5fa8399cb82cb726860814e21816f16d",
+    "patch_sha256": "b1af53fff23df7434cd7fb997e664a3c12d7cfc91ab330a5904db1761781e0f1",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-8131",
+    "repo": "BerriAI/litellm",
+    "base_commit": "915cc064c53552f85a955ef5cf0bcce081ec84d9",
+    "patch_sha256": "80ef1d66dd8f4e2c3d755a151f728766d45a5a0e583b4d5dc319faa601e20e11",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8053",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "dd954e3cf2fbb119530ca2e6885b784bad9bace9",
+    "patch_sha256": "615d401c4cdc6591491b84c2a1f64ef9622d50fcbb469fed80b8cc14240740fe",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2495",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "625748e46272ce1d996bf17d8b7e6701f4ee297f",
+    "patch_sha256": "d165e9aff5bb682879ee15b9c0580dd20391c74c8910a05a4decd07f623c8d51",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8340",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "e4ec979a3d76f3375637f3a06bb92d406a36a31e",
+    "patch_sha256": "09f98520765407791f6b3ba305aead356bf267cc6c1371d08c8b61dd093050d3",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2570",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+    "patch_sha256": "b24a45cdc8eb5f8924b1544cade74e360f3e9b3d371146bc27679f3446f3057e",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-3470",
+    "repo": "BerriAI/litellm",
+    "base_commit": "918367cc7bdc9e8e01477243ebc963709ac8178e",
+    "patch_sha256": "09e009ecfc52d783f3e87647f45ed64d88eedf27a49d2fc4c2db165ec1cfda58",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-11964",
+    "repo": "BerriAI/litellm",
+    "base_commit": "4598a9bf31d59c1982f40a89593b250e68b1c754",
+    "patch_sha256": "c20d5682b9db226d2e2fb4004d180b57732272d6f8f127cdd3c21eac5440266f",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8146",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "b05b0739ef1be47f242ecd1685c3f4a6defcee9e",
+    "patch_sha256": "b919556069048d3cbb0573bd85d8fc601204efa8f0efc3797cb7ad1a6ae6492c",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3150",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "e7a5747c6b8ce4ddad5a43aaf6b56f8997916459",
+    "patch_sha256": "f3dda61beb8c7cbbfebfd3f331b0f3bd669373efc55ecedc469790cf1e72ff5b",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-8512",
+    "repo": "BerriAI/litellm",
+    "base_commit": "1d22052f47e0a376dfc212afdb9ace176c7524c1",
+    "patch_sha256": "313848be732f26c218f4799715569f683b69f0d14f7c757b61832459dbf62398",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8089",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+    "patch_sha256": "987615cf27b67b7ea89dbf1f18d1dc259f91df51938a2e6ac24f61aa7ca37675",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2588",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "40a441f30eebce88b928db875e4309b892a9ac11",
+    "patch_sha256": "5c2f90d2ae2f89bc13b67be00fe35522581ede4f5839593a00defe9c099963bb",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "mem0ai__mem0-2774",
+    "repo": "mem0ai/mem0",
+    "base_commit": "a40268dd5126be2f78efa4c723e856a07835a4c4",
+    "patch_sha256": "bf379017c25f77aa9be9318006df5f990d6b527e7e08f8fb4c3eef2633480e8f",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-12551",
+    "repo": "BerriAI/litellm",
+    "base_commit": "2b2ba8a2b1ac0201ab3caca98e95aef23ff2442f",
+    "patch_sha256": "1a7a11f3cb7d1b96171b4b283a9939f51f112ffc693dfed7fe7966cd4fec8b50",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8339",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "e4ec979a3d76f3375637f3a06bb92d406a36a31e",
+    "patch_sha256": "343640c50dab09487dc4a58a3667af62ecca832af6f5782a8be72973c4a24391",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-1853",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "2aa6f0172eff8d488b4d88e58168c97e641b6da0",
+    "patch_sha256": "5dad985b5f8c3030708cc9a54435e9c61e76e4e28a0c1e7fbe338fe178e80525",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-11006",
+    "repo": "BerriAI/litellm",
+    "base_commit": "95fd281a7d53d02bab7020d58afe5f99b828efb4",
+    "patch_sha256": "025d9d3dc74fd2f3576f57586b970130c5608ad74bf82938b2a2401ff345e15d",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8235",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "ed3736e95a2b0f5c9760e7dc21d5efee067e0de4",
+    "patch_sha256": "bbdf61a3e25713993ae4e039f3292833126bc2076594e66f3ee5e14f2646d8fc",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2552",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "9dffd42e6d3b81973e6b4e76fdb906dae649e04a",
+    "patch_sha256": "d8c938046b92ce5990238031bf8b6fee7fd3c4de9e099fe881ec8b78e222d000",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-4716",
+    "repo": "BerriAI/litellm",
+    "base_commit": "3dc2ec8119d928b04a9bdb9d03b95f877b7c887e",
+    "patch_sha256": "a50a32c836eb146f4c2ddad5478ca1af6ce51f21e5d25efb7a28ecc1a7a82a6c",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-1200",
+    "repo": "BerriAI/litellm",
+    "base_commit": "4cfa010dbda2cffa7a403d6e13a6156904bd056c",
+    "patch_sha256": "b23449da03009e0383e602d3ffa375f4f05ee6153e0b46cfef0a3debca6625ba",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-12003",
+    "repo": "BerriAI/litellm",
+    "base_commit": "4598a9bf31d59c1982f40a89593b250e68b1c754",
+    "patch_sha256": "5dc2223cb370856ee652d040f51e4cabc4770d0ff2afbf64eb92511be2dd51cd",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "berriai__litellm-5232",
+    "repo": "BerriAI/litellm",
+    "base_commit": "1510daba4f078e8e61cdec34cb6f0fea06ab8965",
+    "patch_sha256": "36814c67cc29d46055535b279e6a75efbdf8ffca8177bb99f60c3f9dff4c1138",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-12168",
+    "repo": "BerriAI/litellm",
+    "base_commit": "f76375b65131f2dccb601995d7c5eabc3d5884fd",
+    "patch_sha256": "3a04cb6d0eca1ceb300f7b4601c1374bee51d66fc62f895bdc767fea72e6764b",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1818",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "a548463faebd22aa3167a13ad417b4ab89776478",
+    "patch_sha256": "3d62d04cb08219644540af3266eb2a403d07d824e9fadaebf05b51b3f9edb707",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-9828",
+    "repo": "BerriAI/litellm",
+    "base_commit": "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+    "patch_sha256": "3f859ba9797bc10069a3df2958e59f7ba63e8095f118d067f4069b3bb1f70a9c",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8432",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "94299c7edbbe39cbb086cff892e3902e27cb2f1d",
+    "patch_sha256": "9017d3e5add33f7cb4c4944003a90e9610302d8c31892397561c957fb3c0ef74",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2408",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "4f6054d439c602f93283eda351fe6b67133b9a84",
+    "patch_sha256": "5e839d73f09a3ffbc4e7c0f7505a2564f6b68d8db4d6f0bc742d402f456374f0",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "berriai__litellm-5025",
+    "repo": "BerriAI/litellm",
+    "base_commit": "7f1d32a75b5cddb51c5a5006d7e436f3fe1cd03e",
+    "patch_sha256": "5105833ef01ac736e287ff5f8fa2e0e4def53b962b0bf48d5e55b308e81624bb",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1199",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "92a77e5cac09c23a80ad7daf51bad9034e32c2aa",
+    "patch_sha256": "2ceca4ab01ca862860377957a973756d78b5c6f51b1c5568b1505207c7760f07",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1269",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "172758020cfdd4625585213113a0a513760cc0bf",
+    "patch_sha256": "423ed0f0d3160871139ef32274ec7a8e4cdf0b1c0372b4884e236a708b34d63b",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1348",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "e534efa3e9d0cfbd60ce4748ca9af9e542c2c296",
+    "patch_sha256": "0013de46152c3c57367393b311979d5ed0010c708d2cbeca5f9378a78c8a6cfc",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1350",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "effb7efc37a41268e6c79b8f03d13bb7073111e0",
+    "patch_sha256": "57481efec64615cdeaaf2ad4bf66fe1bb6e8ac5709eb5a82ee936e9d33341f4f",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1376",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "f15d5cbb645ab2a349a987a2d24ad4571d1526cf",
+    "patch_sha256": "6b00b8b1c71bee5d2f1b6c638185bc6edfbab0d5f8bb37f68367d068e21cc96d",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1378",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5113bca0257b8bcfb9dfb71b171240fa57685d3a",
+    "patch_sha256": "31bb7b03b16b94b12b3c12e10fef032eb633e7a4a2158b17ebc2f2e2884139bc",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1379",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "0e11b33f6e273ae609cc8cb8a2b9531814ff322a",
+    "patch_sha256": "89fe957aa218c9c3fb1c395127546970a8e5a772d0f9b40cda01d9311ea463c4",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1381",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "01329a01abf16be7774e2cba18c62b757ce97760",
+    "patch_sha256": "2e19ce236c2c60939ab589e1daf0eb96bed235451da5b02a1c82f0a70e8bf160",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1382",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "01329a01abf16be7774e2cba18c62b757ce97760",
+    "patch_sha256": "f13c67689fb2ee028143a12ce8cadd0fdc6dbc54d35bb6e81c9bad5a2938df65",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1455",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "725d159e443f3d4bb4bfb290d17c80b8d9d31da4",
+    "patch_sha256": "9d2c10de6b16942542fef106be47db6734ce4188a7e7e8f6341c45c9ac595e3d",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1525",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "26afee9bed0b11f6b22c894a68701c3a854c96f5",
+    "patch_sha256": "9f54103f363f55a2866d1acf723dee2df6169381d1e1dc10e3f983d96f6b1b75",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1541",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "ec2967c3624f355cb652541f4a64f21df1d9dc17",
+    "patch_sha256": "d18766138b1431d4d887911c655cd693ab36e6a7055266596070d83360408a5a",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2029",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "515478473a1b709066f66bc95b2be15ca886e563",
+    "patch_sha256": "8fef2683aa5ba642a455466d8f86f511c9a6cf80c92c60248e2fbf4934bec04d",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2332",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "000bab4cf5b96cac99d08936a09483eb77e44ac4",
+    "patch_sha256": "a3e4130e738c285fa212297360b2740c9d5fabce62873a9a23e969a7eb247766",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2370",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "000bab4cf5b96cac99d08936a09483eb77e44ac4",
+    "patch_sha256": "246f6c4230270d7ae663c9df394eebc26aa1c2b6a6f6fdb5473b0718d26f5256",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2424",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "92980544362dbdc55eff19a6b9250a39b8b55054",
+    "patch_sha256": "8890cd9df879f3c3c4d33e232b0a0e0cc8982e9a18682f5d6de9117a53930bea",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2428",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "bb3829a9ed4886da7a284bc89fc8bd7eda168ce2",
+    "patch_sha256": "5f6f89997c31c5eaf65db661f54825f441448b3aa1f3c33f80e93402037fa11a",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2477",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "73701fda1ef1f0bc8a8e56f0e2a4e668cdc36f9d",
+    "patch_sha256": "890e0eb05072a3e634961bd0eeaea5043471198d567f9746508a7e1066b41b5e",
+    "original_patch_reconstructed": true,
+    "status": "pending_verification",
+    "reason": "Not admitted; incomplete scope, stream reproduction or dependency/caller checks. Earlier worker pass is insufficient."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2523",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "ced3c8f0e0ed0d3712de22a6e6f0bd8100015b5c",
+    "patch_sha256": "2efd3835def3a7afbfd40147af4da146784a673b7f8fa4431dee0a3c3d5e598d",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2604",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "566935fb945477f301ad090cfb00b1e47cbf211e",
+    "patch_sha256": "705a520b8ea7e628b1001e4e6701848cdec4158f5717d552e2bd28110ab86d56",
+    "original_patch_reconstructed": true,
+    "status": "failed_verification",
+    "reason": "Required memory compatibility checks failed in strengthened probe; not positive data."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2637",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "371f19f3cd903f7e933cbc63ffaa1bd0e5859559",
+    "patch_sha256": "06aab5fb472317efe00c3c17780e525a2a3cbff41482017eb9f5095c632b478f",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2816",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "f700e014c9e6494ad693a6e48a5da7594efc88ad",
+    "patch_sha256": "90550aba1d93ac63daf6faa6c59c9c519b31f0807e358bd9caf94181d22a0b73",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2829",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "c403497cf44b7e08712502b289be71eaf9a050b7",
+    "patch_sha256": "fe969a079d34c7764cf7445276af714ae89aa0b59b3f9a9677e97dac4431873b",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2853",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "169d3233e826ae971ee591f95573094812088ec5",
+    "patch_sha256": "864eadeb685f52f9f5b930c47eb2d5d2a017dd1858ca5b20056ee6075ed834cc",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2865",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "bef59715987ba52c94710b0c0c77745fb4ce5185",
+    "patch_sha256": "223660a1191e1b06b10dd15598bf2f91b04ac389e568d745a9ea9bb7690e1191",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2866",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "227b521f9e2f1aa0a2154bd0a77d22ed9c3b48ea",
+    "patch_sha256": "6fef16487fb7f0cc23f4bf9d8300b237176d497f0f9144175af4529e906b47c5",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2890",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "d131d4ef96f2bb01b1957f1217cff5de1288edb2",
+    "patch_sha256": "4f482501e5da19ac05b45b35fc04eada40ac8a05244c793fb4fefc7f31420702",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3057",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "c96d4a6823fb5a3ef196427612b784efe504fdce",
+    "patch_sha256": "7c58953d23ad85f5287d98dd36f27162c94092dd5a573694be07e9efda08af38",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3085",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "2ab002a5bf747fb71a66a424fb9b33df2e6e1019",
+    "patch_sha256": "fab4ca7b575912108bac24c32648f882c4beacd53503c6dc1b1504263acade0c",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3089",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "68f5bdf0d9ef6e99c990c1d839496b4d3613c42b",
+    "patch_sha256": "a8b9ad8a238f14f081859b9838b18881fbecb895824a87586022f485e18f7b08",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3157",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5b15061b87addb529d6b677f2a90e41a9371115b",
+    "patch_sha256": "975badecb5c80f8d1b2895b7b6510de4bb53f443d9ca00ff37db1b1e58a888b1",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3168",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "6ebb6c9b63a4c1e9073a75287dda06edf2e7a643",
+    "patch_sha256": "4ec163869d712193690c1b8b25c367f8eb216db93a51061e575b57d25f420deb",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1791",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "22e5d39884393518fd6d8755e3c80880e34010dd",
+    "patch_sha256": "7df17b5420b39c947cea4110a66ac9ca97f8f319e784dec0b6faaf8d7600ae45",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1795",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "9a65abf6b81038128f0c0977d9ecb132a7292382",
+    "patch_sha256": "2150606bf007fe313ce00c411b9c3e01961e64681b257033e00b927bbc941db7",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1910",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "3fecde49b6894461038ca46d9c079d3e235bfa0f",
+    "patch_sha256": "9057165582085cdb8e1be44e8f06d8c4013c96d599a896ac15e632ce053490dc",
+    "original_patch_reconstructed": true,
+    "status": "accepted_auxiliary",
+    "reason": "Root bounded behavior/preservation and Plan/source/export audit passed."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1993",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "2709a9205a042e2baabd7d2f97f40365337b8c30",
+    "patch_sha256": "7920a2e6cb006f28f3e1d00617253c1d0f4bbf207e501619331b3da39f5f9d94",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-919",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5b442e43502e7bfcb6971807ee272d51763c8845",
+    "patch_sha256": "d7cdc223fcbf0eb098131a285deb0d2c32667039e87eabd481db11964685b8e7",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-957",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5b442e43502e7bfcb6971807ee272d51763c8845",
+    "patch_sha256": "af838d7eb4c5d1dfcb17aac78ab00c7e3a44206a172ae2826f458b8d1d4f4b84",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-958",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5b442e43502e7bfcb6971807ee272d51763c8845",
+    "patch_sha256": "5f54cbf4b9e3870c79ce5fef858990f9202aa81ce22fc3681d4e5d62e0642d6b",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-984",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "349753a013bba6f3f397083da4131a49696e903b",
+    "patch_sha256": "c16d03526d2524711b06ae96427451dafe129bdce72bc63f6af42e0364ce14b8",
+    "original_patch_reconstructed": false,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1009",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "5ac7050f7af17c4f91a7fd186882939c64728bd8",
+    "patch_sha256": "b5513ae15cb309091b60e75dd87435c3b9c7d83518c62b9cf9b404bc4207dfb4",
+    "original_patch_reconstructed": true,
+    "status": "not_admitted",
+    "reason": "Raw source retained outside positives; out of scope, curation rejected or not yet individually verified."
+  }
+]

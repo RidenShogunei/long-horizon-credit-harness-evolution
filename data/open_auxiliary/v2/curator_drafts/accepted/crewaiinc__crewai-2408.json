@@ -1,0 +1,93 @@
+{
+  "source_id": "crewaiinc__crewai-2408",
+  "split": "train",
+  "verification_status": "strict_bounded_pass",
+  "curation_notes": "Prompt assembly under context_mgmt; docs patch excluded.",
+  "lineage": {
+    "prior_batch": "work/open_dataset_integration_v2/crewai_batch",
+    "prior_batch_immutable": true
+  },
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "4f6054d439c602f93283eda351fe6b67133b9a84",
+    "original_source_path": "src/crewai/utilities/prompts.py",
+    "visible_path": "context_mgmt/prompts.py",
+    "harness_module": "context_mgmt",
+    "module_path_prefix": "context_mgmt/"
+  },
+  "source_refs": [
+    {
+      "qualname": "crewai.utilities.prompts.Prompts",
+      "original_path": "src/crewai/utilities/prompts.py",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2408/before/src/crewai/utilities/prompts.py",
+      "sha256": "8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f",
+      "start_line": 8,
+      "end_line": 78
+    },
+    {
+      "qualname": "crewai.utilities.prompts.Prompts._build_prompt",
+      "original_path": "src/crewai/utilities/prompts.py",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2408/before/src/crewai/utilities/prompts.py",
+      "sha256": "8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f",
+      "start_line": 49,
+      "end_line": 78
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-CREWAI-STRICT-2408",
+    "root_lineage_id": "crewAIInc/crewAI@4f6054d439c6",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "tools",
+      "agent_loop",
+      "context_mgmt"
+    ],
+    "module_code": {
+      "context_mgmt/prompts.py": "class Prompts(BaseModel):\n    \"\"\"Manages and generates prompts for a generic agent.\"\"\"\n\n    i18n: I18N = Field(default=I18N())\n    has_tools: bool = False\n    system_template: Optional[str] = None\n    prompt_template: Optional[str] = None\n    response_template: Optional[str] = None\n    use_system_prompt: Optional[bool] = False\n    agent: Any\n\n    def task_execution(self) -> dict[str, str]:\n        \"\"\"Generate a standard prompt for task execution.\"\"\"\n        slices = [\"role_playing\"]\n        if self.has_tools:\n            slices.append(\"tools\")\n        else:\n            slices.append(\"no_tools\")\n        system = self._build_prompt(slices)\n        slices.append(\"task\")\n\n        if (\n            not self.system_template\n            and not self.prompt_template\n            and self.use_system_prompt\n        ):\n            return {\n                \"system\": system,\n                \"user\": self._build_prompt([\"task\"]),\n                \"prompt\": self._build_prompt(slices),\n            }\n        else:\n            return {\n                \"prompt\": self._build_prompt(\n                    slices,\n                    self.system_template,\n                    self.prompt_template,\n                    self.response_template,\n                )\n            }\n\n    def _build_prompt(\n        self,\n        components: list[str],\n        system_template=None,\n        prompt_template=None,\n        response_template=None,\n    ) -> str:\n        \"\"\"Constructs a prompt string from specified components.\"\"\"\n        if not system_template and not prompt_template:\n            prompt_parts = [self.i18n.slice(component) for component in components]\n            prompt = \"\".join(prompt_parts)\n        else:\n            prompt_parts = [\n                self.i18n.slice(component)\n                for component in components\n                if component != \"task\"\n            ]\n            system = system_template.replace(\"{{ .System }}\", \"\".join(prompt_parts))\n            prompt = prompt_template.replace(\n                \"{{ .Prompt }}\", \"\".join(self.i18n.slice(\"task\"))\n            )\n            response = response_template.split(\"{{ .Response }}\")[0]\n            prompt = f\"{system}\\n{prompt}\\n{response}\"\n\n        prompt = (\n            prompt.replace(\"{goal}\", self.agent.goal)\n            .replace(\"{role}\", self.agent.role)\n            .replace(\"{backstory}\", self.agent.backstory)\n        )\n        return prompt\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Published reporter issue (SWE-rebench-V2): [BUG]If only system_template is provided and prompt_template is missing,error occurred! ### Description  The CrewAI framework throws an AttributeError: 'NoneType' object has no attribute 'replace' when attempting to execute a Crew with an Agent configured with only the system_template parameter, while the prompt_template is left undefined (i.e., None). And ,if prompt_template proveded also,but response_template not provided,error occurred also!  ### Steps to Reproduce  simple example   ### Expected behavior  no error,if these three parameters are optional  ### Screenshots/Code snippets  from crewai import Agent, Task, Crew  # Incorrect Agent configuration (missing prompt_template) designer = Agent(   name=\"WeChat Layout Expert\",   role=\"WeChat Layout Expert\",   goal=\"Design and optimize the generated article for WeChat public accounts.\",   backstory=\"You are a professional WeChat public account layout designer, familiar with WeChat layout rules.\",   allow_delegation=False,   memory=True,   max_rpm=150,   system_template=\"You are a professional WeChat public account layout designer...\", # system_template present   # prompt_template is missing )  # Task and Crew setup (example) task = Task(description=\"Layout task\", agent=designer) crew = Crew(agents=[designer], tasks=[task])  # Attempting to execute the Crew will result in the error crew.kickoff()  ### Operating System  Windows 11  ### Python Version  3.10  ### crewAI Version  102  ### crewAI Tools Version  no tool  ### Virtua"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt src/crewai/utilities/prompts.py lines 8-78 sha256=8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f (module qual prefix crewai.utilities.prompts)."
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "context_mgmt",
+    "locations": [
+      "context_mgmt/prompts.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Before: Prompts._build_prompt uses custom branch when either template set; system-only leaves prompt_template None causing AttributeError.",
+    "intended_change": "Require both templates for custom branch; fallback to i18n slices if either missing; optional response_template guarded.",
+    "preserve_behaviors": [
+      "No custom templates: rendered prompt identical before/after",
+      "Both custom templates provided: rendered prompt identical before/after"
+    ],
+    "verification_plan": [
+      "Default path string equality before vs after",
+      "Dual-template path string equality before vs after",
+      "System-only: before AttributeError; after equals default-path string"
+    ],
+    "verification_kind": null
+  },
+  "verification_fixture_path": "work/open_dataset_integration_v2/crewai_strict/verification_results.json",
+  "_batch": "crewai_strict"
+}

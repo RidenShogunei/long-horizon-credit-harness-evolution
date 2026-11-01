@@ -1,0 +1,47 @@
+{
+  "batch": "crewai_strict",
+  "case": "2570",
+  "result": {
+    "source_id": "crewaiinc__crewai-2570",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_async_returns_coroutine_object": true,
+      "after_async_resolves_to_dict": true
+    },
+    "preservation": {
+      "sync_tool_returns_7_before_after": true,
+      "using_tool_print_line_unchanged": true
+    },
+    "pending": [],
+    "limitations": [
+      "asyncio.run inside already-running event loop not exercised; do not claim all async contexts."
+    ],
+    "source_hashes": {
+      "before": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+      "after": "d4d41b890fe72e99c329f288244bb75d20e3208fb946dca796f309544b7fdd74"
+    },
+    "observations": {
+      "before": {
+        "async_is_coroutine": true,
+        "async_value": null,
+        "sync_value": 7,
+        "stdout": "Using Tool: sync_probe\n"
+      },
+      "after": {
+        "async_is_coroutine": false,
+        "async_value": {
+          "rows": [
+            1,
+            2
+          ]
+        },
+        "sync_value": 7,
+        "stdout": "Using Tool: sync_probe\n"
+      }
+    }
+  },
+  "captured_log": "Using Tool: async_probe\nUsing Tool: async_probe\n",
+  "probe_script_sha256": "8eacaec9c10987e0cb3f478fc90bdf8b761065984a3332320d0580106130f76e",
+  "ran_utc": "2026-11-01T15:44:07.380296+00:00"
+}

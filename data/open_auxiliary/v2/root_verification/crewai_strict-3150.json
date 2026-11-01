@@ -1,0 +1,81 @@
+{
+  "batch": "crewai_strict",
+  "case": "3150",
+  "result": {
+    "source_id": "crewaiinc__crewai-3150",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "after_missing_parent_create_directory_false_fails": true,
+      "after_missing_parent_create_directory_true_writes": true,
+      "before_missing_parent_always_creates_even_false_flag": true
+    },
+    "preservation": {
+      "output_file_unset_valueerror_before": true,
+      "output_file_unset_valueerror_after": true,
+      "after_existing_parent_false_still_writes": true,
+      "default_true_nested_content_hello": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before": "3007b5e29bd4da7a507da55289f7506a5b211bd56f38171aded5f816c91f3781",
+      "after": "7ea07503d5e21d90869eef0269c3730b043714c12598d4f02371c2f4a3876dd9",
+      "probe": "f1cd1024674e3f2a15b4be98aabf4461a9b85db297974996362e8f8edec942e7",
+      "workspace_root": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fixture_workspace_root": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root",
+    "observations": {
+      "before_false": {
+        "returncode": 0,
+        "stdout": "OK hello",
+        "stderr": "",
+        "file_exists": true,
+        "content": "hello",
+        "target": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root\\crewaiinc_crewai-3150\\before\\missing_parent\\out.txt"
+      },
+      "after_false": {
+        "returncode": 1,
+        "stdout": "RuntimeError Directory C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root\\crewaiinc_crewai-3150\\after\\missing_parent does not exist and create_directory is False",
+        "stderr": "",
+        "file_exists": false,
+        "content": null,
+        "target": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root\\crewaiinc_crewai-3150\\after\\missing_parent\\out.txt"
+      },
+      "after_true": {
+        "returncode": 0,
+        "stdout": "OK hello",
+        "stderr": "",
+        "file_exists": true,
+        "content": "hello",
+        "target": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root\\crewaiinc_crewai-3150\\after\\missing_parent_ok\\out.txt"
+      },
+      "after_existing_parent": {
+        "returncode": 0,
+        "stdout": "OK hello",
+        "stderr": "",
+        "file_exists": true,
+        "content": "hello",
+        "target": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_strict\\fixtures\\workspace_root\\crewaiinc_crewai-3150\\after\\existing_parent\\deep\\out.txt"
+      },
+      "before_unset": {
+        "returncode": 1,
+        "stdout": "ValueError output_file is not set.",
+        "stderr": "",
+        "file_exists": false,
+        "content": null,
+        "target": null
+      },
+      "after_unset": {
+        "returncode": 1,
+        "stdout": "ValueError output_file is not set.",
+        "stderr": "",
+        "file_exists": false,
+        "content": null,
+        "target": null
+      }
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "8eacaec9c10987e0cb3f478fc90bdf8b761065984a3332320d0580106130f76e",
+  "ran_utc": "2026-11-01T15:44:10.170756+00:00"
+}

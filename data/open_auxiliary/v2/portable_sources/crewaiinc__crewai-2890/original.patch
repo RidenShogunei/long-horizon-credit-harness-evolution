@@ -1,0 +1,11 @@
+diff --git a/src/crewai/project/crew_base.py b/src/crewai/project/crew_base.py
+index e90a0d30..96bae2f2 100644
+--- a/src/crewai/project/crew_base.py
++++ b/src/crewai/project/crew_base.py
+@@ -252,5 +252,6 @@ def CrewBase(cls: T) -> T:
+     # Include base class (qual)name in the wrapper class (qual)name.
+     WrappedClass.__name__ = CrewBase.__name__ + "(" + cls.__name__ + ")"
+     WrappedClass.__qualname__ = CrewBase.__qualname__ + "(" + cls.__name__ + ")"
++    WrappedClass._crew_name = cls.__name__
+ 
+     return cast(T, WrappedClass)

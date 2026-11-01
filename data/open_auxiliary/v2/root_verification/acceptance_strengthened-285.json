@@ -1,0 +1,40 @@
+{
+  "batch": "acceptance_strengthened",
+  "case": "285",
+  "result": {
+    "sample_id": "huggingface__smolagents-285",
+    "executed": true,
+    "status": "pass",
+    "behavior_checks": {
+      "custom_iadd_fails_before_passes_after": true
+    },
+    "preservation_checks": {
+      "int_fallback_still_3_both": true,
+      "subscript_augassign_still_3_both": true,
+      "unsupported_matmul_aug_rejected_both": true
+    },
+    "pending": [],
+    "before_observed": {
+      "custom_iadd": null,
+      "custom_err": "Code execution failed at line 'x += 2' due to: TypeError:unsupported operand type(s) for +: 'Custom' and 'int'",
+      "int_fallback": 3,
+      "subscript": 3,
+      "bad_op_rejected": true
+    },
+    "after_observed": {
+      "custom_iadd": 21,
+      "custom_err": null,
+      "int_fallback": 3,
+      "subscript": 3,
+      "bad_op_rejected": true
+    },
+    "source_hashes": {
+      "before": "c7ef77c855b3ea4ec479307ed8bd66eec6084a2e0c49842463b8b4d77af1fb01",
+      "after": "8d85d986b91f7e0fb329bddf78a2d01f1ad5c03791cbe96367016b398314e437"
+    },
+    "prior_c52_reference": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\acceptance_existing\\verification_results.json"
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ffd327ce8bec6f5fdf6c4d6038faaae15ba5c1402c1f472f907c217981ace164",
+  "ran_utc": "2026-11-01T15:44:06.720544+00:00"
+}

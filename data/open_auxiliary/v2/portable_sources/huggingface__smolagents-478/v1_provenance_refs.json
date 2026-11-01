@@ -1,0 +1,24 @@
+{
+  "sample_id": "huggingface__smolagents-478",
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-478/src/smolagents/default_tools.py",
+      "file_sha256": "9d0ca5039fc167cb36f8c71f334e76df2994082a097f655442a26b12915dffc5",
+      "qualname": "SpeechToTextTool",
+      "start_line": 248,
+      "end_line": 280,
+      "excerpt_sha256": "1920ebc5146af6360644b0877c349af9b7933d0847e88a4a893ff6dc0688f07a",
+      "bundle_source_path": "sources/huggingface__smolagents-478/default_tools.py"
+    }
+  ],
+  "original_record_sha256": "a03bcc409bcb2af2c88613dc001a14b553395a0274295aa776144e4ccc093a61",
+  "original_patch_reconstructed": true,
+  "local_behavior_execution_verified": null,
+  "published_test_metadata_kept_outside_input": true,
+  "license_compilation": "CC-BY-4.0",
+  "license_source_code": "Apache License 2.0",
+  "original_curator_draft": {
+    "path": "curated_examples.original_cursor.json",
+    "sha256": "cdd7b545ef33216f55b3df18361813801699912874796c917181efc658a80053"
+  }
+}

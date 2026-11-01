@@ -1,0 +1,163 @@
+[
+  {
+    "sample_id": "huggingface__smolagents-1088",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-1088.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "huggingface__smolagents-285",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-285.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "huggingface__smolagents-478",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-478.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "huggingface__smolagents-891",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-891.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-11964",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-11964.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-12168",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-12168.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-5232",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-5232.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-8512",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-8512.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-9261",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-9261.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "berriai__litellm-9828",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-9828.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1791",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-1791.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1818",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-1818.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-1910",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-1910.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2408",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2408.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2424",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2424.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2570",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2570.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2588",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2588.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2865",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2865.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-2890",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2890.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "crewaiinc__crewai-3150",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-3150.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8053",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8053.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8089",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8089.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  },
+  {
+    "sample_id": "stanfordnlp__dspy-8340",
+    "accepted": true,
+    "root_proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8340.json",
+    "plan_editorial_overrides_preserved": true,
+    "scope": "Real published patch/source callables, bounded before/after behavior with explicit preservation; dependency IO stubs documented. Full upstream test suite and TerminalBench transfer not established."
+  }
+]

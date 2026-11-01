@@ -1,0 +1,81 @@
+{
+  "source_id": "crewaiinc__crewai-2604",
+  "split": "train",
+  "verification_status": "strict_local_execution_pass",
+  "source_license": "MIT",
+  "dataset_compilation_license": "CC-BY-4.0",
+  "curation_notes": "Mem0 API v1.1 response shape and add() params; pyproject pin auxiliary.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "566935fb945477f301ad090cfb00b1e47cbf211e",
+    "original_source_path": "src/crewai/memory/storage/mem0_storage.py",
+    "visible_path": "context_mgmt/mem0_storage.py",
+    "harness_module": "context_mgmt"
+  },
+  "source_refs": [
+    {
+      "qualname": "crewai.memory.storage.mem0_storage.Mem0Storage.search",
+      "original_path": "src/crewai/memory/storage/mem0_storage.py",
+      "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-2604/before/src/crewai/memory/storage/mem0_storage.py",
+      "sha256": "d355255dbd58486d65db2a107f67c419649e43b24beef27ccea0878b717d194d",
+      "start_line": 9,
+      "end_line": 139
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-CREWAI-2604",
+    "root_lineage_id": "crewAIInc/crewAI@566935fb9454",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_loop",
+      "context_mgmt",
+      "observation",
+      "tools",
+      "verification"
+    ],
+    "module_code": {
+      "memory/mem0_storage.py": "class Mem0Storage(Storage):\n    \"\"\"\n    Extends Storage to handle embedding and searching across entities using Mem0.\n    \"\"\"\n\n    def __init__(self, type, crew=None, config=None):\n        super().__init__()\n        supported_types = [\"user\", \"short_term\", \"long_term\", \"entities\", \"external\"]\n        if type not in supported_types:\n            raise ValueError(\n                f\"Invalid type '{type}' for Mem0Storage. Must be one of: \"\n                + \", \".join(supported_types)\n            )\n\n        self.memory_type = type\n        self.crew = crew\n        self.config = config or {}\n        # TODO: Memory config will be removed in the future the config will be passed as a parameter\n        self.memory_config = self.config or getattr(crew, \"memory_config\", {}) or {}\n\n        # User ID is required for user memory type \"user\" since it's used as a unique identifier for the user.\n        user_id = self._get_user_id()\n        if type == \"user\" and not user_id:\n            raise ValueError(\"User ID is required for user memory type\")\n\n        # API key in memory config overrides the environment variable\n        config = self._get_config()\n        mem0_api_key = config.get(\"api_key\") or os.getenv(\"MEM0_API_KEY\")\n        mem0_org_id = config.get(\"org_id\")\n        mem0_project_id = config.get(\"project_id\")\n        mem0_local_config = config.get(\"local_mem0_config\")\n\n        # Initialize MemoryClient or Memory based on the presence of the mem0_api_key\n        if mem0_api_key:\n            if mem0_org_id and mem0_project_id:\n                self.memory = MemoryClient(\n                    api_key=mem0_api_key, org_id=mem0_org_id, project_id=mem0_project_id\n                )\n            else:\n                self.memory = MemoryClient(api_key=mem0_api_key)\n        else:\n            if mem0_local_config and len(mem0_local_config):\n                self.memory = Memory.from_config(mem0_local_config)\n            else:\n                self.memory = Memory()\n\n    def _sanitize_role(self, role: str) -> str:\n        \"\"\"\n        Sanitizes agent roles to ensure valid directory names.\n        \"\"\"\n        return role.replace(\"\\n\", \"\").replace(\" \", \"_\").replace(\"/\", \"_\")\n\n    def save(self, value: Any, metadata: Dict[str, Any]) -> None:\n        user_id = self._get_user_id()\n        agent_name = self._get_agent_name()\n        params = None\n        if self.memory_type == \"short_term\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"short_term\", **metadata},\n            }\n        elif self.memory_type == \"long_term\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"long_term\", **metadata},\n            }\n        elif self.memory_type == \"entities\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"entity\", **metadata},\n            }\n        elif self.memory_type == \"external\":\n            params = {\n                \"user_id\": user_id,\n                \"agent_id\": agent_name,\n                \"metadata\": {\"type\": \"external\", **metadata},\n            }\n\n        if params:\n            self.memory.add(value, **params | {\"output_format\": \"v1.1\"})\n\n    def search(\n        self,\n        query: str,\n        limit: int = 3,\n        score_threshold: float = 0.35,\n    ) -> List[Any]:\n        params = {\"query\": query, \"limit\": limit}\n        if user_id := self._get_user_id():\n            params[\"user_id\"] = user_id\n\n        agent_name = self._get_agent_name()\n        if self.memory_type == \"short_term\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"short_term\"}\n        elif self.memory_type == \"long_term\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"long_term\"}\n        elif self.memory_type == \"entities\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"entity\"}\n        elif self.memory_type == \"external\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"external\"}\n\n        # Discard the filters for now since we create the filters\n        # automatically when the crew is created.\n        results = self.memory.search(**params)\n        return [r for r in results if r[\"score\"] >= score_threshold]\n\n    def _get_user_id(self) -> str:\n        return self._get_config().get(\"user_id\", \"\")\n\n    def _get_agent_name(self) -> str:\n        if not self.crew:\n            return \"\"\n\n        agents = self.crew.agents\n        agents = [self._sanitize_role(agent.role) for agent in agents]\n        agents = \"_\".join(agents)\n        return agents\n\n    def _get_config(self) -> Dict[str, Any]:\n        return self.config or getattr(self, \"memory_config\", {}).get(\"config\", {}) or {}\n\n    def reset(self):\n        if self.memory:\n            self.memory.reset()\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Published reporter issue (SWE-rebench-V2): **Title**  \nUpdate Mem0 integration to align with latest mem0ai API\n\n**Problem**  \nThe Mem0 storage backend failed after the upstream mem0ai package introduced breaking changes. Calls to add and search no longer matched the expected signatures, and the search response format changed, causing runtime errors and incorrect result handling.\n\n**Root Cause**  \nThe project was pinned to an outdated mem0ai version whose API differs from the current release, leading to mismatched request parameters and response parsing.\n\n**Fix / Expected Behavior**  \n- Require the newer mem0ai release (≥ 0.1.94).  \n- Include the mandatory `output_format` flag only when interacting with the client that supports it.  \n- Pass `output_format` with search requests and adapt to the new nested `\"results\"` payload.  \n- Remove unsupported parameters for the plain memory implementation.  \n- Preserve existing score‑threshold filtering on returned items.\n\n**Risk & Validation**  \n- Verify that existing memory‑related tests pass with the updated client.  \n- Run integration checks to ensure add and search operate correctly across both client types.  \n- Confirm that version bump does not introduce conflicts with other opti"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt src/crewai/memory/storage/mem0_storage.py lines 9-139 sha256=d355255dbd58486d65db2a107f67c419649e43b24beef27ccea0878b717d194d:\nclass Mem0Storage(Storage):\n    \"\"\"\n    Extends Storage to handle embedding and searching across entities using Mem0.\n    \"\"\"\n\n    def __init__(self, type, crew=None, config=None):\n        super().__init__()\n        supported_types = [\"user\", \"short_term\", \"long_term\", \"entities\", \"external\"]\n        if type not in supported_types:\n            raise ValueError(\n                f\"Invalid type '{type}' for Mem0Storage. Must be one of: \"\n                + \", \".join(supported_types)\n            )\n\n        self.memory_type = type\n        self.crew = crew\n        self.config = config or {}\n        # TODO: Memory config will be removed in the future the config will be passed as a parameter\n        self.memory_config = self.config or getattr(crew, \"memory_config\", {}) or {}\n\n        # User ID is required for user memory type \"user\" since it's used as a unique identifier for the user.\n        user_id = self._get_user_id()\n        if type == \"user\" and not user_id:\n            raise ValueError(\"User ID is required for user memory type\")\n\n        # API key in memory config overrides the environment variable\n        config = self._get_config()\n        mem0_api_key = config.get(\"api_key\") or os.getenv(\"MEM0_API_KEY\")\n        mem0_org_id = config.get(\"org_id\")\n        mem0_project_id = config.get(\"project_id\")\n        mem0_local_config = config.get(\"local_mem0_config\")\n\n        # Initialize MemoryClient or Memory based on the presence of the mem0_api_key\n        if mem0_api_key:\n            if mem0_org_id and mem0_project_id:\n                self.memory = MemoryClient(\n                    api_key=mem0_api_key, org_id=mem0_org_id, project_id=mem0_project_id\n                )\n            else:\n                self.memory = MemoryClient(api_key=mem0_api_key)\n        else:\n            if mem0_local_config and len(mem0_local_config):\n                self.memory = Memory.from_config(mem0_local_config)\n            else:\n                self.memory = Memory()\n\n    def _sanitize_role(self, role: str) -> str:\n        \"\"\"\n        Sanitizes agent roles to ensure valid directory names.\n        \"\"\"\n        return role.replace(\"\\n\", \"\").replace(\" \", \"_\").replace(\"/\", \"_\")\n\n    def save(self, value: Any, metadata: Dict[str, Any]) -> None:\n        user_id = self._get_user_id()\n        agent_name = self._get_agent_name()\n        params = None\n        if self.memory_type == \"short_term\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"short_term\", **metadata},\n            }\n        elif self.memory_type == \"long_term\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"long_term\", **metadata},\n            }\n        elif self.memory_type == \"entities\":\n            params = {\n                \"agent_id\": agent_name,\n                \"infer\": False,\n                \"metadata\": {\"type\": \"entity\", **metadata},\n            }\n        elif self.memory_type == \"external\":\n            params = {\n                \"user_id\": user_id,\n                \"agent_id\": agent_name,\n                \"metadata\": {\"type\": \"external\", **metadata},\n            }\n\n        if params:\n            self.memory.add(value, **params | {\"output_format\": \"v1.1\"})\n\n    def search(\n        self,\n        query: str,\n        limit: int = 3,\n        score_threshold: float = 0.35,\n    ) -> List[Any]:\n        params = {\"query\": query, \"limit\": limit}\n        if user_id := self._get_user_id():\n            params[\"user_id\"] = user_id\n\n        agent_name = self._get_agent_name()\n        if self.memory_type == \"short_term\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"short_term\"}\n        elif self.memory_type == \"long_term\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"long_term\"}\n        elif self.memory_type == \"entities\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"entity\"}\n        elif self.memory_type == \"external\":\n            params[\"agent_id\"] = agent_name\n            params[\"metadata\"] = {\"type\": \"external\"}\n\n        # Discard the filters for now since we create the filters\n        # automatically when the crew is created.\n        results = self.memory.search(**params)\n        return [r for r in results if r[\"score\"] >= score_threshold]\n\n    def _get_user_id(self) -> str:\n        return self._get_config().get(\"user_id\", \"\")\n\n    def _get_agent_name(self) -> str:\n        if not self.crew:\n            return \"\"\n\n        agents = self.crew.agents\n        agents = [self._sanitize_role(agent.role) for agent in agents]\n        agents = \"_\".join(agents)\n        return agents\n\n    def _get_config(self) -> Dict[str, Any]:\n        return self.config or getattr(self, \"memory_config\", {}).get(\"config\", {}) or {}\n\n    def reset(self):\n        if self.memory:\n            self.memory.reset()\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "context_mgmt",
+    "locations": [
+      "memory/mem0_storage.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Current-code: search iterates dict return from mem0 v1.1; add always merges output_format. Reporter: mem0ai API break. Hypothesis: read results['results'] list; gate output_format to MemoryClient.add only.",
+    "intended_change": "search filters results['results']; Memory.add path drops metadata/output_format params; client add sets output_format separately.",
+    "preserve_behaviors": [
+      "score_threshold filtering still applies to scored entries",
+      "user_id still injected into search params when configured"
+    ],
+    "verification_plan": [
+      "Mock v1.1 search dict: before TypeError/empty; after returns filtered ids"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "crewai_pr_strict"
+}

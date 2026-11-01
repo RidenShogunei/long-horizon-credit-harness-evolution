@@ -1,0 +1,89 @@
+{
+  "instance_id": "crewaiinc__crewai-3150",
+  "repo": "crewAIInc/crewAI",
+  "base_commit": "e7a5747c6b8ce4ddad5a43aaf6b56f8997916459",
+  "patch": "diff --git a/src/crewai/task.py b/src/crewai/task.py\nindex 51e1cf00..aa38cfff 100644\n--- a/src/crewai/task.py\n+++ b/src/crewai/task.py\n@@ -67,6 +67,7 @@ class Task(BaseModel):\n         description: Descriptive text detailing task's purpose and execution.\n         expected_output: Clear definition of expected task outcome.\n         output_file: File path for storing task output.\n+        create_directory: Whether to create the directory for output_file if it doesn't exist.\n         output_json: Pydantic model for structuring JSON output.\n         output_pydantic: Pydantic model for task output.\n         security_config: Security configuration including fingerprinting.\n@@ -115,6 +116,10 @@ class Task(BaseModel):\n         description=\"A file path to be used to create a file output.\",\n         default=None,\n     )\n+    create_directory: Optional[bool] = Field(\n+        description=\"Whether to create the directory for output_file if it doesn't exist.\",\n+        default=True,\n+    )\n     output: Optional[TaskOutput] = Field(\n         description=\"Task output, it's final result after being executed\", default=None\n     )\n@@ -753,8 +758,10 @@ Follow these guidelines:\n             resolved_path = Path(self.output_file).expanduser().resolve()\n             directory = resolved_path.parent\n \n-            if not directory.exists():\n+            if self.create_directory and not directory.exists():\n                 directory.mkdir(parents=True, exist_ok=True)\n+            elif not self.create_directory and not directory.exists():\n+                raise RuntimeError(f\"Directory {directory} does not exist and create_directory is False\")\n \n             with resolved_path.open(\"w\", encoding=\"utf-8\") as file:\n                 if isinstance(result, dict):\n",
+  "problem_statement": "[BUG] Parameter `create_directory` at `Task` class does't exists.\n### Description\n\nParameter `create_directory` at `Task` class doesn't exist.\n\n### Steps to Reproduce\n\n[Parameter `create_directory` at `Task` class does't exists.](https://docs.crewai.com/en/concepts/tasks#creating-directories-when-saving-files)\n\nReproduce code above.\n\n### Expected behavior\n\nTask would run and directories would be created. \n\n### Screenshots/Code snippets\n\n```\n# ...\n\nsave_output_task = Task(\n    description='Save the summarized AI news to a file',\n    expected_output='File saved successfully',\n    agent=research_agent,\n    tools=[file_save_tool],\n    output_file='outputs/ai_news_summary.txt',\n    create_directory=True # <<<<<<<<<<<<<<<< Inexistent argument\n)\n\n#...\n```\n\n### Operating System\n\nWindows 11\n\n### Python Version\n\n3.12\n\n### crewAI Version\n\n0.130.0\n\n### crewAI Tools Version\n\n0.118.0\n\n### Virtual Environment\n\nPoetry\n\n### Evidence\n\n<img width=\"564\" height=\"74\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/fd9d7f1f-629f-46c2-8f76-efd2802758bd\" />\n\n### Possible Solution\n\nJust implement the parameter or remove it from the documentation.\n\n### Additional context\n\nNo",
+  "pr_description": "Fix #3149: Add missing create_directory parameter to Task class\n\n# Fix #3149: Add missing create_directory parameter to Task class\n\n## Summary\n\nThis PR fixes issue #3149 by implementing the missing `create_directory` parameter in the Task class. Users were encountering `TypeError` when trying to use this parameter that was documented but not implemented.\n\n**Key Changes:**\n- Added `create_directory` field to Task class with default value `True` for backward compatibility\n- Modified `_save_file` method to respect the `create_directory` parameter\n- Added comprehensive test coverage for all scenarios\n- Updated class docstring to document the new parameter\n\n**Behavior:**\n- When `create_directory=True` (default): Directories are created automatically if they don't exist (maintains existing behavior)\n- When `create_directory=False`: Raises `RuntimeError` if the directory doesn't exist, allows file creation if directory exists\n\n## Review & Testing Checklist for Human\n\n- [ ] **End-to-end testing**: Test with actual file paths in your environment to verify directory creation works correctly\n- [ ] **Backward compatibility**: Verify that existing code using `output_file` without `create_directory` still works identically\n- [ ] **Edge case testing**: Test with absolute paths, relative paths, nested directories, and permission scenarios\n- [ ] **Error handling verification**: Confirm that `create_directory=False` properly raises `RuntimeError` when directory doesn't exist\n\n**Recommended Test Plan:**\n1. Create a simple Task with `output_file=\"test/output.txt\"` (no `create_directory` param) - should work as before\n2. Create a Task with `create_directory=True` and non-existent directory - should create directory and file\n3. Create a Task with `create_directory=False` and non-existent directory - should raise RuntimeError\n4. Create a Task with `create_directory=False` and existing directory - should create file successfully\n\n---\n\n### Diagram\n\n```mermaid\n%%{ init : { \"theme\" : \"default\" }}%%\ngraph TD\n    subgraph Legend\n        L1[\"Major Edit\"]:::major-edit\n        L2[\"Minor Edit\"]:::minor-edit  \n        L3[\"Context/No Edit\"]:::context\n    end\n\n    A[\"src/crewai/task.py\"]:::major-edit\n    B[\"tests/task_test.py\"]:::major-edit\n    C[\"Task.__init__()\"]:::major-edit\n    D[\"Task._save_file()\"]:::major-edit\n    E[\"GitHub Issue #3149\"]:::context\n    F[\"CI Pipeline\"]:::context\n\n    E --> A\n    A --> C\n    A --> D\n    C --> B\n    D --> B\n    B --> F\n\n    classDef major-edit fill:#90EE90\n    classDef minor-edit fill:#87CEEB  \n    classDef context fill:#FFFFFF\n```\n\n### Notes\n\n- **Session Details**: Requested by João (joao@crewai.com) via Slack #joao-test channel\n- **Session URL**: https://app.devin.ai/sessions/1c02394d3da24ba9bba178240a3d008e\n- **Lint Fix**: Had to remove unused import `os` from test file to pass CI\n- **Test Coverage**: Added 5 comprehensive tests covering all scenarios including issue reproduction\n- **Path Handling**: The `output_file_validation` method strips leading slashes from absolute paths, converting them to relative paths - this behavior is preserved\n",
+  "license": "MIT",
+  "test_patch": "diff --git a/tests/task_test.py b/tests/task_test.py\nindex 89fa3c53..40c094ca 100644\n--- a/tests/task_test.py\n+++ b/tests/task_test.py\n@@ -1133,6 +1133,119 @@ def test_output_file_validation():\n         )\n \n \n+def test_create_directory_true():\n+    \"\"\"Test that directories are created when create_directory=True.\"\"\"\n+    from pathlib import Path\n+    \n+    output_path = \"test_create_dir/output.txt\"\n+    \n+    task = Task(\n+        description=\"Test task\",\n+        expected_output=\"Test output\",\n+        output_file=output_path,\n+        create_directory=True,\n+    )\n+    \n+    resolved_path = Path(output_path).expanduser().resolve()\n+    resolved_dir = resolved_path.parent\n+    \n+    if resolved_path.exists():\n+        resolved_path.unlink()\n+    if resolved_dir.exists():\n+        import shutil\n+        shutil.rmtree(resolved_dir)\n+    \n+    assert not resolved_dir.exists()\n+    \n+    task._save_file(\"test content\")\n+    \n+    assert resolved_dir.exists()\n+    assert resolved_path.exists()\n+    \n+    if resolved_path.exists():\n+        resolved_path.unlink()\n+    if resolved_dir.exists():\n+        import shutil\n+        shutil.rmtree(resolved_dir)\n+\n+\n+def test_create_directory_false():\n+    \"\"\"Test that directories are not created when create_directory=False.\"\"\"\n+    from pathlib import Path\n+    \n+    output_path = \"nonexistent_test_dir/output.txt\"\n+    \n+    task = Task(\n+        description=\"Test task\",\n+        expected_output=\"Test output\",\n+        output_file=output_path,\n+        create_directory=False,\n+    )\n+    \n+    resolved_path = Path(output_path).expanduser().resolve()\n+    resolved_dir = resolved_path.parent\n+    \n+    if resolved_dir.exists():\n+        import shutil\n+        shutil.rmtree(resolved_dir)\n+    \n+    assert not resolved_dir.exists()\n+    \n+    with pytest.raises(RuntimeError, match=\"Directory .* does not exist and create_directory is False\"):\n+        task._save_file(\"test content\")\n+\n+\n+def test_create_directory_default():\n+    \"\"\"Test that create_directory defaults to True for backward compatibility.\"\"\"\n+    task = Task(\n+        description=\"Test task\",\n+        expected_output=\"Test output\",\n+        output_file=\"output.txt\",\n+    )\n+    \n+    assert task.create_directory is True\n+\n+\n+def test_create_directory_with_existing_directory():\n+    \"\"\"Test that create_directory=False works when directory already exists.\"\"\"\n+    from pathlib import Path\n+    \n+    output_path = \"existing_test_dir/output.txt\"\n+    \n+    resolved_path = Path(output_path).expanduser().resolve()\n+    resolved_dir = resolved_path.parent\n+    resolved_dir.mkdir(parents=True, exist_ok=True)\n+    \n+    task = Task(\n+        description=\"Test task\",\n+        expected_output=\"Test output\",\n+        output_file=output_path,\n+        create_directory=False,\n+    )\n+    \n+    task._save_file(\"test content\")\n+    assert resolved_path.exists()\n+    \n+    if resolved_path.exists():\n+        resolved_path.unlink()\n+    if resolved_dir.exists():\n+        import shutil\n+        shutil.rmtree(resolved_dir)\n+\n+\n+def test_github_issue_3149_reproduction():\n+    \"\"\"Test that reproduces the exact issue from GitHub issue #3149.\"\"\"\n+    task = Task(\n+        description=\"Test task for issue reproduction\",\n+        expected_output=\"Test output\",\n+        output_file=\"test_output.txt\",\n+        create_directory=True,\n+    )\n+    \n+    assert task.create_directory is True\n+    assert task.output_file == \"test_output.txt\"\n+\n+\n @pytest.mark.vcr(filter_headers=[\"authorization\"])\n def test_task_execution_times():\n     researcher = Agent(\n",
+  "FAIL_TO_PASS": [
+    "tests/task_test.py::test_github_issue_3149_reproduction",
+    "tests/task_test.py::test_create_directory_default",
+    "tests/task_test.py::test_create_directory_false"
+  ],
+  "PASS_TO_PASS": [
+    "tests/task_test.py::test_task_output_str_with_pydantic_and_json_dict",
+    "tests/task_test.py::test_conditional_task_definition_based_on_dict",
+    "tests/task_test.py::test_key",
+    "tests/task_test.py::test_interpolate_inputs",
+    "tests/task_test.py::test_multiple_output_type_error",
+    "tests/task_test.py::test_interpolate_complex_combination",
+    "tests/task_test.py::test_task_prompt_includes_expected_output",
+    "tests/task_test.py::test_interpolate_with_list_of_strings",
+    "tests/task_test.py::test_interpolate_valid_complex_types",
+    "tests/task_test.py::test_create_directory_with_existing_directory",
+    "tests/task_test.py::test_task_with_no_max_execution_time",
+    "tests/task_test.py::test_execute_with_agent",
+    "tests/task_test.py::test_task_output_str_with_raw",
+    "tests/task_test.py::test_task_callback",
+    "tests/task_test.py::test_interpolate_with_special_characters",
+    "tests/task_test.py::test_interpolate_valid_types",
+    "tests/task_test.py::test_interpolate_with_list_of_dicts",
+    "tests/task_test.py::test_interpolate_mixed_types",
+    "tests/task_test.py::test_task_output_str_with_json_dict",
+    "tests/task_test.py::test_guardrail_type_error",
+    "tests/task_test.py::test_create_directory_true",
+    "tests/task_test.py::test_interpolate_invalid_type_validation",
+    "tests/task_test.py::test_interpolate_custom_object_validation",
+    "tests/task_test.py::test_interpolate_only_with_dict_inside_expected_output",
+    "tests/task_test.py::test_task_output_str_with_none",
+    "tests/task_test.py::test_task_output_str_with_pydantic",
+    "tests/task_test.py::test_task_tool_reflect_agent_tools",
+    "tests/task_test.py::test_task_tool_takes_precedence_over_agent_tools",
+    "tests/task_test.py::test_output_file_validation",
+    "tests/task_test.py::test_conditional_task_copy_preserves_type",
+    "tests/task_test.py::test_interpolate_edge_cases",
+    "tests/task_test.py::test_task_definition_based_on_dict",
+    "tests/task_test.py::test_task_callback_returns_task_output",
+    "tests/task_test.py::test_interpolate_with_nested_structures",
+    "tests/task_test.py::test_interpolate_only",
+    "tests/task_test.py::test_async_execution"
+  ],
+  "interface": "Method: Task.__init__(self, description: str, expected_output: str, output_file: str, create_directory: bool = True, **kwargs)\nLocation: src/crewai/task.py\nInputs: \n- **description** – human‑readable text describing the task.  \n- **expected_output** – description of the desired result.  \n- **output_file** – path (string) where the task’s output should be written.  \n- **create_directory** – optional bool flag (default True) that controls whether the parent directory of *output_file* should be created automatically if it does not exist.  \n- Additional optional fields (e.g., output_json, security_config, etc.) are passed via **kwargs**.\nOutputs: A newly created `Task` instance with the `create_directory` attribute set to the supplied value (or True by default).\nDescription: Constructs a `Task` object, adding support for the `create_directory` flag which governs directory‑creation behaviour when the task later saves its output.\n\nMethod: Task._save_file(self, result)\nLocation: src/crewai/task.py\nInputs: \n- **result** – the data to be saved (typically a string or dict that will be written to the file specified by `self.output_file`).\nOutputs: Writes *result* to `self.output_file`.  \n- If `self.create_directory` is **True** and the target directory does not exist, the directory is created before writing.  \n- If `self.create_directory` is **False** and the directory does not exist, raises `RuntimeError` with a message matching `\"Directory .* does not exist and create_directory is False\"`.\nDescription: Internal helper used by `Task` to persist the task’s output to disk while respecting the `create_directory` flag; it ensures proper error handling when the directory is missing and automatic creation is disabled.\n",
+  "meta": {
+    "llm_metadata": {
+      "code": "B3",
+      "confidence": 0.84,
+      "detected_issues": {
+        "B1": false,
+        "B2": false,
+        "B3": true,
+        "B4": false,
+        "B5": false,
+        "B6": false
+      },
+      "difficulty": "medium",
+      "external_urls": [
+        "https://docs.crewai.com/en/concepts/tasks#creating-directories-when-saving-files"
+      ],
+      "intent_completeness": "complete",
+      "pr_categories": [
+        "minor_bug"
+      ],
+      "reasoning": "The issue reports that the `create_directory` argument is missing from the Task class, expecting directories to be created when saving files. The added tests verify creation behavior, default value, and error handling, which are not fully described in the issue text but are implied by the linked documentation, making the test expectations depend on external knowledge. This external dependency points to a B3 classification, while the issue intent is otherwise clear and the tests align with the intended functionality.",
+      "test_alignment_issues": []
+    },
+    "num_modified_files": 1,
+    "num_modified_lines": 8,
+    "pr_author": "devin-ai-integration[bot]",
+    "pr_labels": [],
+    "pr_url": null
+  },
+  "_source": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+    "parquet_sha256": "0e0bf9355f892ad74ae98d4e1c404f39fd6654a8e351ee3e6ab162e4a64cd3ad",
+    "license_compilation": "CC-BY-4.0"
+  }
+}

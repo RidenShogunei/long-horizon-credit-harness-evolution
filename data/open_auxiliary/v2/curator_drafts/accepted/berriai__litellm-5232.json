@@ -1,0 +1,75 @@
+{
+  "source_id": "berriai__litellm-5232",
+  "split": "train",
+  "verification_status": "strict_pinned_before_after_behavior_pass",
+  "curation_notes": "Streaming tool index mapping for agent function-calling interop.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "BerriAI/litellm",
+    "base_commit": "1510daba4f078e8e61cdec34cb6f0fea06ab8965",
+    "original_source_path": "litellm/llms/anthropic.py",
+    "visible_path": "agent_runtime/providers/anthropic_stream.py",
+    "harness_module": "agent_runtime"
+  },
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-5232/before/litellm/llms/anthropic.py",
+      "sha256": "86777c7e439a81ba884d3ee4b0a81699a764d35d2c9e9e4a1eebc9e5fbe0cef0",
+      "qualname": "ModelResponseIterator",
+      "start_line": 1117,
+      "end_line": 1197
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-LITELLM-5232",
+    "root_lineage_id": "BerriAI/litellm@1510daba4f07",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_runtime"
+    ],
+    "module_code": {
+      "agent_runtime/providers/anthropic_stream.py": "class ModelResponseIterator:\n    def __init__(self, streaming_response, sync_stream: bool):\n        self.streaming_response = streaming_response\n        self.response_iterator = self.streaming_response\n        self.content_blocks: List[ContentBlockDelta] = []\n\n    def check_empty_tool_call_args(self) -> bool:\n        \"\"\"\n        Check if the tool call block so far has been an empty string\n        \"\"\"\n        args = \"\"\n        # if text content block -> skip\n        if len(self.content_blocks) == 0:\n            return False\n\n        if self.content_blocks[0][\"delta\"][\"type\"] == \"text_delta\":\n            return False\n\n        for block in self.content_blocks:\n            if block[\"delta\"][\"type\"] == \"input_json_delta\":\n                args += block[\"delta\"].get(\"partial_json\", \"\")  # type: ignore\n\n        if len(args) == 0:\n            return True\n        return False\n\n    def chunk_parser(self, chunk: dict) -> GenericStreamingChunk:\n        try:\n            type_chunk = chunk.get(\"type\", \"\") or \"\"\n\n            text = \"\"\n            tool_use: Optional[ChatCompletionToolCallChunk] = None\n            is_finished = False\n            finish_reason = \"\"\n            usage: Optional[ChatCompletionUsageBlock] = None\n\n            index = int(chunk.get(\"index\", 0))\n            if type_chunk == \"content_block_delta\":\n                \"\"\"\n                Anthropic content chunk\n                chunk = {'type': 'content_block_delta', 'index': 0, 'delta': {'type': 'text_delta', 'text': 'Hello'}}\n                \"\"\"\n                content_block = ContentBlockDelta(**chunk)  # type: ignore\n                self.content_blocks.append(content_block)\n                if \"text\" in content_block[\"delta\"]:\n                    text = content_block[\"delta\"][\"text\"]\n                elif \"partial_json\" in content_block[\"delta\"]:\n                    tool_use = {\n                        \"id\": None,\n                        \"type\": \"function\",\n                        \"function\": {\n                            \"name\": None,\n                            \"arguments\": content_block[\"delta\"][\"partial_json\"],\n                        },\n                        \"index\": content_block[\"index\"],\n                    }\n            elif type_chunk == \"content_block_start\":\n                \"\"\"\n                event: content_block_start\n                data: {\"type\":\"content_block_start\",\"index\":1,\"content_block\":{\"type\":\"tool_use\",\"id\":\"toolu_01T1x1fJ34qAmk2tNTrN7Up6\",\"name\":\"get_weather\",\"input\":{}}}\n                \"\"\"\n                content_block_start = ContentBlockStart(**chunk)  # type: ignore\n                self.content_blocks = []  # reset content blocks when new block starts\n                if content_block_start[\"content_block\"][\"type\"] == \"text\":\n                    text = content_block_start[\"content_block\"][\"text\"]\n                elif content_block_start[\"content_block\"][\"type\"] == \"tool_use\":\n                    tool_use = {\n                        \"id\": content_block_start[\"content_block\"][\"id\"],\n                        \"type\": \"function\",\n                        \"function\": {\n                            \"name\": content_block_start[\"content_block\"][\"name\"],\n                            \"arguments\": \"\",\n                        },\n                        \"index\": content_block_start[\"index\"],\n                    }\n            elif type_chunk == \"content_block_stop\":\n                content_block_stop = ContentBlockStop(**chunk)  # type: ignore\n                # check if tool call content block\n                is_empty = self.check_empty_tool_call_args()\n                if is_empty:\n                    tool_use = {\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reporter claim (not executed trajectory): [Bug]: Streaming Anthropic tools doesn't map the tool index"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt litellm/llms/anthropic.py qualname=ModelResponseIterator lines 1117-1197 sha256=86777c7e439a81ba884d3ee4b0a81699a764d35d2c9e9e4a1eebc9e5fbe0cef0:\nclass ModelResponseIterator:\n    def __init__(self, streaming_response, sync_stream: bool):\n        self.streaming_response = streaming_response\n        self.response_iterator = self.streaming_response\n        self.content_blocks: List[ContentBlockDelta] = []\n\n    def check_empty_tool_call_args(self) -> bool:\n        \"\"\"\n        Check if the tool call block so far has been an empty string\n        \"\"\"\n        args = \"\"\n        # if text content block -> skip\n        if len(self.content_blocks) == 0:\n            return False\n\n        if self.content_blocks[0][\"delta\"][\"type\"] == \"text_delta\":\n            return False\n\n        for block in self.content_blocks:\n            if block[\"delta\"][\"type\"] == \"input_json_delta\":\n                args += block[\"delta\"].get(\"partial_json\", \"\")  # type: ignore\n\n        if len(args) == 0:\n            return True\n        return False\n\n    def chunk_parser(self, chunk: dict) -> GenericStreamingChunk:\n        try:\n            type_chunk = chunk.get(\"type\", \"\") or \"\"\n\n            text = \"\"\n            tool_use: Optional[ChatCompletionToolCallChunk] = None\n            is_finished = False\n            finish_reason = \"\"\n            usage: Optional[ChatCompletionUsageBlock] = None\n\n            index = int(chunk.get(\"index\", 0))\n            if type_chunk == \"content_block_delta\":\n                \"\"\"\n                Anthropic content chunk\n                chunk = {'type': 'content_block_delta', 'index': 0, 'delta': {'type': 'text_delta', 'text': 'Hello'}}\n                \"\"\"\n                content_block = ContentBlockDelta(**chunk)  # type: ignore\n                self.content_blocks.append(content_block)\n                if \"text\" in content_block[\"delta\"]:\n                    text = content_block[\"delta\"][\"text\"]\n                elif \"partial_json\" in content_block[\"delta\"]:\n                    tool_use = {\n                        \"id\": None,\n                        \"type\": \"function\",\n                        \"function\": {\n                            \"name\": None,\n                            \"arguments\": content_block[\"delta\"][\"partial_json\"],\n                        },\n                        \"index\": content_block[\"index\"],\n                    }\n            elif type_chunk == \"content_block_start\":\n                \"\"\"\n                event: content_block_start\n                data: {\"type\":\"content_block_start\",\"index\":1,\"content_block\":{\"type\":\"tool_use\",\"id\":\"toolu_01T1x1fJ34qAmk2tNTrN7Up6\",\"name\":\"get_weather\",\"input\":{}}}\n                \"\"\"\n                content_block_start = ContentBlockStart(**chunk)  # type: ignore\n                self.content_blocks = []  # reset content blocks when new block starts\n                if content_block_start[\"content_block\"][\"type\"] == \"text\":\n                    text = content_block_start[\"content_block\"][\"text\"]\n                elif content_block_start[\"content_block\"][\"type\"] == \"tool_use\":\n                    tool_use = {\n                        \"id\": content_block_start[\"content_block\"][\"id\"],\n                        \"type\": \"function\",\n                        \"function\": {\n                            \"name\": content_block_start[\"content_block\"][\"name\"],\n                            \"arguments\": \"\",\n                        },\n                        \"index\": content_block_start[\"index\"],\n                    }\n            elif type_chunk == \"content_block_stop\":\n                content_block_stop = ContentBlockStop(**chunk)  # type: ignore\n                # check if tool call content block\n                is_empty = self.check_empty_tool_call_args()\n                if is_empty:\n                    tool_use = {\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_runtime",
+    "locations": [
+      "agent_runtime/providers/anthropic_stream.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: streaming Anthropic tool-call deltas reuse provider content_block index so parallel tool calls get wrong OpenAI-style tool index.",
+    "intended_change": "Track self.tool_index on content_block_start for tool_use and emit that stable index in streamed tool_calls chunks.",
+    "preserve_behaviors": [
+      "Non-tool streaming chunks still map through existing delta handler",
+      "empty tool-call arg guard behavior unchanged"
+    ],
+    "verification_plan": [
+      "After iterator assigns monotonic tool_index starting at 0 on tool_use start",
+      "Before leaves default -1 and passes provider index through"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "litellm_strict"
+}

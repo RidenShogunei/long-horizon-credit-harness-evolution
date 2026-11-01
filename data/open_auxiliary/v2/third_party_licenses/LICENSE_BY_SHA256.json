@@ -1,0 +1,110 @@
+{
+  "groups": [
+    {
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "license_path_at_upstream": "LICENSE",
+      "github_repo": "BerriAI/litellm",
+      "canonical_audit_file": "BerriAI__litellm__1510daba4f07__LICENSE",
+      "sha256_named_file": "sha256_b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273__BerriAI_litellm__LICENSE",
+      "commits": [
+        "1510daba4f078e8e61cdec34cb6f0fea06ab8965",
+        "1d22052f47e0a376dfc212afdb9ace176c7524c1",
+        "4598a9bf31d59c1982f40a89593b250e68b1c754",
+        "4a6dcd64ff1a6151d7e5fec022b3905265791fcd",
+        "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+        "f76375b65131f2dccb601995d7c5eabc3d5884fd"
+      ],
+      "sample_ids": [
+        "berriai__litellm-5232",
+        "berriai__litellm-8512",
+        "berriai__litellm-11964",
+        "berriai__litellm-9261",
+        "berriai__litellm-9828",
+        "berriai__litellm-12168"
+      ]
+    },
+    {
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "license_path_at_upstream": "LICENSE",
+      "github_repo": "crewAIInc/crewAI",
+      "canonical_audit_file": "crewAIInc__crewAI__0cd524af86e3__LICENSE",
+      "sha256_named_file": "sha256_28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774__crewAIInc_crewAI__LICENSE",
+      "commits": [
+        "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+        "40a441f30eebce88b928db875e4309b892a9ac11",
+        "4f6054d439c602f93283eda351fe6b67133b9a84",
+        "92980544362dbdc55eff19a6b9250a39b8b55054",
+        "bef59715987ba52c94710b0c0c77745fb4ce5185",
+        "d131d4ef96f2bb01b1957f1217cff5de1288edb2",
+        "e7a5747c6b8ce4ddad5a43aaf6b56f8997916459"
+      ],
+      "sample_ids": [
+        "crewaiinc__crewai-2570",
+        "crewaiinc__crewai-2588",
+        "crewaiinc__crewai-2408",
+        "crewaiinc__crewai-2424",
+        "crewaiinc__crewai-2865",
+        "crewaiinc__crewai-2890",
+        "crewaiinc__crewai-3150"
+      ]
+    },
+    {
+      "sha256": "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d",
+      "bytes": 1073,
+      "license_path_at_upstream": "LICENSE",
+      "github_repo": "crewAIInc/crewAI",
+      "canonical_audit_file": "crewAIInc__crewAI__22e5d3988439__LICENSE",
+      "sha256_named_file": "sha256_d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d__crewAIInc_crewAI__LICENSE",
+      "commits": [
+        "22e5d39884393518fd6d8755e3c80880e34010dd",
+        "3fecde49b6894461038ca46d9c079d3e235bfa0f",
+        "a548463faebd22aa3167a13ad417b4ab89776478"
+      ],
+      "sample_ids": [
+        "crewaiinc__crewai-1791",
+        "crewaiinc__crewai-1910",
+        "crewaiinc__crewai-1818"
+      ]
+    },
+    {
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "license_path_at_upstream": "LICENSE",
+      "github_repo": "huggingface/smolagents",
+      "canonical_audit_file": "huggingface__smolagents__0329674dcb51__LICENSE",
+      "sha256_named_file": "sha256_c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4__huggingface_smolagents__LICENSE",
+      "commits": [
+        "0329674dcb515e2f0130e6fb22b4f2cd5652038f",
+        "3240fa878ac288a217d62fcf516241ac54ab4184",
+        "39908439d29d3004ec59313be2fd89f43f06b485",
+        "bd08d6485daad3a8eba8d22ca0c185c6653acf2c"
+      ],
+      "sample_ids": [
+        "huggingface__smolagents-891",
+        "huggingface__smolagents-1088",
+        "huggingface__smolagents-478",
+        "huggingface__smolagents-285"
+      ]
+    },
+    {
+      "sha256": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb",
+      "bytes": 1085,
+      "license_path_at_upstream": "LICENSE",
+      "github_repo": "stanfordnlp/dspy",
+      "canonical_audit_file": "stanfordnlp__dspy__96f1e95712cd__LICENSE",
+      "sha256_named_file": "sha256_fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb__stanfordnlp_dspy__LICENSE",
+      "commits": [
+        "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+        "dd954e3cf2fbb119530ca2e6885b784bad9bace9",
+        "e4ec979a3d76f3375637f3a06bb92d406a36a31e"
+      ],
+      "sample_ids": [
+        "stanfordnlp__dspy-8089",
+        "stanfordnlp__dspy-8053",
+        "stanfordnlp__dspy-8340"
+      ]
+    }
+  ]
+}

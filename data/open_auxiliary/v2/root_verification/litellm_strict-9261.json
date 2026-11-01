@@ -1,0 +1,105 @@
+{
+  "batch": "litellm_strict",
+  "case": "9261",
+  "result": {
+    "source_id": "berriai__litellm-9261",
+    "status": "pass",
+    "checks": [
+      {
+        "name": "user_assistant_format_unchanged",
+        "status": "pass",
+        "inputs": {
+          "messages": [
+            {
+              "role": "user",
+              "content": "u1"
+            },
+            {
+              "role": "assistant",
+              "content": "a1"
+            }
+          ]
+        },
+        "before": "### User:\nu1\n\n### Assistant:\na1\n\n",
+        "after": "### User:\nu1\n\n### Assistant:\na1\n\n",
+        "detail": "",
+        "inputs_sha256": "72d8a243236a7554127982780097ddef00db6748ccd0ebfef4f6134b1072778e"
+      },
+      {
+        "name": "system_at_beginning",
+        "status": "pass",
+        "inputs": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "head"
+            },
+            {
+              "role": "user",
+              "content": "u1"
+            },
+            {
+              "role": "assistant",
+              "content": "a1"
+            }
+          ]
+        },
+        "before": null,
+        "after": "### System:\nhead\n\n### User:\nu1\n\n### Assistant:\na1\n\n",
+        "detail": "",
+        "inputs_sha256": "dd807b7edf3ac29bda555bd712cd3a4ef2878f01d4a5fc19c392590bf332677f"
+      },
+      {
+        "name": "system_after_user_multiple",
+        "status": "pass",
+        "inputs": {
+          "messages": [
+            {
+              "role": "user",
+              "content": "u"
+            },
+            {
+              "role": "system",
+              "content": "s1"
+            },
+            {
+              "role": "system",
+              "content": "s2"
+            }
+          ]
+        },
+        "before": null,
+        "after": "### User:\nu\n\n### System:\ns1s2\n\n",
+        "detail": "before may stall without system merge; after must merge consecutive system roles",
+        "inputs_sha256": "dbbe90469888a9796d0b839d16a3593941a9c382820e5a7cda0c5c63e0fdc6a6"
+      },
+      {
+        "name": "system_at_end_not_false_preservation",
+        "status": "pass",
+        "inputs": {
+          "messages": [
+            {
+              "role": "user",
+              "content": "u1"
+            },
+            {
+              "role": "assistant",
+              "content": "a1"
+            },
+            {
+              "role": "system",
+              "content": "tail"
+            }
+          ]
+        },
+        "before": null,
+        "after": "### User:\nu1\n\n### Assistant:\na1\n\n### System:\ntail\n\n",
+        "detail": "before BadRequestError on trailing system is failure mode, not preserved behavior",
+        "inputs_sha256": "d3fc71b6f0f5312bca8c9baadc0539f9f12370a6164f70f57d1f79dc217531cd"
+      }
+    ]
+  },
+  "captured_log": "",
+  "probe_script_sha256": "fe0cb8dfc7d94eaad9ef1775c698187a6489f957c3d8bdf9469b07af2c3e402d",
+  "ran_utc": "2026-11-01T15:44:13.598267+00:00"
+}

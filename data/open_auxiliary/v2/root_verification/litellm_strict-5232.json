@@ -1,0 +1,51 @@
+{
+  "batch": "litellm_strict",
+  "case": "5232",
+  "result": {
+    "source_id": "berriai__litellm-5232",
+    "status": "pass",
+    "checks": [
+      {
+        "name": "tool_index_remap",
+        "status": "pass",
+        "inputs": {
+          "chunk_sequence": "text@0,tool@1,tool@3,message_delta"
+        },
+        "before": [
+          1,
+          3
+        ],
+        "after": [
+          0,
+          1
+        ],
+        "detail": "",
+        "inputs_sha256": "ede2370e644899ca29bbc9b47836ddbe84209c359db48543e32e4c68a5a512f3"
+      },
+      {
+        "name": "text_and_stop_preserved",
+        "status": "pass",
+        "inputs": {
+          "chunk_sequence": "text@0,tool@1,tool@3,message_delta"
+        },
+        "before": {
+          "texts": [
+            "Hi"
+          ],
+          "finish": "stop"
+        },
+        "after": {
+          "texts": [
+            "Hi"
+          ],
+          "finish": "stop"
+        },
+        "detail": "",
+        "inputs_sha256": "ede2370e644899ca29bbc9b47836ddbe84209c359db48543e32e4c68a5a512f3"
+      }
+    ]
+  },
+  "captured_log": "",
+  "probe_script_sha256": "fe0cb8dfc7d94eaad9ef1775c698187a6489f957c3d8bdf9469b07af2c3e402d",
+  "ran_utc": "2026-11-01T15:44:15.236154+00:00"
+}

@@ -1,0 +1,349 @@
+{
+  "created_at_utc": "2026-11-01T15:49:43.412081+00:00",
+  "suite": "root_scope_extras",
+  "child_timeout_sec": 20,
+  "provisional_allowlist_count": 23,
+  "summary": {
+    "pass": 23,
+    "reject": 0,
+    "pending": 7
+  },
+  "samples": [
+    {
+      "sample_id": "berriai__litellm-11964",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "no_ref_unchanged_both_variants": true,
+        "nested_anyof_resolves_after": true,
+        "unknown_ref_missing_def_observed": false
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-12168",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "invalid_function_dict_rejected_before": true,
+        "invalid_function_dict_rejected_after": true,
+        "named_function_accepted_before": true,
+        "named_function_accepted_after": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-5232",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "text_stream_preserved": true,
+        "empty_tool_stop_guard_before": true,
+        "empty_tool_stop_guard_after": true,
+        "empty_tool_stop_guard_preserved": true,
+        "tool_index_after_monotonic": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-8512",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "new_model_tools_after_only": true,
+        "supported_unchanged": true,
+        "unsupported_unchanged": true,
+        "supports_tool_choice_is_stub": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-9261",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-9828",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "default_false_full_output_equal": true,
+        "invalid_field_stripped_both": true,
+        "ordering_only_when_flag": true,
+        "variant_matched_unpack_dependency": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-1791",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "strict_json_braces_behavior": true,
+        "strict_simple_preserved": true,
+        "strict_missing_key_both_error": true,
+        "save_file_before_oserror": true,
+        "save_file_after_runtime_wrap": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-1818",
+      "strict_batch": "crewai_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-1910",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "nested_before_has_inner_field": true,
+        "nested_after_has_inner_field": true,
+        "nested_description_stable": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2408",
+      "strict_batch": "crewai_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2424",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "before_signal_send_fires": true,
+        "after_signal_send_fires": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2570",
+      "strict_batch": "crewai_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2588",
+      "strict_batch": "crewai_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2865",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2890",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "crewaiinc__crewai-3150",
+      "strict_batch": "crewai_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "huggingface__smolagents-1088",
+      "strict_batch": "acceptance_strengthened",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "huggingface__smolagents-285",
+      "strict_batch": "acceptance_strengthened",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "huggingface__smolagents-478",
+      "strict_batch": "acceptance_strengthened",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "huggingface__smolagents-891",
+      "strict_batch": "acceptance_strengthened",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-8053",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-8089",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pass",
+      "extra_executed": true,
+      "extra_status": "pass",
+      "root_status": "pass",
+      "extra_checks": {
+        "basemodel_schema_dict_before": true,
+        "basemodel_schema_preserved_after": true,
+        "typed_limit_schema_unchanged": true,
+        "untyped_before_fails_after_ok": true
+      },
+      "extra_error": null
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-8340",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_strict_sufficient",
+      "root_status": "pass",
+      "extra_checks": {},
+      "extra_error": null
+    },
+    {
+      "sample_id": "berriai__litellm-11006",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pending",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "berriai__litellm-6138",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pending",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "berriai__litellm-6563",
+      "strict_batch": "litellm_strict",
+      "strict_status": "pending",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2477",
+      "strict_batch": "crewai_pr_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-1556",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pass",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-8235",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pending",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    },
+    {
+      "sample_id": "stanfordnlp__dspy-8432",
+      "strict_batch": "dspy_strict",
+      "strict_status": "pending",
+      "extra_executed": false,
+      "extra_status": "skipped_not_in_scope",
+      "root_status": "pending",
+      "note": "Not in provisional export allowlist; do not chase in C64."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "batch": "crewai_strict",
+  "case": "2408",
+  "result": {
+    "source_id": "crewaiinc__crewai-2408",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_system_only_raises": true,
+      "after_system_only_matches_default_path": true
+    },
+    "preservation": {
+      "default_template_output_unchanged": true,
+      "dual_template_output_unchanged": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before": "8c0e6597aba033f9497552db2389f439811599ea739d37bd09779d1255cd163f",
+      "after": "396f9e28a2183376fbd27043f1a5bd16324b0ec871d5ed06028486409bd065b3"
+    },
+    "observations": {
+      "default_before": "<role_playing><no_tools><task>",
+      "default_after": "<role_playing><no_tools><task>",
+      "dual_before": "SYS <role_playing><no_tools>\nPROMPT <task>\nRESP ",
+      "dual_after": "SYS <role_playing><no_tools>\nPROMPT <task>\nRESP ",
+      "system_only_before": {
+        "error": "AttributeError",
+        "text": null
+      },
+      "system_only_after": "<role_playing><no_tools><task>"
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "8eacaec9c10987e0cb3f478fc90bdf8b761065984a3332320d0580106130f76e",
+  "ran_utc": "2026-11-01T15:44:07.894862+00:00"
+}

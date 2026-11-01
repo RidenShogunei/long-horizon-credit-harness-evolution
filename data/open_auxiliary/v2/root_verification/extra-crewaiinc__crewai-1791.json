@@ -1,0 +1,69 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "strict_json_braces_behavior": true,
+    "strict_simple_preserved": true,
+    "strict_missing_key_both_error": true,
+    "save_file_before_oserror": true,
+    "save_file_after_runtime_wrap": true
+  },
+  "observations": {
+    "interpolate": {
+      "before": {
+        "json_braces": {
+          "error": "KeyError",
+          "expected_output": null,
+          "description": null
+        },
+        "simple": {
+          "error": null,
+          "expected_output": "Hello Bob",
+          "description": "Do work"
+        },
+        "missing_key": {
+          "error": "KeyError",
+          "expected_output": null,
+          "description": null
+        }
+      },
+      "after": {
+        "json_braces": {
+          "error": null,
+          "expected_output": "Summary for Ada: {\"count\": 1}",
+          "description": "Do work"
+        },
+        "simple": {
+          "error": null,
+          "expected_output": "Hello Bob",
+          "description": "Do work"
+        },
+        "missing_key": {
+          "error": "KeyError",
+          "expected_output": null,
+          "description": null
+        }
+      }
+    },
+    "save_file": {
+      "before": {
+        "exc_type": "PermissionError",
+        "exc_msg": "[Errno 13] permission denied stub",
+        "calls": [
+          "open"
+        ]
+      },
+      "after": {
+        "exc_type": "RuntimeError",
+        "exc_msg": "Failed to save output file: [Errno 13] permission denied stub",
+        "calls": [
+          "open"
+        ]
+      }
+    }
+  },
+  "source_hashes": {
+    "before": "7ea100ef082bda4e2f754bd532ad88e275aaa2b3ed32f4c87c5eb83c29e3a5bb",
+    "after": "dad1f748ba0e0e54633c3ea7d831e8bd7e7d3ed6a8a9e77dfd43a1840c1aad94"
+  }
+}

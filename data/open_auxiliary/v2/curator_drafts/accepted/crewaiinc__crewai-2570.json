@@ -1,0 +1,101 @@
+{
+  "source_id": "crewaiinc__crewai-2570",
+  "split": "train",
+  "verification_status": "strict_bounded_pass",
+  "curation_notes": "Strict acceptance; tools module alias; async.run scope limitation documented in verify.",
+  "lineage": {
+    "prior_batch": "work/open_dataset_integration_v2/crewai_batch",
+    "prior_batch_immutable": true
+  },
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+    "original_source_path": "src/crewai/tools/base_tool.py",
+    "visible_path": "tools/base_tool.py",
+    "harness_module": "tools",
+    "module_path_prefix": "tools/"
+  },
+  "source_refs": [
+    {
+      "qualname": "crewai.tools.base_tool.BaseTool",
+      "original_path": "src/crewai/tools/base_tool.py",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+      "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+      "start_line": 18,
+      "end_line": 177
+    },
+    {
+      "qualname": "crewai.tools.base_tool.BaseTool.run",
+      "original_path": "src/crewai/tools/base_tool.py",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+      "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+      "start_line": 62,
+      "end_line": 68
+    },
+    {
+      "qualname": "crewai.tools.base_tool.BaseTool._run",
+      "original_path": "src/crewai/tools/base_tool.py",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-2570/before/src/crewai/tools/base_tool.py",
+      "sha256": "769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01",
+      "start_line": 71,
+      "end_line": 76
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-CREWAI-STRICT-2570",
+    "root_lineage_id": "crewAIInc/crewAI@0cd524af86e3",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "tools",
+      "agent_loop",
+      "context_mgmt"
+    ],
+    "module_code": {
+      "tools/base_tool.py": "class BaseTool(BaseModel, ABC):\n    class _ArgsSchemaPlaceholder(PydanticBaseModel):\n        pass\n\n    model_config = ConfigDict(arbitrary_types_allowed=True)\n\n    name: str\n    \"\"\"The unique name of the tool that clearly communicates its purpose.\"\"\"\n    description: str\n    \"\"\"Used to tell the model how/when/why to use the tool.\"\"\"\n    args_schema: Type[PydanticBaseModel] = Field(\n        default_factory=_ArgsSchemaPlaceholder, validate_default=True\n    )\n    \"\"\"The schema for the arguments that the tool accepts.\"\"\"\n    description_updated: bool = False\n    \"\"\"Flag to check if the description has been updated.\"\"\"\n    cache_function: Callable = lambda _args=None, _result=None: True\n    \"\"\"Function that will be used to determine if the tool should be cached, should return a boolean. If None, the tool will be cached.\"\"\"\n    result_as_answer: bool = False\n    \"\"\"Flag to check if the tool should be the final agent answer.\"\"\"\n\n    @field_validator(\"args_schema\", mode=\"before\")\n    @classmethod\n    def _default_args_schema(\n        cls, v: Type[PydanticBaseModel]\n    ) -> Type[PydanticBaseModel]:\n        if not isinstance(v, cls._ArgsSchemaPlaceholder):\n            return v\n\n        return type(\n            f\"{cls.__name__}Schema\",\n            (PydanticBaseModel,),\n            {\n                \"__annotations__\": {\n                    k: v for k, v in cls._run.__annotations__.items() if k != \"return\"\n                },\n            },\n        )\n\n    def model_post_init(self, __context: Any) -> None:\n        self._generate_description()\n\n        super().model_post_init(__context)\n\n    def run(\n        self,\n        *args: Any,\n        **kwargs: Any,\n    ) -> Any:\n        print(f\"Using Tool: {self.name}\")\n        return self._run(*args, **kwargs)\n\n    @abstractmethod\n    def _run(\n        self,\n        *args: Any,\n        **kwargs: Any,\n    ) -> Any:\n        \"\"\"Here goes the actual implementation of the tool.\"\"\"\n\n    def to_structured_tool(self) -> CrewStructuredTool:\n        \"\"\"Convert this tool to a CrewStructuredTool instance.\"\"\"\n        self._set_args_schema()\n        return CrewStructuredTool(\n            name=self.name,\n            description=self.description,\n            args_schema=self.args_schema,\n            func=self._run,\n            result_as_answer=self.result_as_answer,\n        )\n\n    @classmethod\n    def from_langchain(cls, tool: Any) -> \"BaseTool\":\n        \"\"\"Create a Tool instance from a CrewStructuredTool.\n\n        This method takes a CrewStructuredTool object and converts it into a\n        Tool instance. It ensures that the provided tool has a callable 'func'\n        attribute and infers the argument schema if not explicitly provided.\n        \"\"\"\n        if not hasattr(tool, \"func\") or not callable(tool.func):\n            raise ValueError(\"The provided tool must have a callable 'func' attribute.\")\n\n        args_schema = getattr(tool, \"args_schema\", None)\n\n        if args_schema is None:\n            # Infer args_schema from the function signature if not provided\n            func_signature = signature(tool.func)\n            annotations = func_signature.parameters\n            args_fields = {}\n            for name, param in annotations.items():\n                if name != \"self\":\n                    param_annotation = (\n                        param.annotation if param.annotation != param.empty else Any\n                    )\n                    field_info = Field(\n                        default=...,\n                        description=\"\",\n                    )\n                    args_fields[name] = (param_annotation, field_info)\n            if args_fields:\n                args_schema = create_model(f\"{tool.name}Input\", **args_fields)\n            else:\n                # Create a default schema with no fields if no parameters are found\n                args_schema = create_model(\n                    f\"{tool.name}Input\", __base__=PydanticBaseModel\n                )\n\n        return cls(\n            name=getattr(tool, \"name\", \"Unnamed Tool\"),\n            description=getattr(tool, \"description\", \"\"),\n            func=tool.func,\n            args_schema=args_schema,\n        )\n\n    def _set_args_schema(self):\n        if self.args_schema is None:\n            class_name = f\"{self.__class__.__name__}Schema\"\n            self.args_schema = type(\n                class_name,\n                (PydanticBaseModel,),\n                {\n                    \"__annotations__\": {\n                        k: v\n                        for k, v in self._run.__annotations__.items()\n                        if k != \"return\"\n                    },\n                },\n            )\n\n    def _generate_description(self):\n        args_schema = {\n            name: {\n                \"description\": field.description,\n                \"type\": BaseTool._get_arg_annotations(field.annotation),\n            }\n            for name, field in self.args_schema.model_fields.items()\n        }\n\n        self.description = f\"Tool Name: {self.name}\\nTool Arguments: {args_schema}\\nTool Description: {self.description}\"\n\n    @staticmethod\n    def _get_arg_annotations(annotation: type[Any] | None) -> str:\n        if annotation is None:\n            return \"None\"\n\n        origin = get_origin(annotation)\n        args = get_args(annotation)\n\n        if origin is None:\n            return (\n                annotation.__name__\n                if hasattr(annotation, \"__name__\")\n                else str(annotation)\n            )\n\n        if args:\n            args_str = \", \".join(BaseTool._get_arg_annotations(arg) for arg in args)\n            return f\"{origin.__name__}[{args_str}]\"\n\n        return origin.__name__\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Published reporter issue (SWE-rebench-V2): [BUG] SnowflakeSearchTool returns a coroutine object rather than the query results ### Description  Unlike other tools in the package (e.g., `BraveSearchTool`, `DatabricksQueryTool`) which implement synchronous `_run` methods, the `SnowflakeSearchTool` only has an async implementation without a synchronous wrapper. When agents use the tool, they get a coroutine object (coroutine object SnowflakeSearchTool._run at 0x13b1a28c0) instead of the actual query results.  Alternatively, maybe we could make the calling agent use an asynchronous context but I figured that `SnowflakeSearchTool` appears to be the only tool in the package that implements an asynchronous `_run` so maybe it's easier to fix the tool itself.  ### Steps to Reproduce  1. Set up a CrewAI project with Snowflake integration 2. Configure the SnowflakeConfig with valid credentials 3. Create an Agent with SnowflakeSearchTool 4. Create a task that uses the Snowflake tool 5. Run the crew  ### Expected behavior  The agent should execute the Snowflake query and return the actual query results (e.g., a formatted table of data or error message from Snowflake).  ### Screenshots/Code snippets  n/a  ### Operating System  Other (specify in additional context)  ### Python Version  3.12  ### crewAI Version  0.108.0  ### crewAI Tools Version  0.40.0  ### Virtual Environment  Venv  ### Evidence  ```coroutine object SnowflakeSearchTool._run at 0x13b1a28c0```  ### Possible Solution  Add a synchronous `run` method to `SnowflakeSearchT"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt src/crewai/tools/base_tool.py lines 18-177 sha256=769ec811f2fa218990f5dd20f580c7b767d5cae5c52af14aa06a228f5eb27d01 (module qual prefix crewai.tools.base_tool)."
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "tools",
+    "locations": [
+      "tools/base_tool.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Current-code: crewai.tools.base_tool.BaseTool.run returns self._run(...) directly. Reporter: async tool _run returns coroutine object. Hypothesis: asyncio.iscoroutine then asyncio.run before return (nested active event loop not verified here).",
+    "intended_change": "In BaseTool.run, assign result = self._run(...); if asyncio.iscoroutine(result) return asyncio.run(result); else return result.",
+    "preserve_behaviors": [
+      "Sync _run return values pass through unchanged",
+      "Using Tool: {name} print line still emitted before _run"
+    ],
+    "verification_plan": [
+      "Async _run: before returns coroutine object; after returns resolved dict",
+      "Sync _run: int 7 before and after",
+      "Stdout preserves Using Tool print prefix"
+    ],
+    "verification_kind": null
+  },
+  "verification_fixture_path": "work/open_dataset_integration_v2/crewai_strict/verification_results.json",
+  "_batch": "crewai_strict"
+}

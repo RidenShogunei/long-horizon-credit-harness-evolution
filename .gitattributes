@@ -1,0 +1,4 @@
+# Preserve frozen source, recorded scripts and their SHA256 inventories verbatim.
+# Formatting of these archives is verified by source hashes.
+/data/open_auxiliary/** -text -whitespace
+/scripts/open_data/**/*.py -text -whitespace

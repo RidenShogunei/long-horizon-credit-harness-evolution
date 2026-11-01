@@ -1,0 +1,53 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 207ba44..af19a50 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -72,7 +72,7 @@ vision = [
+   "selenium",
+ ]
+ all = [
+-  "smolagents[audio,docker,e2b,gradio,litellm,mcp,openai,telemetry,transformers,vision]",
++  "smolagents[audio,docker,e2b,gradio,litellm,mcp,mlx-lm,openai,telemetry,transformers,vision]",
+ ]
+ quality = [
+   "ruff>=0.9.0",
+diff --git a/src/smolagents/gradio_ui.py b/src/smolagents/gradio_ui.py
+index 513b1dc..6ceaa02 100644
+--- a/src/smolagents/gradio_ui.py
++++ b/src/smolagents/gradio_ui.py
+@@ -184,7 +184,7 @@ class GradioUI:
+             )
+         self.agent = agent
+         self.file_upload_folder = file_upload_folder
+-        self.name = getattr(agent, "name", "Agent interface")
++        self.name = getattr(agent, "name") or "Agent interface"
+         self.description = getattr(agent, "description", None)
+         if self.file_upload_folder is not None:
+             if not os.path.exists(file_upload_folder):
+diff --git a/src/smolagents/local_python_executor.py b/src/smolagents/local_python_executor.py
+index 5381094..4ef4c79 100644
+--- a/src/smolagents/local_python_executor.py
++++ b/src/smolagents/local_python_executor.py
+@@ -1228,11 +1228,11 @@ def evaluate_ast(
+             The list of modules that can be imported by the code. By default, only a few safe modules are allowed.
+             If it contains "*", it will authorize any import. Use this at your own risk!
+     """
+-    if state.setdefault("_operations_count", 0) >= MAX_OPERATIONS:
++    if state.setdefault("_operations_count", {"counter": 0})["counter"] >= MAX_OPERATIONS:
+         raise InterpreterError(
+             f"Reached the max number of operations of {MAX_OPERATIONS}. Maybe there is an infinite loop somewhere in the code, or you're just asking too many calculations."
+         )
+-    state["_operations_count"] += 1
++    state["_operations_count"]["counter"] += 1
+     common_params = (state, static_tools, custom_tools, authorized_imports)
+     if isinstance(expression, ast.Assign):
+         # Assignment -> we evaluate the assignment which should update the state
+@@ -1402,7 +1402,7 @@ def evaluate_python_code(
+     custom_tools = custom_tools if custom_tools is not None else {}
+     result = None
+     state["_print_outputs"] = PrintContainer()
+-    state["_operations_count"] = 0
++    state["_operations_count"] = {"counter": 0}
+ 
+     if "final_answer" in static_tools:
+         previous_final_answer = static_tools["final_answer"]

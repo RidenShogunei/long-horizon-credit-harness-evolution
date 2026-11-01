@@ -1,0 +1,81 @@
+{
+  "source_id": "crewaiinc__crewai-2424",
+  "split": "train",
+  "verification_status": "strict_local_execution_pass",
+  "source_license": "MIT",
+  "dataset_compilation_license": "CC-BY-4.0",
+  "curation_notes": "emit() handler dispatch only in crewai_event_bus.py.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "92980544362dbdc55eff19a6b9250a39b8b55054",
+    "original_source_path": "src/crewai/utilities/events/crewai_event_bus.py",
+    "visible_path": "observation/crewai_event_bus.py",
+    "harness_module": "observation"
+  },
+  "source_refs": [
+    {
+      "qualname": "crewai.utilities.events.crewai_event_bus.CrewAIEventsBus.emit",
+      "original_path": "src/crewai/utilities/events/crewai_event_bus.py",
+      "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-2424/before/src/crewai/utilities/events/crewai_event_bus.py",
+      "sha256": "ce4b08842a2c421457031746e571333821c27a4a04f8142b97c4f589984e3603",
+      "start_line": 13,
+      "end_line": 109
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-CREWAI-2424",
+    "root_lineage_id": "crewAIInc/crewAI@92980544362d",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_loop",
+      "context_mgmt",
+      "observation",
+      "tools",
+      "verification"
+    ],
+    "module_code": {
+      "agent_loop/crewai_event_bus.py": "class CrewAIEventsBus:\n    \"\"\"\n    A singleton event bus that uses blinker signals for event handling.\n    Allows both internal (Flow/Crew) and external event handling.\n    \"\"\"\n\n    _instance = None\n    _lock = threading.Lock()\n\n    def __new__(cls):\n        if cls._instance is None:\n            with cls._lock:\n                if cls._instance is None:  # prevent race condition\n                    cls._instance = super(CrewAIEventsBus, cls).__new__(cls)\n                    cls._instance._initialize()\n        return cls._instance\n\n    def _initialize(self) -> None:\n        \"\"\"Initialize the event bus internal state\"\"\"\n        self._signal = Signal(\"crewai_event_bus\")\n        self._handlers: Dict[Type[CrewEvent], List[Callable]] = {}\n\n    def on(\n        self, event_type: Type[EventT]\n    ) -> Callable[[Callable[[Any, EventT], None]], Callable[[Any, EventT], None]]:\n        \"\"\"\n        Decorator to register an event handler for a specific event type.\n\n        Usage:\n            @crewai_event_bus.on(AgentExecutionCompletedEvent)\n            def on_agent_execution_completed(\n                source: Any, event: AgentExecutionCompletedEvent\n            ):\n                print(f\"👍 Agent '{event.agent}' completed task\")\n                print(f\"   Output: {event.output}\")\n        \"\"\"\n\n        def decorator(\n            handler: Callable[[Any, EventT], None],\n        ) -> Callable[[Any, EventT], None]:\n            if event_type not in self._handlers:\n                self._handlers[event_type] = []\n            self._handlers[event_type].append(\n                cast(Callable[[Any, EventT], None], handler)\n            )\n            return handler\n\n        return decorator\n\n    def emit(self, source: Any, event: CrewEvent) -> None:\n        \"\"\"\n        Emit an event to all registered handlers\n\n        Args:\n            source: The object emitting the event\n            event: The event instance to emit\n        \"\"\"\n        event_type = type(event)\n        if event_type in self._handlers:\n            for handler in self._handlers[event_type]:\n                handler(source, event)\n        self._signal.send(source, event=event)\n\n    def clear_handlers(self) -> None:\n        \"\"\"Clear all registered event handlers - useful for testing\"\"\"\n        self._handlers.clear()\n\n    def register_handler(\n        self, event_type: Type[EventTypes], handler: Callable[[Any, EventTypes], None]\n    ) -> None:\n        \"\"\"Register an event handler for a specific event type\"\"\"\n        if event_type not in self._handlers:\n            self._handlers[event_type] = []\n        self._handlers[event_type].append(\n            cast(Callable[[Any, EventTypes], None], handler)\n        )\n\n    @contextmanager\n    def scoped_handlers(self):\n        \"\"\"\n        Context manager for temporary event handling scope.\n        Useful for testing or temporary event handling.\n\n        Usage:\n            with crewai_event_bus.scoped_handlers():\n                @crewai_event_bus.on(CrewKickoffStarted)\n                def temp_handler(source, event):\n                    print(\"Temporary handler\")\n                # Do stuff...\n            # Handlers are cleared after the context\n        \"\"\"\n        previous_handlers = self._handlers.copy()\n        self._handlers.clear()\n        try:\n            yield\n        finally:\n            self._handlers = previous_handlers\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Published reporter issue (SWE-rebench-V2): **Title**  \nEnable hierarchical event handling in the event bus\n\n**Problem**  \n`emit()` only invoked handlers that were registered for the exact class of the emitted event, causing listeners for abstract or base event types to miss concrete subclass events. This limited the flexibility of the event system and broke expectations around polymorphic event handling.\n\n**Root Cause**  \nHandler lookup was performed using a strict type key, ignoring inheritance relationships between event classes.\n\n**Fix / Expected Behavior**  \n- `emit()` now iterates over all registered event types and invokes a handler whenever the emitted event is an instance of that type.  \n- Base‑class handlers reliably receive events from any derived subclass.  \n- The internal signaling mechanism continues to dispatch the event after handler execution.  \n- The unused test‑only `clear_handlers` utility has been removed to keep the public API clean.\n\n**Risk & Validation**  \n- Ensure that no handler is unintentionally invoked multiple times for the same event type hierarchy.  \n- Verify that existing tests for exact‑type handling still pass and add tests for subclass dispatch.  \n- Run the full test suite and perform a qu"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt src/crewai/utilities/events/crewai_event_bus.py lines 13-109 sha256=ce4b08842a2c421457031746e571333821c27a4a04f8142b97c4f589984e3603:\nclass CrewAIEventsBus:\n    \"\"\"\n    A singleton event bus that uses blinker signals for event handling.\n    Allows both internal (Flow/Crew) and external event handling.\n    \"\"\"\n\n    _instance = None\n    _lock = threading.Lock()\n\n    def __new__(cls):\n        if cls._instance is None:\n            with cls._lock:\n                if cls._instance is None:  # prevent race condition\n                    cls._instance = super(CrewAIEventsBus, cls).__new__(cls)\n                    cls._instance._initialize()\n        return cls._instance\n\n    def _initialize(self) -> None:\n        \"\"\"Initialize the event bus internal state\"\"\"\n        self._signal = Signal(\"crewai_event_bus\")\n        self._handlers: Dict[Type[CrewEvent], List[Callable]] = {}\n\n    def on(\n        self, event_type: Type[EventT]\n    ) -> Callable[[Callable[[Any, EventT], None]], Callable[[Any, EventT], None]]:\n        \"\"\"\n        Decorator to register an event handler for a specific event type.\n\n        Usage:\n            @crewai_event_bus.on(AgentExecutionCompletedEvent)\n            def on_agent_execution_completed(\n                source: Any, event: AgentExecutionCompletedEvent\n            ):\n                print(f\"👍 Agent '{event.agent}' completed task\")\n                print(f\"   Output: {event.output}\")\n        \"\"\"\n\n        def decorator(\n            handler: Callable[[Any, EventT], None],\n        ) -> Callable[[Any, EventT], None]:\n            if event_type not in self._handlers:\n                self._handlers[event_type] = []\n            self._handlers[event_type].append(\n                cast(Callable[[Any, EventT], None], handler)\n            )\n            return handler\n\n        return decorator\n\n    def emit(self, source: Any, event: CrewEvent) -> None:\n        \"\"\"\n        Emit an event to all registered handlers\n\n        Args:\n            source: The object emitting the event\n            event: The event instance to emit\n        \"\"\"\n        event_type = type(event)\n        if event_type in self._handlers:\n            for handler in self._handlers[event_type]:\n                handler(source, event)\n        self._signal.send(source, event=event)\n\n    def clear_handlers(self) -> None:\n        \"\"\"Clear all registered event handlers - useful for testing\"\"\"\n        self._handlers.clear()\n\n    def register_handler(\n        self, event_type: Type[EventTypes], handler: Callable[[Any, EventTypes], None]\n    ) -> None:\n        \"\"\"Register an event handler for a specific event type\"\"\"\n        if event_type not in self._handlers:\n            self._handlers[event_type] = []\n        self._handlers[event_type].append(\n            cast(Callable[[Any, EventTypes], None], handler)\n        )\n\n    @contextmanager\n    def scoped_handlers(self):\n        \"\"\"\n        Context manager for temporary event handling scope.\n        Useful for testing or temporary event handling.\n\n        Usage:\n            with crewai_event_bus.scoped_handlers():\n                @crewai_event_bus.on(CrewKickoffStarted)\n                def temp_handler(source, event):\n                    print(\"Temporary handler\")\n                # Do stuff...\n            # Handlers are cleared after the context\n        \"\"\"\n        previous_handlers = self._handlers.copy()\n        self._handlers.clear()\n        try:\n            yield\n        finally:\n            self._handlers = previous_handlers\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "observation",
+    "locations": [
+      "agent_loop/crewai_event_bus.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Current-code: emit registers handlers by exact event type only. Reporter: base-type listeners miss subclass events. Hypothesis: iterate registered types and invoke handlers when isinstance(event, registered_type).",
+    "intended_change": "Replace exact type lookup with isinstance-based dispatch loop over handler map.",
+    "preserve_behaviors": [
+      "Handlers registered for concrete event type still run",
+      "Blinker signal send still occurs after handler loop"
+    ],
+    "verification_plan": [
+      "Subclass event: before only concrete handler; after both base and concrete handlers fire"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "crewai_pr_strict"
+}

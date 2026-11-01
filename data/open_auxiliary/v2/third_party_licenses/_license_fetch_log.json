@@ -1,0 +1,407 @@
+{
+  "fetches": [
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "1510daba4f078e8e61cdec34cb6f0fea06ab8965",
+      "sample_example": "berriai__litellm-5232",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/1510daba4f078e8e61cdec34cb6f0fea06ab8965/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__1510daba4f07__LICENSE"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "1d22052f47e0a376dfc212afdb9ace176c7524c1",
+      "sample_example": "berriai__litellm-8512",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/1d22052f47e0a376dfc212afdb9ace176c7524c1/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__1d22052f47e0__LICENSE"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "4598a9bf31d59c1982f40a89593b250e68b1c754",
+      "sample_example": "berriai__litellm-11964",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/4598a9bf31d59c1982f40a89593b250e68b1c754/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__4598a9bf31d5__LICENSE"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "4a6dcd64ff1a6151d7e5fec022b3905265791fcd",
+      "sample_example": "berriai__litellm-9261",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/4a6dcd64ff1a6151d7e5fec022b3905265791fcd/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__4a6dcd64ff1a__LICENSE"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+      "sample_example": "berriai__litellm-9828",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/837a6948d83be839a2c28dc7d84a6f78cb86c054/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__837a6948d83b__LICENSE"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "github_repo": "BerriAI/litellm",
+      "base_commit": "f76375b65131f2dccb601995d7c5eabc3d5884fd",
+      "sample_example": "berriai__litellm-12168",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/f76375b65131f2dccb601995d7c5eabc3d5884fd/LICENSE",
+      "status": "ok",
+      "sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+      "bytes": 1419,
+      "audit_file": "BerriAI__litellm__f76375b65131__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+      "sample_example": "crewaiinc__crewai-2570",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__0cd524af86e3__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "22e5d39884393518fd6d8755e3c80880e34010dd",
+      "sample_example": "crewaiinc__crewai-1791",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/22e5d39884393518fd6d8755e3c80880e34010dd/LICENSE",
+      "status": "ok",
+      "sha256": "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d",
+      "bytes": 1073,
+      "audit_file": "crewAIInc__crewAI__22e5d3988439__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "3fecde49b6894461038ca46d9c079d3e235bfa0f",
+      "sample_example": "crewaiinc__crewai-1910",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/3fecde49b6894461038ca46d9c079d3e235bfa0f/LICENSE",
+      "status": "ok",
+      "sha256": "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d",
+      "bytes": 1073,
+      "audit_file": "crewAIInc__crewAI__3fecde49b689__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "40a441f30eebce88b928db875e4309b892a9ac11",
+      "sample_example": "crewaiinc__crewai-2588",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/40a441f30eebce88b928db875e4309b892a9ac11/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__40a441f30eeb__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "4f6054d439c602f93283eda351fe6b67133b9a84",
+      "sample_example": "crewaiinc__crewai-2408",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/4f6054d439c602f93283eda351fe6b67133b9a84/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__4f6054d439c6__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "92980544362dbdc55eff19a6b9250a39b8b55054",
+      "sample_example": "crewaiinc__crewai-2424",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/92980544362dbdc55eff19a6b9250a39b8b55054/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__92980544362d__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "a548463faebd22aa3167a13ad417b4ab89776478",
+      "sample_example": "crewaiinc__crewai-1818",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/a548463faebd22aa3167a13ad417b4ab89776478/LICENSE",
+      "status": "ok",
+      "sha256": "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d",
+      "bytes": 1073,
+      "audit_file": "crewAIInc__crewAI__a548463faebd__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "bef59715987ba52c94710b0c0c77745fb4ce5185",
+      "sample_example": "crewaiinc__crewai-2865",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/bef59715987ba52c94710b0c0c77745fb4ce5185/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__bef59715987b__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "d131d4ef96f2bb01b1957f1217cff5de1288edb2",
+      "sample_example": "crewaiinc__crewai-2890",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/d131d4ef96f2bb01b1957f1217cff5de1288edb2/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__d131d4ef96f2__LICENSE"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "github_repo": "crewAIInc/crewAI",
+      "base_commit": "e7a5747c6b8ce4ddad5a43aaf6b56f8997916459",
+      "sample_example": "crewaiinc__crewai-3150",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/crewAIInc/crewAI/e7a5747c6b8ce4ddad5a43aaf6b56f8997916459/LICENSE",
+      "status": "ok",
+      "sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+      "bytes": 1055,
+      "audit_file": "crewAIInc__crewAI__e7a5747c6b8c__LICENSE"
+    },
+    {
+      "repo": "huggingface/smolagents",
+      "github_repo": "huggingface/smolagents",
+      "base_commit": "0329674dcb515e2f0130e6fb22b4f2cd5652038f",
+      "sample_example": "huggingface__smolagents-891",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/huggingface/smolagents/0329674dcb515e2f0130e6fb22b4f2cd5652038f/LICENSE",
+      "status": "ok",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "audit_file": "huggingface__smolagents__0329674dcb51__LICENSE"
+    },
+    {
+      "repo": "huggingface/smolagents",
+      "github_repo": "huggingface/smolagents",
+      "base_commit": "3240fa878ac288a217d62fcf516241ac54ab4184",
+      "sample_example": "huggingface__smolagents-1088",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/huggingface/smolagents/3240fa878ac288a217d62fcf516241ac54ab4184/LICENSE",
+      "status": "ok",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "audit_file": "huggingface__smolagents__3240fa878ac2__LICENSE"
+    },
+    {
+      "repo": "huggingface/smolagents",
+      "github_repo": "huggingface/smolagents",
+      "base_commit": "39908439d29d3004ec59313be2fd89f43f06b485",
+      "sample_example": "huggingface__smolagents-478",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/huggingface/smolagents/39908439d29d3004ec59313be2fd89f43f06b485/LICENSE",
+      "status": "ok",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "audit_file": "huggingface__smolagents__39908439d29d__LICENSE"
+    },
+    {
+      "repo": "huggingface/smolagents",
+      "github_repo": "huggingface/smolagents",
+      "base_commit": "bd08d6485daad3a8eba8d22ca0c185c6653acf2c",
+      "sample_example": "huggingface__smolagents-285",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/huggingface/smolagents/bd08d6485daad3a8eba8d22ca0c185c6653acf2c/LICENSE",
+      "status": "ok",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "audit_file": "huggingface__smolagents__bd08d6485daa__LICENSE"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "github_repo": "stanfordnlp/dspy",
+      "base_commit": "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+      "sample_example": "stanfordnlp__dspy-8089",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/stanfordnlp/dspy/96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512/LICENSE",
+      "status": "ok",
+      "sha256": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb",
+      "bytes": 1085,
+      "audit_file": "stanfordnlp__dspy__96f1e95712cd__LICENSE"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "github_repo": "stanfordnlp/dspy",
+      "base_commit": "dd954e3cf2fbb119530ca2e6885b784bad9bace9",
+      "sample_example": "stanfordnlp__dspy-8053",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/stanfordnlp/dspy/dd954e3cf2fbb119530ca2e6885b784bad9bace9/LICENSE",
+      "status": "ok",
+      "sha256": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb",
+      "bytes": 1085,
+      "audit_file": "stanfordnlp__dspy__dd954e3cf2fb__LICENSE"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "github_repo": "stanfordnlp/dspy",
+      "base_commit": "e4ec979a3d76f3375637f3a06bb92d406a36a31e",
+      "sample_example": "stanfordnlp__dspy-8340",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/stanfordnlp/dspy/e4ec979a3d76f3375637f3a06bb92d406a36a31e/LICENSE",
+      "status": "ok",
+      "sha256": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb",
+      "bytes": 1085,
+      "audit_file": "stanfordnlp__dspy__e4ec979a3d76__LICENSE"
+    }
+  ],
+  "hash_groups": {
+    "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273": [
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "1510daba4f078e8e61cdec34cb6f0fea06ab8965",
+        "sample": "berriai__litellm-5232"
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "1d22052f47e0a376dfc212afdb9ace176c7524c1",
+        "sample": "berriai__litellm-8512"
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "4598a9bf31d59c1982f40a89593b250e68b1c754",
+        "sample": "berriai__litellm-11964"
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "4a6dcd64ff1a6151d7e5fec022b3905265791fcd",
+        "sample": "berriai__litellm-9261"
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "837a6948d83be839a2c28dc7d84a6f78cb86c054",
+        "sample": "berriai__litellm-9828"
+      },
+      {
+        "repo": "BerriAI/litellm",
+        "commit": "f76375b65131f2dccb601995d7c5eabc3d5884fd",
+        "sample": "berriai__litellm-12168"
+      }
+    ],
+    "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774": [
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+        "sample": "crewaiinc__crewai-2570"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "40a441f30eebce88b928db875e4309b892a9ac11",
+        "sample": "crewaiinc__crewai-2588"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "4f6054d439c602f93283eda351fe6b67133b9a84",
+        "sample": "crewaiinc__crewai-2408"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "92980544362dbdc55eff19a6b9250a39b8b55054",
+        "sample": "crewaiinc__crewai-2424"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "bef59715987ba52c94710b0c0c77745fb4ce5185",
+        "sample": "crewaiinc__crewai-2865"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "d131d4ef96f2bb01b1957f1217cff5de1288edb2",
+        "sample": "crewaiinc__crewai-2890"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "e7a5747c6b8ce4ddad5a43aaf6b56f8997916459",
+        "sample": "crewaiinc__crewai-3150"
+      }
+    ],
+    "d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d": [
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "22e5d39884393518fd6d8755e3c80880e34010dd",
+        "sample": "crewaiinc__crewai-1791"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "3fecde49b6894461038ca46d9c079d3e235bfa0f",
+        "sample": "crewaiinc__crewai-1910"
+      },
+      {
+        "repo": "crewAIInc/crewAI",
+        "commit": "a548463faebd22aa3167a13ad417b4ab89776478",
+        "sample": "crewaiinc__crewai-1818"
+      }
+    ],
+    "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4": [
+      {
+        "repo": "huggingface/smolagents",
+        "commit": "0329674dcb515e2f0130e6fb22b4f2cd5652038f",
+        "sample": "huggingface__smolagents-891"
+      },
+      {
+        "repo": "huggingface/smolagents",
+        "commit": "3240fa878ac288a217d62fcf516241ac54ab4184",
+        "sample": "huggingface__smolagents-1088"
+      },
+      {
+        "repo": "huggingface/smolagents",
+        "commit": "39908439d29d3004ec59313be2fd89f43f06b485",
+        "sample": "huggingface__smolagents-478"
+      },
+      {
+        "repo": "huggingface/smolagents",
+        "commit": "bd08d6485daad3a8eba8d22ca0c185c6653acf2c",
+        "sample": "huggingface__smolagents-285"
+      }
+    ],
+    "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb": [
+      {
+        "repo": "stanfordnlp/dspy",
+        "commit": "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+        "sample": "stanfordnlp__dspy-8089"
+      },
+      {
+        "repo": "stanfordnlp/dspy",
+        "commit": "dd954e3cf2fbb119530ca2e6885b784bad9bace9",
+        "sample": "stanfordnlp__dspy-8053"
+      },
+      {
+        "repo": "stanfordnlp/dspy",
+        "commit": "e4ec979a3d76f3375637f3a06bb92d406a36a31e",
+        "sample": "stanfordnlp__dspy-8340"
+      }
+    ]
+  }
+}

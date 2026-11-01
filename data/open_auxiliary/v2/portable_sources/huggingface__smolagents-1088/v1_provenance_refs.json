@@ -1,0 +1,69 @@
+{
+  "sample_id": "huggingface__smolagents-1088",
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "_parse_google_format_docstring",
+      "start_line": 239,
+      "end_line": 271,
+      "excerpt_sha256": "24d199aab17f47c5a451353178c7b5bfba3190b3b944534a7470749bf781b4c5",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "get_json_schema",
+      "start_line": 84,
+      "end_line": 218,
+      "excerpt_sha256": "9d2a7f31df3e65fcf480b4e1500f7d8f13e7bcdea147dbd51aa6c72d39371caa",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "description_re",
+      "start_line": 222,
+      "end_line": 222,
+      "excerpt_sha256": "73f80ff7cc60d611e1a5f4aec7ccf74ac1dcde58c86be73fa0c8976961001107",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "args_re",
+      "start_line": 224,
+      "end_line": 224,
+      "excerpt_sha256": "a279671fd23df5225812e574e8d85c578fd7cc6fbf60a082e9ef1ccadf792a93",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "args_split_re",
+      "start_line": 226,
+      "end_line": 234,
+      "excerpt_sha256": "8927e6d9b6e7168d4b17b7a3342859c82dcb97c411e062b3ca72a24f4e4c2024",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-1088/src/smolagents/_function_type_hints_utils.py",
+      "file_sha256": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "qualname": "returns_re",
+      "start_line": 236,
+      "end_line": 236,
+      "excerpt_sha256": "db8970fd7345bb4a029306385282adae35a2ba11da47ef46814d7fd77046422c",
+      "bundle_source_path": "sources/huggingface__smolagents-1088/_function_type_hints_utils.py"
+    }
+  ],
+  "original_record_sha256": "4ddd59a7634710aadf9fb85b450297b373befad0ef5ea65351182cb0affdce7a",
+  "original_patch_reconstructed": true,
+  "local_behavior_execution_verified": null,
+  "published_test_metadata_kept_outside_input": true,
+  "license_compilation": "CC-BY-4.0",
+  "license_source_code": "Apache License 2.0",
+  "original_curator_draft": {
+    "path": "curated_examples.original_cursor.json",
+    "sha256": "cdd7b545ef33216f55b3df18361813801699912874796c917181efc658a80053"
+  }
+}

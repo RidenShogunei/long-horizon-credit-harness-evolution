@@ -1,0 +1,78 @@
+{
+  "source_id": "stanfordnlp__dspy-8340",
+  "split": "train",
+  "verification_status": "strict_bounded_pass",
+  "verification_fixture_path": "work/open_dataset_integration_v2/dspy_strict/verification_fixtures/stanfordnlp__dspy-8340.json",
+  "curation_notes": "dspy_strict acceptance: behavioral before/after + preservation via verify_batch.py; Reconstructed before/applied per-case sources; bounded verify_batch.py executed.",
+  "provenance": {
+    "partition": "AUXILIARY_REPORTED_ISSUE_PLANNING",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "e4ec979a3d76f3375637f3a06bb92d406a36a31e",
+    "original_source_path": "dspy/adapters/chat_adapter.py",
+    "visible_path": "context_mgmt/chat_adapter.py",
+    "harness_module": "context_mgmt"
+  },
+  "source_refs": [
+    {
+      "qualname": "dspy.adapters.chat_adapter.ChatAdapter.format_assistant_message_content",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8340/before/dspy/adapters/chat_adapter.py",
+      "sha256": "5c1a8121fb9f388956c67f61f74df80b2b2a0f67a65b8772d468763e0babba8f",
+      "start_line": 138,
+      "end_line": 151
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-DSPY-8340",
+    "root_lineage_id": "stanfordnlp/dspy@e4ec979a3d76",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "context_mgmt"
+    ],
+    "module_code": {
+      "context_mgmt/chat_adapter.py": "    def format_assistant_message_content(\n        self,\n        signature: Type[Signature],\n        outputs: dict[str, Any],\n        missing_field_message=None,\n    ) -> str:\n        return self.format_field_with_value(\n            {\n                FieldInfoWithName(name=k, info=v): outputs.get(k, missing_field_message)\n                for k, v in signature.output_fields.items()\n            },\n        )\n\n    def parse(self, signature: Type[Signature], completion: str) -> dict[str, Any]:"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reported issue (original task text, not locally reproduced end-to-end): [Bug] History constructs assistant messages without [[ ## completed ## ]] tags.\n### What happened?\n\nThe DSPy History example produces an incorrectly formatted assistant message.\nhttps://dspy.ai/api/primitives/History/\n\nThe System message says the [[ ## answer ## ]] should be followed by [[ ## completed ## ]]. This is not a response from the LM! It is a answer constructed inside Adapter.format_assistant_message_content().\n\n\n### Steps to reproduce\n\n```\nimport dspy\n\ndspy.settings.configure(lm=dspy.LM(\"openai/gpt-4o-mini\"))\n\nclass MySignature(dspy.Signature):\n    question: str = dspy.InputField()\n    history: dspy.History = dspy.InputField()\n    answer: str = dspy.OutputField()\n\nhistory = dspy.History(\n    messages=[\n        {\"question\": \"What is the capital of France?\", \"answer\": \"Paris\"},\n        {\"question\": \"What is the capital of Germany?\", \"answer\": \"Berlin\"},\n    ]\n)\n\npredict = dspy.Predict(MySignature)\noutputs = predict(question=\"What is the capital of France?\", history=history)\n\nprint('System message:')\nprint(dspy.settings.lm.history[-1]['messages'][0]['content'])\nprint('Constructed assistant message:')\nprint(dspy.settings.lm.history[-1]['messages'][2]['content'])\n```\n\n\n```\nSy"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Source fact: before snapshot dspy/adapters/chat_adapter.py lines 138-151 sha256=5c1a8121fb9f388956c67f61f74df80b2b2a0f67a65b8772d468763e0babba8f (see source_refs; full tree under main_candidates/cases/stanfordnlp__dspy-8340/before)."
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "context_mgmt",
+    "locations": [
+      "context_mgmt/chat_adapter.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: History/adapter-constructed assistant messages omit the [[ ## completed ## ]] marker required by ChatAdapter field instructions. Source fact: format_assistant_message_content returned only format_field_with_value output.",
+    "intended_change": "Append '\\n\\n[[ ## completed ## ]]\\n' to assistant_message_content before returning.",
+    "preserve_behaviors": [
+      "Output field headers/content from format_field_with_value remain unchanged",
+      "parse() and other ChatAdapter methods untouched in scoped plan"
+    ],
+    "verification_plan": [
+      "Call format_assistant_message_content on before vs after ChatAdapter with stubbed body",
+      "Confirm after includes completed marker; before lacks it while body preserved"
+    ],
+    "verification_kind": [
+      "behavioral_before_after"
+    ]
+  },
+  "_batch": "dspy_strict"
+}

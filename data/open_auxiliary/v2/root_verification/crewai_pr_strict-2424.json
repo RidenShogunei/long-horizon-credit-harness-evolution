@@ -1,0 +1,44 @@
+{
+  "batch": "crewai_pr_strict",
+  "case": "2424",
+  "result": {
+    "source_id": "crewaiinc__crewai-2424",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_exact_type_only": true,
+      "after_base_and_concrete": true
+    },
+    "preservation": {
+      "concrete_still_fires_both": true,
+      "unrelated_single_handler_no_dupes": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before_sha256": "ce4b08842a2c421457031746e571333821c27a4a04f8142b97c4f589984e3603",
+      "after_sha256": "6300efd2bc84f393f23f527ba75a8e1e58d6cb3b260b266fd374202dc01d8b58"
+    },
+    "before_observed": {
+      "hits": [
+        "concrete"
+      ],
+      "handler_count": 2,
+      "unrelated_hits": [
+        "unrelated"
+      ]
+    },
+    "after_observed": {
+      "hits": [
+        "base",
+        "concrete"
+      ],
+      "handler_count": 2,
+      "unrelated_hits": [
+        "unrelated"
+      ]
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ce456f223c4b34039030e34bf80c1b43a5a606e2fc1eec91a10a0f2b8181482b",
+  "ran_utc": "2026-11-01T15:44:21.077460+00:00"
+}

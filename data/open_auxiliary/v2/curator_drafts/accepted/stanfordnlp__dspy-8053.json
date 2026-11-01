@@ -1,0 +1,78 @@
+{
+  "source_id": "stanfordnlp__dspy-8053",
+  "split": "train",
+  "verification_status": "strict_bounded_pass",
+  "verification_fixture_path": "work/open_dataset_integration_v2/dspy_strict/verification_fixtures/stanfordnlp__dspy-8053.json",
+  "curation_notes": "dspy_strict acceptance: behavioral before/after + preservation via verify_batch.py; Reconstructed before/applied per-case sources; bounded verify_batch.py executed.",
+  "provenance": {
+    "partition": "AUXILIARY_REPORTED_ISSUE_PLANNING",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "dd954e3cf2fbb119530ca2e6885b784bad9bace9",
+    "original_source_path": "dspy/propose/grounded_proposer.py",
+    "visible_path": "agent_loop/grounded_proposer.py",
+    "harness_module": "agent_loop"
+  },
+  "source_refs": [
+    {
+      "qualname": "dspy.propose.grounded_proposer.GroundedProposer.propose_instructions_for_program",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8053/before/dspy/propose/grounded_proposer.py",
+      "sha256": "8e41cd1c4c61795e9f83e424233350542d52259ccb3747b8fd27fdb3c5029aa0",
+      "start_line": 321,
+      "end_line": 378
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-DSPY-8053",
+    "root_lineage_id": "stanfordnlp/dspy@dd954e3cf2fb",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_loop"
+    ],
+    "module_code": {
+      "agent_loop/grounded_proposer.py": "\n    def propose_instructions_for_program(\n        self,\n        trainset,\n        program,\n        demo_candidates,\n        trial_logs,\n        N,\n        T,\n        tip=None,\n    ):\n        \"\"\"This method is responsible for returning the full set of new instructions for our program, given the specified criteria.\"\"\"\n\n        proposed_instructions = {}      \n\n        if self.set_history_randomly:\n            # Randomly select whether or not we're using instruction history\n            use_history = self.rng.random() < 0.5\n            self.use_instruct_history = use_history\n            if self.verbose:\n                print(f\"Use history T/F: {self.use_instruct_history}\")\n\n        if not demo_candidates:\n            if self.verbose:\n                print(\"No demo candidates provided. Running without task demos.\")\n            self.use_task_demos = False\n\n        # Create an instruction for each predictor \n        for pred_i, predictor in enumerate(program.predictors()):\n            for demo_set_i in range(len(demo_candidates[0])):\n                if pred_i not in proposed_instructions:\n                    proposed_instructions[pred_i] = []\n                selected_tip = None\n                if self.set_tip_randomly:\n                    if self.verbose:\n                        print(\"Using a randomly generated configuration for our grounded proposer.\")\n                    # Randomly select the tip\n                    selected_tip_key = self.rng.choice(list(TIPS.keys()))\n                    selected_tip = TIPS[selected_tip_key]\n                    self.use_tip = bool(\n                        selected_tip,\n                    )\n                    if self.verbose:\n                        print(f\"Selected tip: {selected_tip_key}\")\n\n                proposed_instructions[pred_i].append(\n                    self.propose_instruction_for_predictor(\n                        program=program,\n                        predictor=predictor,\n                        pred_i=pred_i,\n                        T=T,\n                        demo_candidates=demo_candidates,\n                        demo_set_i=demo_set_i,\n                        trial_logs=trial_logs,\n                        tip=selected_tip,\n                    ),\n                )\n        "
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reported issue (original task text, not locally reproduced end-to-end): [Bug] Not generating demo candidates leads to TypeError: 'NoneType' object is not subscriptable at MIPROv2\n### What happened?\n\nA potential error in generating few-shot examples should be caught before propagating invalid data.\n\nSetting None to demo_examples in dspy.MIPROv2 makes more diificult to understand the cause of the error.\n\n\n### Steps to reproduce\n\nIn dspy.MIPROv2, the bootstrap few-show examples are generated in \nhttps://github.com/stanfordnlp/dspy/blob/1082d4d09f7b4f111b8ed7463a2a27cc0d5dd7eb/dspy/teleprompt/mipro_optimizer_v2.py#L166\n\nA catching an error implies that demo_candidates is set to [None](https://github.com/stanfordnlp/dspy/blob/1082d4d09f7b4f111b8ed7463a2a27cc0d5dd7eb/dspy/teleprompt/mipro_optimizer_v2.py#L390C13-L390C35). Then, None demo_candidates is can be given to to \nhttps://github.com/stanfordnlp/dspy/blob/1082d4d09f7b4f111b8ed7463a2a27cc0d5dd7eb/dspy/teleprompt/mipro_optimizer_v2.py#L428\n\nThis later throws \n\n> This exception should be caught better TypeError: 'NoneType' object is not subscriptable at\n\nin https://github.com/stanfordnlp/dspy/blob/1082d4d09f7b4f111b8ed7463a2a27cc0d5dd7eb/dspy/propose/grounded_proposer.py#L350\n\nI guess a better solution wo"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Source fact: before snapshot dspy/propose/grounded_proposer.py lines 321-378 sha256=8e41cd1c4c61795e9f83e424233350542d52259ccb3747b8fd27fdb3c5029aa0 (see source_refs; full tree under main_candidates/cases/stanfordnlp__dspy-8053/before)."
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_loop",
+    "locations": [
+      "agent_loop/grounded_proposer.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: MIPROv2 bootstrap can yield demo_candidates=None leading to TypeError subscripting None inside propose_instructions_for_program. Source fact: falsy demo_candidates branch still iterated len(demo_candidates[0]).",
+    "intended_change": "When demo_candidates is falsy, set num_demos=N instead of indexing demo_candidates[0]; loop range(num_demos).",
+    "preserve_behaviors": [
+      "When demo_candidates provided, still iterate max(len(demo_candidates[0]),1) demos",
+      "propose_instruction_for_predictor still invoked per predictor/demo index"
+    ],
+    "verification_plan": [
+      "Call propose_instructions_for_program with demo_candidates=None and N=2 using stubbed predictor hook",
+      "Before raises TypeError; after performs two stub calls"
+    ],
+    "verification_kind": [
+      "behavioral_before_after"
+    ]
+  },
+  "_batch": "dspy_strict"
+}

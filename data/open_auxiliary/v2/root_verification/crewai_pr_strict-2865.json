@@ -1,0 +1,49 @@
+{
+  "batch": "crewai_pr_strict",
+  "case": "2865",
+  "result": {
+    "source_id": "crewaiinc__crewai-2865",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_no_markdown_block": true,
+      "after_markdown_block": true
+    },
+    "preservation": {
+      "markdown_false_prompt_identical_before_after": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before_sha256": "6922cf7452e4a77486f954506e19200e82601b833bb849b800eca1a91d76edca",
+      "after_sha256": "adcdfdc57cce7d2f61e5e7b65c16a1da4e1f0ccc6c822a50f713de26491d4ed7",
+      "fixture_script_sha256": "14265c2e5451f704a0b89370d3db32c9575ad6f6121d309facc42320a692d07f"
+    },
+    "before_observed": {
+      "markdown_true": {
+        "has_markdown_instruction": false,
+        "len": 32,
+        "prompt": "Write a report\n<expected_output>"
+      },
+      "markdown_false": {
+        "has_markdown_instruction": false,
+        "len": 32,
+        "prompt": "Write a report\n<expected_output>"
+      }
+    },
+    "after_observed": {
+      "markdown_true": {
+        "has_markdown_instruction": true,
+        "len": 274,
+        "prompt": "Write a report\n<expected_output>\nYour final answer MUST be formatted in Markdown syntax.\nFollow these guidelines:\n- Use # for headers\n- Use ** for bold text\n- Use * for italic text\n- Use - or * for bullet points\n- Use `code` for inline code\n- Use ```language for code blocks"
+      },
+      "markdown_false": {
+        "has_markdown_instruction": false,
+        "len": 32,
+        "prompt": "Write a report\n<expected_output>"
+      }
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ce456f223c4b34039030e34bf80c1b43a5a606e2fc1eec91a10a0f2b8181482b",
+  "ran_utc": "2026-11-01T15:44:23.274203+00:00"
+}

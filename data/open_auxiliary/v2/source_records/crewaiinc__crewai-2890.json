@@ -1,0 +1,31 @@
+{
+  "repo": "crewAIInc/crewAI",
+  "instance_id": "crewaiinc__crewai-2890",
+  "base_commit": "d131d4ef96f2bb01b1957f1217cff5de1288edb2",
+  "patch": "diff --git a/src/crewai/project/crew_base.py b/src/crewai/project/crew_base.py\nindex e90a0d30..96bae2f2 100644\n--- a/src/crewai/project/crew_base.py\n+++ b/src/crewai/project/crew_base.py\n@@ -252,5 +252,6 @@ def CrewBase(cls: T) -> T:\n     # Include base class (qual)name in the wrapper class (qual)name.\n     WrappedClass.__name__ = CrewBase.__name__ + \"(\" + cls.__name__ + \")\"\n     WrappedClass.__qualname__ = CrewBase.__qualname__ + \"(\" + cls.__name__ + \")\"\n+    WrappedClass._crew_name = cls.__name__\n \n     return cast(T, WrappedClass)\n",
+  "problem_statement": "**Title**  \nExpose the original class name as a crew identifier on `CrewBase`‑decorated classes  \n\n**Problem**  \nWhen a class is wrapped by the crew base decorator, there is no straightforward way to retrieve the logical name of the crew it represents. This hampers logging, debugging, and any feature that needs to display or compare crew identities.\n\n**Root Cause**  \nThe decorator creates a wrapper class but does not propagate the original class’s name as a searchable attribute.\n\n**Fix / Expected Behavior**  \n- The wrapper now carries an attribute that stores the original class’s name.  \n- The attribute is set automatically for every class decorated with `CrewBase`.  \n- Consumers can query this attribute to obtain a human‑readable crew identifier.  \n- Existing behavior of the wrapped class remains unchanged aside from the added attribute.  \n\n**Risk & Validation**  \n- Adding a new attribute could clash with user‑defined attributes of the same name; review naming conventions to avoid collisions.  \n- Verify that all existing unit tests pass and add a test confirming the presence and correctness of the new attribute.  \n- Perform integration checks to ensure that downstream components correctly read the new identifier without side effects.",
+  "pr_description": "Add crew name attribute to `CrewBase` annotated classes",
+  "pull_number": 2890,
+  "license": "MIT",
+  "test_patch": "diff --git a/tests/project_test.py b/tests/project_test.py\nindex 0ca43589..affdf234 100644\n--- a/tests/project_test.py\n+++ b/tests/project_test.py\n@@ -1,5 +1,4 @@\n from typing import List\n-from unittest.mock import patch\n \n import pytest\n \n@@ -234,3 +233,7 @@ def test_multiple_before_after_kickoff():\n     assert \"plants\" in result.raw, \"First before_kickoff not executed\"\n     assert \"processed first\" in result.raw, \"First after_kickoff not executed\"\n     assert \"processed second\" in result.raw, \"Second after_kickoff not executed\"\n+\n+def test_crew_name():\n+    crew = InternalCrew()\n+    assert crew._crew_name == \"InternalCrew\"\n",
+  "FAIL_TO_PASS": [
+    "tests/project_test.py::test_crew_name"
+  ],
+  "PASS_TO_PASS": [
+    "tests/project_test.py::test_agent_memoization",
+    "tests/project_test.py::test_crew_memoization",
+    "tests/project_test.py::test_agent_function_calling_llm",
+    "tests/project_test.py::test_task_guardrail",
+    "tests/project_test.py::test_task_memoization",
+    "tests/project_test.py::test_task_name"
+  ],
+  "interface": "Function: CrewBase(cls: Type[T]) -> Type[T]\nLocation: src/crewai/project/crew_base.py\nInputs: \n- **cls**: The original class being decorated (any subclass intended to become a crew). Must be a class type.\nOutputs: \n- Returns a new wrapper class that subclasses the original `cls` and carries the same behavior, but with an added class attribute `_crew_name` set to the original class’s name (`cls.__name__`). This attribute is used by tests and runtime code to identify the crew’s logical name.\nDescription: \n- `CrewBase` is a class decorator that wraps a user‑defined crew class, preserving its API while injecting a `_crew_name` attribute containing the original class name. The attribute enables external code (e.g., tests) to query the crew’s identifier without instantiating the wrapper explicitly.",
+  "_source": {
+    "dataset": "nebius/SWE-rebench-V2-PRs",
+    "revision": "fbf0ecf50f268d5344149e2f0097db6bede83737",
+    "file": "data/train-00001-of-00003.parquet",
+    "row_group": 5,
+    "license_compilation": "CC-BY-4.0",
+    "unverified_upstream_task": true
+  }
+}

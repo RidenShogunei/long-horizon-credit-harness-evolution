@@ -1,0 +1,24 @@
+diff --git a/src/crewai/tools/base_tool.py b/src/crewai/tools/base_tool.py
+index 2d652626..0e8a7a22 100644
+--- a/src/crewai/tools/base_tool.py
++++ b/src/crewai/tools/base_tool.py
+@@ -1,3 +1,4 @@
++import asyncio
+ import warnings
+ from abc import ABC, abstractmethod
+ from inspect import signature
+@@ -65,7 +66,13 @@ class BaseTool(BaseModel, ABC):
+         **kwargs: Any,
+     ) -> Any:
+         print(f"Using Tool: {self.name}")
+-        return self._run(*args, **kwargs)
++        result = self._run(*args, **kwargs)
++
++        # If _run is async, we safely run it
++        if asyncio.iscoroutine(result):
++            return asyncio.run(result)
++
++        return result
+ 
+     @abstractmethod
+     def _run(

@@ -1,0 +1,54 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "basemodel_schema_dict_before": true,
+    "basemodel_schema_preserved_after": true,
+    "typed_limit_schema_unchanged": true,
+    "untyped_before_fails_after_ok": true
+  },
+  "observations": {
+    "before_basemodel": {
+      "label": "basemodel",
+      "init_ok": true,
+      "err": null,
+      "args": {
+        "cfg": {
+          "properties": {
+            "value": {
+              "default": 3,
+              "title": "Value",
+              "type": "integer"
+            }
+          },
+          "title": "_Dspy8089Config",
+          "type": "object"
+        }
+      },
+      "call": 9
+    },
+    "after_basemodel": {
+      "label": "basemodel",
+      "init_ok": true,
+      "err": null,
+      "args": {
+        "cfg": {
+          "properties": {
+            "value": {
+              "default": 3,
+              "title": "Value",
+              "type": "integer"
+            }
+          },
+          "title": "_Dspy8089Config",
+          "type": "object"
+        }
+      },
+      "call": 9
+    }
+  },
+  "source_hashes": {
+    "before": "2247475bc1d6cfbbac4267328d0843f9f0a20b1ace86a7bca715eb7b24f7a683",
+    "after": "6fc8ba67cfadd7afae7a844f3e2c0adf629ecf440fbc070f2c0d46c402733bfa"
+  }
+}

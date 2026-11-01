@@ -1,0 +1,49 @@
+[
+  {
+    "dataset": "nebius/SWE-rebench",
+    "revision": "89cdfbab4ab1bd8f5a658bb212d1b63624f4f881",
+    "source_url": "https://huggingface.co/datasets/nebius/SWE-rebench/tree/89cdfbab4ab1bd8f5a658bb212d1b63624f4f881",
+    "compilation_license": "CC-BY-4.0",
+    "code_licenses_by_sample": {
+      "huggingface__smolagents-1088": "Apache License 2.0",
+      "huggingface__smolagents-285": "Apache License 2.0",
+      "huggingface__smolagents-478": "Apache License 2.0",
+      "huggingface__smolagents-891": "Apache License 2.0"
+    }
+  },
+  {
+    "dataset": "nebius/SWE-rebench-V2",
+    "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+    "source_url": "https://huggingface.co/datasets/nebius/SWE-rebench-V2/tree/10483de0f50fe5da545942705a76c6150171af7f",
+    "compilation_license": "CC-BY-4.0",
+    "code_licenses_by_sample": {
+      "berriai__litellm-11964": "custom-check-github",
+      "berriai__litellm-12168": "custom-check-github",
+      "berriai__litellm-5232": "custom-check-github",
+      "berriai__litellm-8512": "custom-check-github",
+      "berriai__litellm-9261": "custom-check-github",
+      "berriai__litellm-9828": "custom-check-github",
+      "crewaiinc__crewai-1818": "MIT",
+      "crewaiinc__crewai-2408": "MIT",
+      "crewaiinc__crewai-2570": "MIT",
+      "crewaiinc__crewai-2588": "MIT",
+      "crewaiinc__crewai-3150": "MIT",
+      "stanfordnlp__dspy-8053": "MIT",
+      "stanfordnlp__dspy-8089": "MIT",
+      "stanfordnlp__dspy-8340": "MIT"
+    }
+  },
+  {
+    "dataset": "nebius/SWE-rebench-V2-PRs",
+    "revision": "fbf0ecf50f268d5344149e2f0097db6bede83737",
+    "source_url": "https://huggingface.co/datasets/nebius/SWE-rebench-V2-PRs/tree/fbf0ecf50f268d5344149e2f0097db6bede83737",
+    "compilation_license": "CC-BY-4.0",
+    "code_licenses_by_sample": {
+      "crewaiinc__crewai-1791": "MIT",
+      "crewaiinc__crewai-1910": "MIT",
+      "crewaiinc__crewai-2424": "MIT",
+      "crewaiinc__crewai-2865": "MIT",
+      "crewaiinc__crewai-2890": "MIT"
+    }
+  }
+]

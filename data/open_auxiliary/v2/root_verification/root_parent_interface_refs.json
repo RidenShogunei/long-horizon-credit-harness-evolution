@@ -1,0 +1,27 @@
+{
+  "sample_id": "crewaiinc__crewai-1818",
+  "refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-1818/before/src/crewai/agent.py",
+      "original_path": "src/crewai/agent.py",
+      "field": "knowledge_sources",
+      "base_commit": "a548463faebd22aa3167a13ad417b4ab89776478",
+      "start_line": 130,
+      "end_line": 133,
+      "file_sha256": "169ff4abb9d8fbebbf8b71aa8c0e499698d2cd2de93d9a273db06afaf56aee9a",
+      "excerpt": "    knowledge_sources: Optional[List[BaseKnowledgeSource]] = Field(\n        default=None,\n        description=\"Knowledge sources for the agent.\",\n    )",
+      "url": "https://raw.githubusercontent.com/crewAIInc/crewAI/a548463faebd22aa3167a13ad417b4ab89776478/src/crewai/agent.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/crewaiinc__crewai-1818/before/src/crewai/knowledge/source/string_knowledge_source.py",
+      "original_path": "src/crewai/knowledge/source/string_knowledge_source.py",
+      "field": "content",
+      "base_commit": "a548463faebd22aa3167a13ad417b4ab89776478",
+      "start_line": 11,
+      "end_line": 11,
+      "file_sha256": "319cd5a045bf411eb89abd74178f2b99031e6f9af43553dd5bf2f14972da0b06",
+      "excerpt": "    content: str = Field(...)",
+      "url": "https://raw.githubusercontent.com/crewAIInc/crewAI/a548463faebd22aa3167a13ad417b4ab89776478/src/crewai/knowledge/source/string_knowledge_source.py"
+    }
+  ]
+}

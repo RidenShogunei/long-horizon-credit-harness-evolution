@@ -1,0 +1,51 @@
+{
+  "sample_id": "huggingface__smolagents-891",
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-891/src/smolagents/local_python_executor.py",
+      "file_sha256": "1daa55f1a43c0c1334c01a1b241a68aba8941bc0ef193d4f76b2da9cf02f6d62",
+      "qualname": "create_function",
+      "start_line": 340,
+      "end_line": 397,
+      "excerpt_sha256": "5ad4fd4663f3de4cf1851994bd0a03dc4a377736f457425a499b269f193c60ba",
+      "bundle_source_path": "sources/huggingface__smolagents-891/local_python_executor.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-891/src/smolagents/local_python_executor.py",
+      "file_sha256": "1daa55f1a43c0c1334c01a1b241a68aba8941bc0ef193d4f76b2da9cf02f6d62",
+      "qualname": "evaluate_function_def",
+      "start_line": 400,
+      "end_line": 408,
+      "excerpt_sha256": "5f484c95be46754ba5b69d31277f97a365d85594582243a8dc2ce2cfa1a78462",
+      "bundle_source_path": "sources/huggingface__smolagents-891/local_python_executor.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-891/src/smolagents/local_python_executor.py",
+      "file_sha256": "1daa55f1a43c0c1334c01a1b241a68aba8941bc0ef193d4f76b2da9cf02f6d62",
+      "qualname": "evaluate_ast",
+      "start_line": 1203,
+      "end_line": 1353,
+      "excerpt_sha256": "f99b79c4baf2a54a9e717bf75ff35b0c7f9dca1e24c4b09fbb1630b16ff9b618",
+      "bundle_source_path": "sources/huggingface__smolagents-891/local_python_executor.py"
+    },
+    {
+      "artifact_path": "work/open_dataset_integration_v1/rebench/sources/huggingface__smolagents-891/src/smolagents/local_python_executor.py",
+      "file_sha256": "1daa55f1a43c0c1334c01a1b241a68aba8941bc0ef193d4f76b2da9cf02f6d62",
+      "qualname": "evaluate_python_code",
+      "start_line": 1361,
+      "end_line": 1435,
+      "excerpt_sha256": "63577ee407682d7e433eedc7741863d6e1d5e470944b2134faa827b7a78825ed",
+      "bundle_source_path": "sources/huggingface__smolagents-891/local_python_executor.py"
+    }
+  ],
+  "original_record_sha256": "77c38aa893bd0077d1166593b9d833314b009c20d1845a7825c40979758e7fca",
+  "original_patch_reconstructed": true,
+  "local_behavior_execution_verified": null,
+  "published_test_metadata_kept_outside_input": true,
+  "license_compilation": "CC-BY-4.0",
+  "license_source_code": "Apache License 2.0",
+  "original_curator_draft": {
+    "path": "curated_examples.original_cursor.json",
+    "sha256": "cdd7b545ef33216f55b3df18361813801699912874796c917181efc658a80053"
+  }
+}

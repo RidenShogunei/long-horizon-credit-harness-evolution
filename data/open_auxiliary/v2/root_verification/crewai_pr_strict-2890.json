@@ -1,0 +1,41 @@
+{
+  "batch": "crewai_pr_strict",
+  "case": "2890",
+  "result": {
+    "source_id": "crewaiinc__crewai-2890",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_no_crew_name": true,
+      "after_crew_name_original_class": true
+    },
+    "preservation": {
+      "decoration_instantiation_both": true,
+      "wrapped_name_contains_research": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before_sha256": "22f680f5084825664324194af51dc7f2d88e299fd3ce3e056358a5f5c3e2d931",
+      "after_sha256": "1c13ba39c66ca4a09c745badabf1dd580b7983a5d4eca76fdb2f8761df6a9e6d"
+    },
+    "before_observed": {
+      "has_crew_name": false,
+      "crew_name": null,
+      "wrapped_name": "CrewBase(ResearchCrew)",
+      "is_crew_class": true,
+      "agents_config_loaded": true,
+      "tasks_config_loaded": true
+    },
+    "after_observed": {
+      "has_crew_name": true,
+      "crew_name": "ResearchCrew",
+      "wrapped_name": "CrewBase(ResearchCrew)",
+      "is_crew_class": true,
+      "agents_config_loaded": true,
+      "tasks_config_loaded": true
+    }
+  },
+  "captured_log": "File not found: C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\agents.yaml\nWARNING:root:Agent config file not found at C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\agents.yaml. Proceeding with empty agent configurations.\nFile not found: C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\tasks.yaml\nWARNING:root:Task config file not found at C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\tasks.yaml. Proceeding with empty task configurations.\nFile not found: C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\agents.yaml\nWARNING:root:Agent config file not found at C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\agents.yaml. Proceeding with empty agent configurations.\nFile not found: C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\tasks.yaml\nWARNING:root:Task config file not found at C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\crewai_pr_strict\\config\\tasks.yaml. Proceeding with empty task configurations.\n",
+  "probe_script_sha256": "ce456f223c4b34039030e34bf80c1b43a5a606e2fc1eec91a10a0f2b8181482b",
+  "ran_utc": "2026-11-01T15:44:21.281504+00:00"
+}

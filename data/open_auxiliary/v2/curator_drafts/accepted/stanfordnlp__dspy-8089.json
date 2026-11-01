@@ -1,0 +1,80 @@
+{
+  "source_id": "stanfordnlp__dspy-8089",
+  "split": "train",
+  "verification_status": "strict_bounded_pass",
+  "verification_fixture_path": "work/open_dataset_integration_v2/dspy_strict/verification_fixtures/stanfordnlp__dspy-8089.json",
+  "curation_notes": "dspy_strict acceptance: behavioral before/after + preservation via verify_batch.py; Reconstructed before/applied per-case sources; bounded verify_batch.py executed.",
+  "provenance": {
+    "partition": "AUXILIARY_REPORTED_ISSUE_PLANNING",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "stanfordnlp/dspy",
+    "base_commit": "96f1e95712cd4cd5bc30eb0cfc1eb0ea9a2e8512",
+    "original_source_path": "dspy/primitives/tool.py",
+    "visible_path": "tools/tool.py",
+    "harness_module": "tools"
+  },
+  "source_refs": [
+    {
+      "qualname": "dspy.primitives.tool.Tool.__init__",
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/stanfordnlp__dspy-8089/before/dspy/primitives/tool.py",
+      "sha256": "2247475bc1d6cfbbac4267328d0843f9f0a20b1ace86a7bca715eb7b24f7a683",
+      "start_line": 110,
+      "end_line": 144
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-DSPY-8089",
+    "root_lineage_id": "stanfordnlp/dspy@96f1e95712cd",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "tools"
+    ],
+    "module_code": {
+      "tools/tool.py": "        # Process each argument's type to generate its JSON schema.\n        for k, v in hints.items():\n            arg_types[k] = v\n            if k == \"return\":\n                continue\n            # Check if the type (or its origin) is a subclass of Pydantic's BaseModel\n            origin = get_origin(v) or v\n            if isinstance(origin, type) and issubclass(origin, BaseModel):\n                # Get json schema, and replace $ref with the actual schema\n                v_json_schema = self._resolve_pydantic_schema(v)\n                args[k] = v_json_schema\n            else:\n                args[k] = TypeAdapter(v).json_schema() or \"Any\"\n            if default_values[k] is not inspect.Parameter.empty:\n                args[k][\"default\"] = default_values[k]\n            if arg_desc and k in arg_desc:\n                args[k][\"description\"] = arg_desc[k]\n\n        self.name = self.name or name\n        self.desc = self.desc or desc\n        self.args = self.args or args\n        self.arg_types = self.arg_types or arg_types\n\n    @with_callbacks\n    def __call__(self, **kwargs):\n        for k, v in kwargs.items():\n            if k not in self.args:\n                raise ValueError(f\"Arg {k} is not in the tool's args.\")\n            try:\n                instance = v.model_dump() if hasattr(v, \"model_dump\") else v\n                if not self.args[k] == \"Any\":\n                    validate(instance=instance, schema=self.args[k])\n            except ValidationError as e:\n                raise ValueError(f\"Arg {k} is invalid: {e.message}\")\n        return self.func(**kwargs)"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reported issue (original task text, not locally reproduced end-to-end): [Bug] New defaults handling for Tools creates TypeError if assigned \"Any\"\n### What happened?\n\n`TypeError: 'str' object does not support item assignment` occurs a tool argument has a default value but no type hint: https://github.com/stanfordnlp/dspy/blob/main/dspy/primitives/tool.py#L122\n\n### Steps to reproduce\n\n```\ndef my_tool(limit = 120):\n    return True\n\nagent  = dspy.ReAct(SomeSig, tools=[my_tool])\n```\nGives the following error:\n```\nFile ...dspy/predict/react.py:24, in ReAct.__init__(self, signature, tools, max_iters)\n     21 self.signature = signature = ensure_signature(signature)\n     22 self.max_iters = max_iters\n---> 24 tools = [t if isinstance(t, Tool) else Tool(t) for t in tools]\n     25 tools = {tool.name: tool for tool in tools}\n     27 inputs = \", \".join([f\"`{k}`\" for k in signature.input_fields.keys()])\n\nFile .../dspy/primitives/tool.py:61, in Tool.__init__(self, func, name, desc, args, arg_types, arg_desc)\n     58 self.arg_types = arg_types\n     59 self.arg_desc = arg_desc\n---> 61 self._parse_function(func, arg_desc)\n\nFile .../dspy/primitives/tool.py:124, in Tool._parse_function(self, func, arg_desc)\n    122     args[k] = TypeAdapter(v).json_schema() or \"Any\"\n    12"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Source fact: before snapshot dspy/primitives/tool.py lines 110-144 sha256=2247475bc1d6cfbbac4267328d0843f9f0a20b1ace86a7bca715eb7b24f7a683 (see source_refs; full tree under main_candidates/cases/stanfordnlp__dspy-8089/before)."
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "tools",
+    "locations": [
+      "tools/tool.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Source fact: Tool.__init__ sets args[k] to TypeAdapter(v).json_schema() or the string 'Any', then assigns args[k]['default']. Reporter claim: untyped defaulted parameters raise TypeError because 'Any' is a str. Hypothesis: keep dict schemas and gate validation on schema['type'].",
+    "intended_change": "Stop coercing missing hints to the literal 'Any' string; omit json_schema() falsy fallback; in __call__ validate only when args[k] is a dict with type not equal to 'Any'.",
+    "preserve_behaviors": [
+      "Tools with explicit typed parameters still expose JSON schema dicts",
+      "Tool invocation still forwards kwargs to the wrapped callable",
+      "Pydantic BaseModel-typed parameters still use resolved pydantic schemas"
+    ],
+    "verification_plan": [
+      "Construct Tool around def f(limit=120) without annotations; before raises on init, after succeeds",
+      "Call after Tool with explicit limit and confirm return value"
+    ],
+    "verification_kind": [
+      "behavioral_before_after",
+      "preservation_after_only"
+    ]
+  },
+  "_batch": "dspy_strict"
+}

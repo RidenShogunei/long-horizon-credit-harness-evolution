@@ -76,7 +76,7 @@ reports/**/.upload_*
 work/cursor_team_cli/
 **/stdout.json
 **/stderr.txt
-# Canonical allowlist: records/2026-11-01/, docs/code_map.md, docs/data_flow_and_sources.md, docs/reports_catalog.md
+# Canonical allowlist: records/2026-11-01/, records/2026-11-02/, docs/code_map.md, docs/data_flow_and_sources.md, docs/open_data_collection.md, docs/reports_catalog.md
 # C28 public upload — suppress new runtime runs and generated root reports (tracked history preserved via negation)
 /runs/
 /reports/*
@@ -87,14 +87,3 @@ work/cursor_team_cli/
 !/reports/modularrsi_smoke_verification_next.md
 !/reports/research1_dual_branch.md
 !/reports/research1_scaffold_causal.md
-# Canonical public snapshots: records/2026-11-01/ (status, manifests, campaign_inventory)
-runs/prompt_context_comparison_*/
-reports/environment_prep_*/
-reports/cursor_independent_negative_controls_*/
-reports/cursor_team/
-reports/precision_negative_controls_*/
-reports/v14_fact_review_diagnostics_*/
-reports/**/.upload_*
-work/cursor_team_cli/
-**/stdout.json
-**/stderr.txt

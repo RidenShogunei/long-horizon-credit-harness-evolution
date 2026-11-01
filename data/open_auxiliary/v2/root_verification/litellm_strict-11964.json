@@ -1,0 +1,102 @@
+{
+  "batch": "litellm_strict",
+  "case": "11964",
+  "result": {
+    "source_id": "berriai__litellm-11964",
+    "status": "pass",
+    "checks": [
+      {
+        "name": "nested_anyof_items_ref",
+        "status": "pass",
+        "inputs": {
+          "properties": {
+            "payload": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/defs/Leaf"
+                  }
+                ]
+              }
+            },
+            "unchanged": {
+              "type": "number",
+              "const": 7
+            }
+          },
+          "$defs": {
+            "Leaf": {
+              "type": "string",
+              "enum": [
+                "x"
+              ]
+            }
+          }
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/defs/Leaf"
+            }
+          ]
+        },
+        "after": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "x"
+              ]
+            }
+          ]
+        },
+        "detail": "",
+        "inputs_sha256": "83a64a5df48c705d986b6af1652ab6064c775b62c67f2c208f761749cb864af0"
+      },
+      {
+        "name": "unrelated_property_preserved",
+        "status": "pass",
+        "inputs": {
+          "properties": {
+            "payload": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/defs/Leaf"
+                  }
+                ]
+              }
+            },
+            "unchanged": {
+              "type": "number",
+              "const": 7
+            }
+          },
+          "$defs": {
+            "Leaf": {
+              "type": "string",
+              "enum": [
+                "x"
+              ]
+            }
+          }
+        },
+        "before": {
+          "type": "number",
+          "const": 7
+        },
+        "after": {
+          "type": "number",
+          "const": 7
+        },
+        "detail": "",
+        "inputs_sha256": "83a64a5df48c705d986b6af1652ab6064c775b62c67f2c208f761749cb864af0"
+      }
+    ]
+  },
+  "captured_log": "",
+  "probe_script_sha256": "fe0cb8dfc7d94eaad9ef1775c698187a6489f957c3d8bdf9469b07af2c3e402d",
+  "ran_utc": "2026-11-01T15:44:13.300765+00:00"
+}

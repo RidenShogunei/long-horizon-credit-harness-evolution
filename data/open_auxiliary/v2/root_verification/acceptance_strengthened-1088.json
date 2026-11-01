@@ -1,0 +1,30 @@
+{
+  "batch": "acceptance_strengthened",
+  "case": "1088",
+  "result": {
+    "sample_id": "huggingface__smolagents-1088",
+    "executed": true,
+    "status": "pass",
+    "behavior_checks": {
+      "typed_return_doc_fails_before": true,
+      "typed_return_doc_parses_after": true
+    },
+    "preservation_checks": {
+      "missing_arg_doc_raises_both": true,
+      "no_docstring_raises_both": true,
+      "no_returns_block_still_ok_both": true
+    },
+    "pending": [],
+    "after_observed": {
+      "typed_return_description": "The calculated result."
+    },
+    "source_hashes": {
+      "before": "260c34d3b248c6a2accf4ed97925bde387d3f99e2b5ff6b1fcbeceef27167af0",
+      "after": "4d5378659984855de6d8af1bcc8f219bf426a289aaff74b081255764d8eaabd8"
+    },
+    "prior_c52_reference": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\acceptance_existing\\verification_results.json"
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ffd327ce8bec6f5fdf6c4d6038faaae15ba5c1402c1f472f907c217981ace164",
+  "ran_utc": "2026-11-01T15:44:06.486501+00:00"
+}

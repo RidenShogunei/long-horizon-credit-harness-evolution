@@ -1,0 +1,67 @@
+{
+  "batch": "acceptance_strengthened",
+  "case": "478",
+  "result": {
+    "sample_id": "huggingface__smolagents-478",
+    "executed": true,
+    "status": "pass",
+    "behavior_checks": {
+      "constructor_fails_before": true,
+      "constructor_ok_after": true
+    },
+    "preservation_checks": {
+      "schema_unchanged": true,
+      "forward_decode_outputs_unchanged": true,
+      "encode_still_calls_processor_both": true
+    },
+    "pending": [],
+    "before_observed": {
+      "schema": {
+        "name": "transcriber",
+        "description": "This is a tool that transcribes an audio into text. It returns the transcribed text.",
+        "inputs_keys": [
+          "audio"
+        ],
+        "output_type": "string"
+      },
+      "constructor": {
+        "ok": false,
+        "error": "TypeError: object.__new__(): not enough arguments"
+      },
+      "encode_forward_decode": {
+        "encode": "{'input_features': ['feat', <root_probe._speech_io_probe.<locals>.FakeAudio object at 0x0000018AA237F6D0>]}",
+        "forward": "['gen']",
+        "decode": "decoded-text"
+      }
+    },
+    "after_observed": {
+      "schema": {
+        "name": "transcriber",
+        "description": "This is a tool that transcribes an audio into text. It returns the transcribed text.",
+        "inputs_keys": [
+          "audio"
+        ],
+        "output_type": "string"
+      },
+      "constructor": {
+        "ok": true
+      },
+      "encode_forward_decode": {
+        "encode": "{'input_features': ['feat', <root_probe._speech_io_probe.<locals>.FakeAudio object at 0x0000018AA2399710>]}",
+        "forward": "['gen']",
+        "decode": "decoded-text"
+      }
+    },
+    "source_hashes": {
+      "before": "9d0ca5039fc167cb36f8c71f334e76df2994082a097f655442a26b12915dffc5",
+      "after": "209e5f2dcb4c1a0ea4ae54bb30cc0a1bce35f3fcf34ad65f5624e9ff25fefcd2"
+    },
+    "prior_c52_reference": "C:\\Users\\chenj\\Documents\\Codex\\2026-10-31\\plugin-computer-use-openai-bundled-x20\\work\\open_dataset_integration_v2\\acceptance_existing\\verification_results.json",
+    "limitations": [
+      "Method I/O probes use object.__new__ only for encode/forward/decode; constructor uses actual __new__."
+    ]
+  },
+  "captured_log": "",
+  "probe_script_sha256": "ffd327ce8bec6f5fdf6c4d6038faaae15ba5c1402c1f472f907c217981ace164",
+  "ran_utc": "2026-11-01T15:44:06.153169+00:00"
+}

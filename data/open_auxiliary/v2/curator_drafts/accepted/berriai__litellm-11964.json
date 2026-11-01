@@ -1,0 +1,75 @@
+{
+  "source_id": "berriai__litellm-11964",
+  "split": "train",
+  "verification_status": "strict_pinned_before_after_behavior_pass",
+  "curation_notes": "Single-file JSON-schema $ref inlining for agent tool/response_format plumbing.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench",
+    "repo": "BerriAI/litellm",
+    "base_commit": "4598a9bf31d59c1982f40a89593b250e68b1c754",
+    "original_source_path": "litellm/litellm_core_utils/prompt_templates/common_utils.py",
+    "visible_path": "agent_runtime/prompt_templates/common_utils.py",
+    "harness_module": "agent_runtime"
+  },
+  "source_refs": [
+    {
+      "artifact_path": "work/open_dataset_integration_v2/main_candidates/cases/berriai__litellm-11964/before/litellm/litellm_core_utils/prompt_templates/common_utils.py",
+      "sha256": "c9a3b65a3a67d3a40a0a8740d9c419ee05b8df23746f03f343c2dd28b97ee65f",
+      "qualname": "unpack_defs",
+      "start_line": 492,
+      "end_line": 522
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-LITELLM-11964",
+    "root_lineage_id": "BerriAI/litellm@4598a9bf31d5",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_runtime"
+    ],
+    "module_code": {
+      "agent_runtime/prompt_templates/common_utils.py": "def unpack_defs(schema, defs):\n    properties = schema.get(\"properties\", None)\n    if properties is None:\n        return\n\n    for name, value in properties.items():\n        ref_key = value.get(\"$ref\", None)\n        if ref_key is not None:\n            ref = defs[ref_key.split(\"defs/\")[-1]]\n            unpack_defs(ref, defs)\n            properties[name] = ref\n            continue\n\n        anyof = value.get(\"anyOf\", None)\n        if anyof is not None:\n            for i, atype in enumerate(anyof):\n                ref_key = atype.get(\"$ref\", None)\n                if ref_key is not None:\n                    ref = defs[ref_key.split(\"defs/\")[-1]]\n                    unpack_defs(ref, defs)\n                    anyof[i] = ref\n            continue\n\n        items = value.get(\"items\", None)\n        if items is not None:\n            ref_key = items.get(\"$ref\", None)\n            if ref_key is not None:\n                ref = defs[ref_key.split(\"defs/\")[-1]]\n                unpack_defs(ref, defs)\n                value[\"items\"] = ref\n                continue\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Reporter claim (not executed trajectory): [Bug]: Structured output - $ref Resolution Failure in anyOf/items Structures"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt litellm/litellm_core_utils/prompt_templates/common_utils.py qualname=unpack_defs lines 492-522 sha256=c9a3b65a3a67d3a40a0a8740d9c419ee05b8df23746f03f343c2dd28b97ee65f:\ndef unpack_defs(schema, defs):\n    properties = schema.get(\"properties\", None)\n    if properties is None:\n        return\n\n    for name, value in properties.items():\n        ref_key = value.get(\"$ref\", None)\n        if ref_key is not None:\n            ref = defs[ref_key.split(\"defs/\")[-1]]\n            unpack_defs(ref, defs)\n            properties[name] = ref\n            continue\n\n        anyof = value.get(\"anyOf\", None)\n        if anyof is not None:\n            for i, atype in enumerate(anyof):\n                ref_key = atype.get(\"$ref\", None)\n                if ref_key is not None:\n                    ref = defs[ref_key.split(\"defs/\")[-1]]\n                    unpack_defs(ref, defs)\n                    anyof[i] = ref\n            continue\n\n        items = value.get(\"items\", None)\n        if items is not None:\n            ref_key = items.get(\"$ref\", None)\n            if ref_key is not None:\n                ref = defs[ref_key.split(\"defs/\")[-1]]\n                unpack_defs(ref, defs)\n                value[\"items\"] = ref\n                continue\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "agent_runtime",
+    "locations": [
+      "agent_runtime/prompt_templates/common_utils.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Reporter claim: unpack_defs only inlines $ref under properties/anyOf/items and misses nested anyOf/items $ref paths used for structured tool schemas.",
+    "intended_change": "Replace unpack_defs with a depth-first walker that merges $defs/definitions and resolves every $ref in-place across dict/list subtrees.",
+    "preserve_behaviors": [
+      "Schemas without $ref remain unchanged aside from normal dict traversal",
+      "Unknown $ref names are left untouched rather than raising"
+    ],
+    "verification_plan": [
+      "Nested anyOf $ref resolves to inlined subschema on after tree",
+      "Property $ref under properties still inlines as before"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "litellm_strict"
+}

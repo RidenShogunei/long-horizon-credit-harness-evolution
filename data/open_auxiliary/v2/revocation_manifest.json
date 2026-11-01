@@ -1,0 +1,14 @@
+{
+  "revoked_samples": [
+    {
+      "sample_id": "huggingface__smolagents-226",
+      "reason": "Wildcard logger regression; v1 admission revoked for v2 export",
+      "reversible": true
+    },
+    {
+      "sample_id": "crewaiinc__crewai-2604",
+      "reason": "Root reject; not in provisional allowlist",
+      "reversible": true
+    }
+  ]
+}

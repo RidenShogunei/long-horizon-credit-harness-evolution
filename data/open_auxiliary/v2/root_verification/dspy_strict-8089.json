@@ -1,0 +1,23 @@
+{
+  "batch": "dspy_strict",
+  "case": "8089",
+  "result": {
+    "source_id": "stanfordnlp__dspy-8089",
+    "status": "pass",
+    "behavior_checks": {
+      "before_untyped_init_fails": true,
+      "after_untyped_init_ok": true,
+      "after_untyped_call_returns_7": true
+    },
+    "preservation_checks": {
+      "before_typed_init_and_call": true,
+      "after_typed_init_and_call": true,
+      "typed_limit_schema_equal": true
+    },
+    "pending_reasons": [],
+    "fixture_path": "open_dataset_integration_v2\\root_rerun\\dspy_fixtures\\stanfordnlp__dspy-8089.json"
+  },
+  "captured_log": "",
+  "probe_script_sha256": "2180e2fc08289f91b0d7160174202e13b5cbe82e57b7298e01a0f9c920a25bb8",
+  "ran_utc": "2026-11-01T15:44:07.098698+00:00"
+}

@@ -1,0 +1,129 @@
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index f2bc7c963..ad58a4976 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -258,6 +258,7 @@ docker run \
+ If you need help:
+ 
+ - 💬 [Join our Discord](https://discord.gg/wuPM9dRgDw)
++- 💬 [Join our Slack](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ - 📧 Email us: ishaan@berri.ai / krrish@berri.ai
+ - 🐛 [Create an issue](https://github.com/BerriAI/litellm/issues/new)
+ 
+diff --git a/README.md b/README.md
+index 8e4be0b8e..12a24205f 100644
+--- a/README.md
++++ b/README.md
+@@ -25,6 +25,9 @@
+     <a href="https://discord.gg/wuPM9dRgDw">
+         <img src="https://img.shields.io/static/v1?label=Chat%20on&message=Discord&color=blue&logo=Discord&style=flat-square" alt="Discord">
+     </a>
++    <a href="https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3">
++        <img src="https://img.shields.io/static/v1?label=Chat%20on&message=Slack&color=black&logo=Slack&style=flat-square" alt="Slack">
++    </a>
+ </h4>
+ 
+ LiteLLM manages:
+@@ -401,6 +404,7 @@ All these checks must pass before your PR can be merged.
+ 
+ - [Schedule Demo 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
+ - [Community Discord 💭](https://discord.gg/wuPM9dRgDw)
++- [Community Slack 💭](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ - Our numbers 📞 +1 (770) 8783-106 / ‭+1 (412) 618-6238‬
+ - Our emails ✉️ ishaan@berri.ai / krrish@berri.ai
+ 
+diff --git a/docs/my-website/docs/contact.md b/docs/my-website/docs/contact.md
+index d5309cd73..947ec8699 100644
+--- a/docs/my-website/docs/contact.md
++++ b/docs/my-website/docs/contact.md
+@@ -2,5 +2,6 @@
+ 
+ [![](https://dcbadge.vercel.app/api/server/wuPM9dRgDw)](https://discord.gg/wuPM9dRgDw)
+ 
++* [Community Slack 💭](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ * [Meet with us 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
+ * Contact us at ishaan@berri.ai / krrish@berri.ai
+diff --git a/docs/my-website/docs/proxy/docker_quick_start.md b/docs/my-website/docs/proxy/docker_quick_start.md
+index 4f5582616..99bf618b5 100644
+--- a/docs/my-website/docs/proxy/docker_quick_start.md
++++ b/docs/my-website/docs/proxy/docker_quick_start.md
+@@ -478,6 +478,7 @@ LiteLLM Proxy uses the [LiteLLM Python SDK](https://docs.litellm.ai/docs/routing
+ - [Schedule Demo 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
+ 
+ - [Community Discord 💭](https://discord.gg/wuPM9dRgDw)
++- [Community Slack 💭](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ 
+ - Our emails ✉️ ishaan@berri.ai / krrish@berri.ai
+ 
+diff --git a/docs/my-website/docs/proxy/management_cli.md b/docs/my-website/docs/proxy/management_cli.md
+index 2a455e5d3..6593b88ba 100644
+--- a/docs/my-website/docs/proxy/management_cli.md
++++ b/docs/my-website/docs/proxy/management_cli.md
+@@ -20,7 +20,7 @@ and more, as well as making chat and HTTP requests to the proxy server.
+    If you have [uv](https://github.com/astral-sh/uv) installed, you can try this:
+ 
+    ```shell
+-   uv tool install litellm[proxy]
++   uv tool install 'litellm[proxy]'
+    ```
+ 
+    If that works, you'll see something like this:
+diff --git a/docs/my-website/docs/troubleshoot.md b/docs/my-website/docs/troubleshoot.md
+index 3ca57a570..b6a9c6a6b 100644
+--- a/docs/my-website/docs/troubleshoot.md
++++ b/docs/my-website/docs/troubleshoot.md
+@@ -2,6 +2,7 @@
+ [Schedule Demo 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
+ 
+ [Community Discord 💭](https://discord.gg/wuPM9dRgDw)
++[Community Slack 💭](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ 
+ Our numbers 📞 +1 (770) 8783-106 / ‭+1 (412) 618-6238‬
+ 
+diff --git a/docs/my-website/docusaurus.config.js b/docs/my-website/docusaurus.config.js
+index fb1343109..36ae5bd2f 100644
+--- a/docs/my-website/docusaurus.config.js
++++ b/docs/my-website/docusaurus.config.js
+@@ -182,6 +182,11 @@ const config = {
+             label: 'GitHub',
+             position: 'right',
+           },
++          {
++            href: 'https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3',
++            label: 'Slack',
++            position: 'right',
++          },
+           {
+             href: 'https://discord.com/invite/wuPM9dRgDw',
+             label: 'Discord',
+diff --git a/docs/my-website/src/pages/contact.md b/docs/my-website/src/pages/contact.md
+index d5309cd73..f34f175a8 100644
+--- a/docs/my-website/src/pages/contact.md
++++ b/docs/my-website/src/pages/contact.md
+@@ -2,5 +2,7 @@
+ 
+ [![](https://dcbadge.vercel.app/api/server/wuPM9dRgDw)](https://discord.gg/wuPM9dRgDw)
+ 
++
+ * [Meet with us 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
++* [Community Slack 💭](https://join.slack.com/share/enQtOTE0ODczMzk2Nzk4NC01YjUxNjY2YjBlYTFmNDRiZTM3NDFiYTM3MzVkODFiMDVjOGRjMmNmZTZkZTMzOWQzZGQyZWIwYjQ0MWExYmE3)
+ * Contact us at ishaan@berri.ai / krrish@berri.ai
+diff --git a/litellm/utils.py b/litellm/utils.py
+index 43f2b6c3f..621221be1 100644
+--- a/litellm/utils.py
++++ b/litellm/utils.py
+@@ -6571,6 +6571,14 @@ def validate_chat_completion_tool_choice(
+     elif isinstance(tool_choice, str):
+         return tool_choice
+     elif isinstance(tool_choice, dict):
++        # Handle Cursor IDE format: {"type": "auto"} -> return as-is
++        if (
++            tool_choice.get("type") in ["auto", "none", "required"]
++            and "function" not in tool_choice
++        ):
++            return tool_choice
++        
++        # Standard OpenAI format: {"type": "function", "function": {...}}
+         if tool_choice.get("type") is None or tool_choice.get("function") is None:
+             raise Exception(
+                 f"Invalid tool choice, tool_choice={tool_choice}. Please ensure tool_choice follows the OpenAI spec"

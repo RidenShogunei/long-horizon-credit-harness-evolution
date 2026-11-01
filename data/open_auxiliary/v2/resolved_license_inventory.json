@@ -1,0 +1,41 @@
+{
+  "inventory_id": "open-auxiliary-v2-license-resolution",
+  "disclaimer": "Organizational metadata only; not legal advice. Upstream LICENSE text is verbatim in third_party_licenses/. source_cards.json unknown markers are unchanged.",
+  "BerriAI/litellm": {
+    "resolved_license": "MIT",
+    "license_text_sha256": "b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273",
+    "canonical_file": "third_party_licenses/sha256_b170d6bf8e8835dd357e011681db028f4d51e2fb0ea892058f56e01fb39b8273__BerriAI_litellm__LICENSE",
+    "sdk_open_source_scope": "Root LICENSE applies to bundled litellm/ and docs excerpts in portable_sources/berriai__litellm-*.",
+    "enterprise_paths_in_bundled_trees": false,
+    "enterprise_note": "Upstream LICENSE states enterprise/ uses a separate commercial license; no enterprise/ path segments appear under portable_sources/berriai__litellm-* in this release."
+  },
+  "crewAIInc/crewAI": {
+    "resolved_license": "MIT",
+    "distinct_license_text_groups": 2,
+    "canonical_files": [
+      "third_party_licenses/sha256_28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774__crewAIInc_crewAI__LICENSE",
+      "third_party_licenses/sha256_d9b9bdb8569b419dd891bfd269253fb946c08f6fa1b5ce96250992ffae6a0f4d__crewAIInc_crewAI__LICENSE"
+    ],
+    "index": "third_party_licenses/LICENSE_BY_SHA256.json"
+  },
+  "huggingface/smolagents": {
+    "resolved_license": "Apache-2.0",
+    "license_text_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "canonical_file": "third_party_licenses/sha256_c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4__huggingface_smolagents__LICENSE",
+    "per_file_headers": "Preserve Apache-2.0 headers in portable_sources/huggingface__smolagents-* excerpts."
+  },
+  "stanfordnlp/dspy": {
+    "resolved_license": "MIT",
+    "license_text_sha256": "fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb",
+    "canonical_file": "third_party_licenses/sha256_fc84421fcf968a696680dacf66ad53db769f699f557690127c5ccb3f6358cfdb__stanfordnlp_dspy__LICENSE"
+  },
+  "compilation_datasets": {
+    "license": "CC-BY-4.0",
+    "pointer": "source_cards.json",
+    "datasets": [
+      "nebius/SWE-rebench",
+      "nebius/SWE-rebench-V2",
+      "nebius/SWE-rebench-V2-PRs"
+    ]
+  }
+}

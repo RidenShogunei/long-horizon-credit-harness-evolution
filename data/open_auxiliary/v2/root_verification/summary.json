@@ -1,0 +1,156 @@
+{
+  "executed_cases": 24,
+  "counts": {
+    "pass": 23,
+    "pending": 0,
+    "reject": 1
+  },
+  "rows": [
+    {
+      "batch": "acceptance_strengthened",
+      "case": "285",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-285.json"
+    },
+    {
+      "batch": "acceptance_strengthened",
+      "case": "891",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-891.json"
+    },
+    {
+      "batch": "acceptance_strengthened",
+      "case": "1088",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-1088.json"
+    },
+    {
+      "batch": "acceptance_strengthened",
+      "case": "478",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-478.json"
+    },
+    {
+      "batch": "acceptance_strengthened",
+      "case": "226",
+      "status": "reject",
+      "proof": "work/open_dataset_integration_v2/root_rerun/acceptance_strengthened-226.json"
+    },
+    {
+      "batch": "dspy_strict",
+      "case": "8089",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8089.json"
+    },
+    {
+      "batch": "dspy_strict",
+      "case": "8340",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8340.json"
+    },
+    {
+      "batch": "dspy_strict",
+      "case": "8053",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/dspy_strict-8053.json"
+    },
+    {
+      "batch": "crewai_strict",
+      "case": "2570",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2570.json"
+    },
+    {
+      "batch": "crewai_strict",
+      "case": "3150",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-3150.json"
+    },
+    {
+      "batch": "crewai_strict",
+      "case": "2588",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2588.json"
+    },
+    {
+      "batch": "crewai_strict",
+      "case": "1818",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-1818.json"
+    },
+    {
+      "batch": "crewai_strict",
+      "case": "2408",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_strict-2408.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "11964",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-11964.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "9261",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-9261.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "5232",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-5232.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "12168",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-12168.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "9828",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-9828.json"
+    },
+    {
+      "batch": "litellm_strict",
+      "case": "8512",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/litellm_strict-8512.json"
+    },
+    {
+      "batch": "crewai_pr_strict",
+      "case": "1910",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-1910.json"
+    },
+    {
+      "batch": "crewai_pr_strict",
+      "case": "2424",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2424.json"
+    },
+    {
+      "batch": "crewai_pr_strict",
+      "case": "2890",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2890.json"
+    },
+    {
+      "batch": "crewai_pr_strict",
+      "case": "2865",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-2865.json"
+    },
+    {
+      "batch": "crewai_pr_strict",
+      "case": "1791",
+      "status": "pass",
+      "proof": "work/open_dataset_integration_v2/root_rerun/crewai_pr_strict-1791.json"
+    }
+  ],
+  "model_calls": 0,
+  "paid_evaluations": 0
+}

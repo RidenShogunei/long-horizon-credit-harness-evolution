@@ -14,6 +14,8 @@
 - 真实子代评估；独立准入与 provenance 绑定的 generic SFT 导出
 - 另跑真实 K=2、M=2、L_after=2 续跑并导出 G、D、U
 
+**已入库的 auxiliary 快照（2026-11-02 组织）：** 23 条 editorial Plan edit（20/3 train/val，keep 0），非 formal V14 qualified 链；manifest 与 raw 96 来源记录见 [`data/open_auxiliary/v2/`](../data/open_auxiliary/v2/) 与 [`open_data_collection.md`](open_data_collection.md)。Formal CURRENT SFT 仍为 0。
+
 ## 诊断摘要
 
 - 单个任务求解失败不能证明 harness 存在可复用缺陷。

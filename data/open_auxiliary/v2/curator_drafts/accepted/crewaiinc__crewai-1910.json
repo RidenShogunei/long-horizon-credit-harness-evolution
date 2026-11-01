@@ -1,0 +1,81 @@
+{
+  "source_id": "crewaiinc__crewai-1910",
+  "split": "train",
+  "verification_status": "strict_local_execution_pass",
+  "source_license": "MIT",
+  "dataset_compilation_license": "CC-BY-4.0",
+  "curation_notes": "Scoped to generate_model_description PEP604/union handling in converter.py.",
+  "provenance": {
+    "partition": "AGENT_INFRASTRUCTURE_AUXILIARY",
+    "original_teacher_plan": false,
+    "formal": false
+  },
+  "source_mapping": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "repo": "crewAIInc/crewAI",
+    "base_commit": "3fecde49b6894461038ca46d9c079d3e235bfa0f",
+    "original_source_path": "src/crewai/utilities/converter.py",
+    "visible_path": "context_mgmt/converter.py",
+    "harness_module": "context_mgmt"
+  },
+  "source_refs": [
+    {
+      "qualname": "crewai.utilities.converter.generate_model_description",
+      "original_path": "src/crewai/utilities/converter.py",
+      "artifact_path": "work/open_dataset_integration_v2/additional_crewai/cases/crewaiinc__crewai-1910/before/src/crewai/utilities/converter.py",
+      "sha256": "07a5a7290c2cccfae5387f000699209b0dd2c402761872beda134849fa77ceb2",
+      "start_line": 230,
+      "end_line": 262
+    }
+  ],
+  "state": {
+    "state_id": "REBENCH-CREWAI-1910",
+    "root_lineage_id": "crewAIInc/crewAI@3fecde49b689",
+    "split": "train",
+    "plan_policy_version": "proposal_single_plan_v6",
+    "permitted_modules": [
+      "agent_loop",
+      "context_mgmt",
+      "observation",
+      "tools",
+      "verification"
+    ],
+    "module_code": {
+      "prompts/converter.py": "def generate_model_description(model: Type[BaseModel]) -> str:\n    \"\"\"\n    Generate a string description of a Pydantic model's fields and their types.\n\n    This function takes a Pydantic model class and returns a string that describes\n    the model's fields and their respective types. The description includes handling\n    of complex types such as `Optional`, `List`, and `Dict`, as well as nested Pydantic\n    models.\n    \"\"\"\n\n    def describe_field(field_type):\n        origin = get_origin(field_type)\n        args = get_args(field_type)\n\n        if origin is Union and type(None) in args:\n            non_none_args = [arg for arg in args if arg is not type(None)]\n            return f\"Optional[{describe_field(non_none_args[0])}]\"\n        elif origin is list:\n            return f\"List[{describe_field(args[0])}]\"\n        elif origin is dict:\n            key_type = describe_field(args[0])\n            value_type = describe_field(args[1])\n            return f\"Dict[{key_type}, {value_type}]\"\n        elif isinstance(field_type, type) and issubclass(field_type, BaseModel):\n            return generate_model_description(field_type)\n        else:\n            return field_type.__name__\n\n    fields = model.__annotations__\n    field_descriptions = [\n        f'\"{name}\": {describe_field(type_)}' for name, type_ in fields.items()\n    ]\n    return \"{\\n  \" + \",\\n  \".join(field_descriptions) + \"\\n}\"\n"
+    },
+    "history": [],
+    "evidence": [
+      {
+        "id": "ev_reported_issue",
+        "text": "Published reporter issue (SWE-rebench-V2): **Title**  \nImprove model description generation to support PEP 604 union syntax and robust type handling  \n\n**Problem**  \nThe utility that creates string representations of model fields mis‑interprets optional annotations expressed with the newer `|` union syntax, causing incorrect or broken descriptions. It also crashes on types that do not provide a `__name__` attribute.  \n\n**Root Cause**  \nThe detection logic only checks for `typing.Union` origins and assumes every type has a `__name__`, which is not true for the PEP 604 unions and some typing constructs.  \n\n**Fix / Expected Behavior**  \n- Recognize both classic `Union` and the `|` syntax when building optional descriptions.  \n- Correctly format optional fields that wrap a single type or a union of multiple non‑None types.  \n- Gracefully fall back to a generic string representation for types lacking a `__name__`.  \n- Preserve existing handling for lists, dictionaries, and nested model types.  \n- Produce accurate, human‑readable descriptions for all supported annotation forms.  \n\n**Risk & Validation**  \n- Verify that existing model descriptions remain unchanged for legacy `Union` usage.  \n- Add tests covering fields annotated wi"
+      },
+      {
+        "id": "ev_exact_source",
+        "text": "Exact before excerpt src/crewai/utilities/converter.py lines 230-262 sha256=07a5a7290c2cccfae5387f000699209b0dd2c402761872beda134849fa77ceb2:\ndef generate_model_description(model: Type[BaseModel]) -> str:\n    \"\"\"\n    Generate a string description of a Pydantic model's fields and their types.\n\n    This function takes a Pydantic model class and returns a string that describes\n    the model's fields and their respective types. The description includes handling\n    of complex types such as `Optional`, `List`, and `Dict`, as well as nested Pydantic\n    models.\n    \"\"\"\n\n    def describe_field(field_type):\n        origin = get_origin(field_type)\n        args = get_args(field_type)\n\n        if origin is Union and type(None) in args:\n            non_none_args = [arg for arg in args if arg is not type(None)]\n            return f\"Optional[{describe_field(non_none_args[0])}]\"\n        elif origin is list:\n            return f\"List[{describe_field(args[0])}]\"\n        elif origin is dict:\n            key_type = describe_field(args[0])\n            value_type = describe_field(args[1])\n            return f\"Dict[{key_type}, {value_type}]\"\n        elif isinstance(field_type, type) and issubclass(field_type, BaseModel):\n            return generate_model_description(field_type)\n        else:\n            return field_type.__name__\n\n    fields = model.__annotations__\n    field_descriptions = [\n        f'\"{name}\": {describe_field(type_)}' for name, type_ in fields.items()\n    ]\n    return \"{\\n  \" + \",\\n  \".join(field_descriptions) + \"\\n}\"\n"
+      }
+    ],
+    "verification_catalog": []
+  },
+  "plan": {
+    "action": "edit",
+    "target_module": "context_mgmt",
+    "locations": [
+      "prompts/converter.py"
+    ],
+    "evidence_refs": [
+      "ev_reported_issue",
+      "ev_exact_source"
+    ],
+    "problem_hypothesis": "Current-code: describe_field only treats typing.Union optional forms and calls __name__ on all types. Reporter: PEP604 `int | None` and some annotations crash. Hypothesis: treat pipe-union args like Optional and guard types lacking __name__.",
+    "intended_change": "Extend union detection for PEP604 args; optional branch handles single and multi non-None members; fall back to str(field_type) when __name__ absent.",
+    "preserve_behaviors": [
+      "typing.Optional fields still render as Optional[inner]",
+      "Nested BaseModel fields still expand recursively"
+    ],
+    "verification_plan": [
+      "Model with `int | None` field: before generate_model_description raises; after returns description containing opt field"
+    ],
+    "verification_kind": null
+  },
+  "_batch": "crewai_pr_strict"
+}

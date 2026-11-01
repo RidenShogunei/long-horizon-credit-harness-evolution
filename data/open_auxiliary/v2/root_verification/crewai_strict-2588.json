@@ -1,0 +1,86 @@
+{
+  "batch": "crewai_strict",
+  "case": "2588",
+  "result": {
+    "source_id": "crewaiinc__crewai-2588",
+    "executed": true,
+    "status": "pass",
+    "behavior": {
+      "before_local_passes_full_config_to_from_config": true,
+      "after_local_passes_local_mem0_config_only": true
+    },
+    "preservation": {
+      "before_default_uses_Memory_constructor": true,
+      "after_default_uses_Memory_constructor": true,
+      "before_api_config_MemoryClient_kwargs": true,
+      "after_api_config_MemoryClient_kwargs": true,
+      "before_env_api_key_MemoryClient": true,
+      "after_env_api_key_MemoryClient": true
+    },
+    "pending": [],
+    "source_hashes": {
+      "before": "a3022bc77f3a1bff3a4fb3f63dffca46cdaa3ccaa2cd47314ad2e8dc6232b185",
+      "after": "56aeade1db0ff1cb301e92dc9dc3336f85d9d0e8160231b8ea00f7091d9d8701"
+    },
+    "observations": {
+      "before_local": {
+        "from_config_arg": {
+          "local_mem0_config": {
+            "vector_store": {
+              "provider": "qdrant",
+              "config": {
+                "host": "localhost"
+              }
+            }
+          },
+          "user_id": "u1"
+        },
+        "memory_default": true,
+        "client_kwargs": null
+      },
+      "after_local": {
+        "from_config_arg": {
+          "vector_store": {
+            "provider": "qdrant",
+            "config": {
+              "host": "localhost"
+            }
+          }
+        },
+        "memory_default": true,
+        "client_kwargs": null
+      },
+      "before_default": {
+        "from_config_arg": null,
+        "memory_default": true,
+        "client_kwargs": null
+      },
+      "after_default": {
+        "from_config_arg": null,
+        "memory_default": true,
+        "client_kwargs": null
+      },
+      "before_client": {
+        "from_config_arg": null,
+        "memory_default": false,
+        "client_kwargs": {
+          "api_key": "cfg-key",
+          "org_id": "org1",
+          "project_id": "proj1"
+        }
+      },
+      "after_client": {
+        "from_config_arg": null,
+        "memory_default": false,
+        "client_kwargs": {
+          "api_key": "cfg-key",
+          "org_id": "org1",
+          "project_id": "proj1"
+        }
+      }
+    }
+  },
+  "captured_log": "",
+  "probe_script_sha256": "8eacaec9c10987e0cb3f478fc90bdf8b761065984a3332320d0580106130f76e",
+  "ran_utc": "2026-11-01T15:44:07.293775+00:00"
+}

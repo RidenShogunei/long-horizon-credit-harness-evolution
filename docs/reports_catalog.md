@@ -1,11 +1,14 @@
 # Reports catalog
 
-Updated: 2026-11-01T19:44:25.064386+08:00 (China time).
+Updated: 2026-11-02 (open auxiliary v2 organization); V14 formal counters unchanged from 2026-11-01 fold.
 
 ## 公开仓库内（已提交 / 可链接）
 
 | 角色 | 相对路径 |
 | --- | --- |
+| **开源 auxiliary v2 组织状态** | `records/2026-11-02/open_data_status.json` |
+| Auxiliary v2 清理/导入日志 | `records/2026-11-02/cleanup.md` |
+| Auxiliary v2 数据集树 | `data/open_auxiliary/v2/`（含 `NOTICE.md`、`dataset_manifest.json`） |
 | **权威状态快照** | `records/2026-11-01/status.json` |
 | 源码与配置清单 | `records/2026-11-01/source_manifest.json` |
 | `reports/` 文件索引（不含正文） | `records/2026-11-01/report_catalog.json` |

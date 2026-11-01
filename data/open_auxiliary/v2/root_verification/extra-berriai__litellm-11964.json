@@ -1,0 +1,34 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "no_ref_unchanged_both_variants": true,
+    "nested_anyof_resolves_after": true,
+    "unknown_ref_missing_def_observed": false
+  },
+  "observations": {
+    "no_ref_before": {
+      "type": "object",
+      "properties": {
+        "plain": {
+          "type": "string",
+          "maxLength": 4
+        }
+      }
+    },
+    "no_ref_after": {
+      "type": "object",
+      "properties": {
+        "plain": {
+          "type": "string",
+          "maxLength": 4
+        }
+      }
+    },
+    "missing_ref_errors": {
+      "before": "KeyError: 'Missing'",
+      "applied": null
+    }
+  },
+  "preserve_unknown_ref_verified": false
+}

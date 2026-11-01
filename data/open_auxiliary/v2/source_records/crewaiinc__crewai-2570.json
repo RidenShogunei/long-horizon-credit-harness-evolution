@@ -1,0 +1,57 @@
+{
+  "instance_id": "crewaiinc__crewai-2570",
+  "repo": "crewAIInc/crewAI",
+  "base_commit": "0cd524af86e3e6b3abdd6b5157196c8efc9b4f4f",
+  "patch": "diff --git a/src/crewai/tools/base_tool.py b/src/crewai/tools/base_tool.py\nindex 2d652626..0e8a7a22 100644\n--- a/src/crewai/tools/base_tool.py\n+++ b/src/crewai/tools/base_tool.py\n@@ -1,3 +1,4 @@\n+import asyncio\n import warnings\n from abc import ABC, abstractmethod\n from inspect import signature\n@@ -65,7 +66,13 @@ class BaseTool(BaseModel, ABC):\n         **kwargs: Any,\n     ) -> Any:\n         print(f\"Using Tool: {self.name}\")\n-        return self._run(*args, **kwargs)\n+        result = self._run(*args, **kwargs)\n+\n+        # If _run is async, we safely run it\n+        if asyncio.iscoroutine(result):\n+            return asyncio.run(result)\n+\n+        return result\n \n     @abstractmethod\n     def _run(\n",
+  "problem_statement": "[BUG] SnowflakeSearchTool returns a coroutine object rather than the query results\n### Description\n\nUnlike other tools in the package (e.g., `BraveSearchTool`, `DatabricksQueryTool`) which implement synchronous `_run` methods, the `SnowflakeSearchTool` only has an async implementation without a synchronous wrapper.\nWhen agents use the tool, they get a coroutine object (coroutine object SnowflakeSearchTool._run at 0x13b1a28c0) instead of the actual query results.\n\nAlternatively, maybe we could make the calling agent use an asynchronous context but I figured that `SnowflakeSearchTool` appears to be the only tool in the package that implements an asynchronous `_run` so maybe it's easier to fix the tool itself.\n\n### Steps to Reproduce\n\n1. Set up a CrewAI project with Snowflake integration\n2. Configure the SnowflakeConfig with valid credentials\n3. Create an Agent with SnowflakeSearchTool\n4. Create a task that uses the Snowflake tool\n5. Run the crew\n\n### Expected behavior\n\nThe agent should execute the Snowflake query and return the actual query results (e.g., a formatted table of data or error message from Snowflake).\n\n### Screenshots/Code snippets\n\nn/a\n\n### Operating System\n\nOther (specify in additional context)\n\n### Python Version\n\n3.12\n\n### crewAI Version\n\n0.108.0\n\n### crewAI Tools Version\n\n0.40.0\n\n### Virtual Environment\n\nVenv\n\n### Evidence\n\n```coroutine object SnowflakeSearchTool._run at 0x13b1a28c0```\n\n### Possible Solution\n\nAdd a synchronous `run` method to `SnowflakeSearchTool` that properly awaits the coroutine or make the SnowflakeSearchTool synchronous.\n\n### Additional context\n\nmacOS Version 15.4 (24E248) (Sequoia)",
+  "pr_description": "added condition to check whether _run function returns a coroutine ob…\nFixes #2538 ",
+  "license": "MIT",
+  "test_patch": "diff --git a/tests/tools/test_base_tool.py b/tests/tools/test_base_tool.py\nindex a1eb7a40..b4f3d248 100644\n--- a/tests/tools/test_base_tool.py\n+++ b/tests/tools/test_base_tool.py\n@@ -1,4 +1,8 @@\n-from typing import Callable\n+import asyncio\n+import inspect\n+import unittest\n+from typing import Any, Callable, Dict, List\n+from unittest.mock import patch\n \n from crewai.tools import BaseTool, tool\n \n@@ -122,3 +126,69 @@ def test_result_as_answer_in_tool_decorator():\n     \n     converted_tool = my_tool_with_default.to_structured_tool()\n     assert converted_tool.result_as_answer is False\n+\n+\n+class SyncTool(BaseTool):\n+    \"\"\"Test implementation with a synchronous _run method\"\"\"\n+    name: str = \"sync_tool\"\n+    description: str = \"A synchronous tool for testing\"\n+\n+    def _run(self, input_text: str) -> str:\n+        \"\"\"Process input text synchronously.\"\"\"\n+        return f\"Processed {input_text} synchronously\"\n+\n+\n+class AsyncTool(BaseTool):\n+    \"\"\"Test implementation with an asynchronous _run method\"\"\"\n+    name: str = \"async_tool\"\n+    description: str = \"An asynchronous tool for testing\"\n+\n+    async def _run(self, input_text: str) -> str:\n+        \"\"\"Process input text asynchronously.\"\"\"\n+        await asyncio.sleep(0.1)  # Simulate async operation\n+        return f\"Processed {input_text} asynchronously\"\n+\n+\n+def test_sync_run_returns_direct_result():\n+    \"\"\"Test that _run in a synchronous tool returns a direct result, not a coroutine.\"\"\"\n+    tool = SyncTool()\n+    result = tool._run(input_text=\"hello\")\n+\n+    assert not asyncio.iscoroutine(result)\n+    assert result == \"Processed hello synchronously\"\n+\n+    run_result = tool.run(input_text=\"hello\")\n+    assert run_result == \"Processed hello synchronously\"\n+\n+\n+def test_async_run_returns_coroutine():\n+    \"\"\"Test that _run in an asynchronous tool returns a coroutine object.\"\"\"\n+    tool = AsyncTool()\n+    result = tool._run(input_text=\"hello\")\n+\n+    assert asyncio.iscoroutine(result)\n+    result.close()  # Clean up the coroutine\n+\n+\n+def test_run_calls_asyncio_run_for_async_tools():\n+    \"\"\"Test that asyncio.run is called when using async tools.\"\"\"\n+    async_tool = AsyncTool()\n+\n+    with patch('asyncio.run') as mock_run:\n+        mock_run.return_value = \"Processed test asynchronously\"\n+        async_result = async_tool.run(input_text=\"test\")\n+\n+        mock_run.assert_called_once()\n+        assert async_result == \"Processed test asynchronously\"\n+\n+\n+def test_run_does_not_call_asyncio_run_for_sync_tools():\n+    \"\"\"Test that asyncio.run is NOT called when using sync tools.\"\"\"\n+    sync_tool = SyncTool()\n+\n+    with patch('asyncio.run') as mock_run:\n+        sync_result = sync_tool.run(input_text=\"test\")\n+\n+        mock_run.assert_not_called()\n+        assert sync_result == \"Processed test synchronously\"\n+\n",
+  "FAIL_TO_PASS": [
+    "tests/tools/test_base_tool.py::test_run_calls_asyncio_run_for_async_tools"
+  ],
+  "PASS_TO_PASS": [
+    "tests/tools/test_base_tool.py::test_result_as_answer_in_tool_decorator",
+    "tests/tools/test_base_tool.py::test_setting_cache_function",
+    "tests/tools/test_base_tool.py::test_sync_run_returns_direct_result",
+    "tests/tools/test_base_tool.py::test_run_does_not_call_asyncio_run_for_sync_tools",
+    "tests/tools/test_base_tool.py::test_async_run_returns_coroutine",
+    "tests/tools/test_base_tool.py::test_creating_a_tool_using_baseclass",
+    "tests/tools/test_base_tool.py::test_creating_a_tool_using_annotation",
+    "tests/tools/test_base_tool.py::test_default_cache_function_is_true"
+  ],
+  "interface": "Method: BaseTool.run(self, *args, **kwargs)\nLocation: src/crewai/tools/base_tool.py\nInputs: Arbitrary positional and keyword arguments matching the concrete tool’s _run signature (e.g., input_text: str for the test tools).\nOutputs: Returns the value produced by _run. If _run returns a coroutine object, run awaits it internally via asyncio.run and returns the awaited result; otherwise the direct result is returned.\nDescription: Public entry point for executing a tool. It transparently supports both synchronous and asynchronous _run implementations by detecting coroutine results and handling them with asyncio.run.\n\nFunction: BaseTool._run(self, *args, **kwargs)\nLocation: src/crewai/tools/base_tool.py (abstract method)\nInputs: Tool‑specific arguments defined by the subclass (e.g., input_text: str in the test SyncTool/AsyncTool).\nOutputs: For synchronous tools, returns the computed result directly. For asynchronous tools, returns a coroutine object that run will later execute.\nDescription: Abstract core method that concrete tool subclasses implement to perform their work. It may be either a regular function or an async function; run takes care of awaiting when needed.\n",
+  "meta": {
+    "llm_metadata": {
+      "code": "A",
+      "confidence": 0.98,
+      "detected_issues": {
+        "B1": false,
+        "B2": false,
+        "B3": false,
+        "B4": false,
+        "B5": false,
+        "B6": false
+      },
+      "difficulty": "easy",
+      "external_urls": [],
+      "intent_completeness": "complete",
+      "pr_categories": [
+        "minor_bug"
+      ],
+      "reasoning": "The issue reports that SnowflakeSearchTool returns a coroutine because its _run is async and lacks a sync wrapper. The provided tests verify that BaseTool.run should automatically await async _run implementations, matching the expected fix. No mismatches between tests and requirements are observed, and there are no signals of B‑category problems. Therefore the task is clearly specified and solvable.",
+      "test_alignment_issues": []
+    },
+    "num_modified_files": 1,
+    "num_modified_lines": 8,
+    "pr_author": "Vidit-Ostwal",
+    "pr_labels": [],
+    "pr_url": null
+  },
+  "_source": {
+    "dataset": "nebius/SWE-rebench-V2",
+    "revision": "10483de0f50fe5da545942705a76c6150171af7f",
+    "parquet_sha256": "0e0bf9355f892ad74ae98d4e1c404f39fd6654a8e351ee3e6ab162e4a64cd3ad",
+    "license_compilation": "CC-BY-4.0"
+  }
+}

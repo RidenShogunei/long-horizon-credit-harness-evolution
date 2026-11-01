@@ -1,0 +1,17 @@
+{
+  "executed": true,
+  "status": "pass",
+  "checks": {
+    "nested_before_has_inner_field": true,
+    "nested_after_has_inner_field": true,
+    "nested_description_stable": true
+  },
+  "observations": {
+    "before_snippet": "{\n  \"inner\": {\n  \"score\": int\n}\n}",
+    "after_snippet": "{\n  \"inner\": {\n  \"score\": int\n}\n}"
+  },
+  "source_hashes": {
+    "before": "07a5a7290c2cccfae5387f000699209b0dd2c402761872beda134849fa77ceb2",
+    "after": "b57d974818804aa6ce632ac2633ca24a6d8dda31b40207584eb25e6010b4e10a"
+  }
+}
